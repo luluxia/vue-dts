@@ -5,14 +5,15 @@ import Hover from '../components/Hover.vue'
 import { provide, reactive } from 'vue'
 const state = reactive({
   showHover: false,
-  hoverType: 'find-item'
+  hoverType: 'find-item',
+  hoverHeight: 0,
 })
 provide('state', state)
 </script>
 <template>
   <div>
     <!-- 游戏卡片 -->
-    <div class="max-w-screen-xl mx-auto mb-80">
+    <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': state.hoverHeight + 50 + 'px'}">
       <p class="w-18 w-37 w-75 hidden"></p>
       <div class="flex justify-between">
         <!-- 左侧 -->
@@ -203,19 +204,11 @@ provide('state', state)
               <!-- 装备 -->
               <Card title="装备" :length="4">
                 <div class="flex w-full">
-                  <div class="flex flex-col justify-center p-2 w-45">
-                    <p class="text-xl">装备</p>
-                    <p class="text-zinc-400">装备效果</p>
-                  </div>
-                  <div class="flex flex-col justify-center h-full">
-                    <div class="flex items-center mr-2">
-                      <p class="text-zinc-400 text-sm mr-2">品质</p>
-                      <p class="text-xl">5000</p>
-                    </div>
-                    <div class="flex items-center">
-                      <p class="text-zinc-400 text-sm mr-2">耐久</p>
-                      <p class="text-xl">50</p>
-                    </div>
+                  <div class="w-20"></div>
+                  <div class="flex flex-col p-2">
+                    <p class="text-lg">装备名称装备名称</p>
+                    <p class="text-zinc-400 text-sm">装备效果</p>
+                    <p class="text-zinc-400 text-sm">品质 123 耐久 123</p>
                   </div>
                 </div>
               </Card>
@@ -271,6 +264,9 @@ provide('state', state)
 </template>
 
 <style>
+:root {
+  scrollbar-gutter: stable;
+}
 .avatar {
   clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
 }
