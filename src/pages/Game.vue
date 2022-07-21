@@ -3,7 +3,13 @@ import Card from '../components/Card.vue'
 import Action from '../components/Action.vue'
 import Hover from '../components/Hover.vue'
 import { provide, reactive } from 'vue'
-const state = reactive({
+import type { GameState } from '../types/interface'
+// interface State {
+//   showHover: boolean
+//   hoverType: 'find-item' | 'find-enemy' | 'map'
+//   hoverHeight: number
+// }
+const state: GameState = reactive({
   showHover: false,
   hoverType: 'find-item',
   hoverHeight: 0,
@@ -202,14 +208,20 @@ provide('state', state)
             <!-- 负面效果 内容 -->
             <div class="flex flex-wrap max-w-152">
               <!-- 装备 -->
-              <Card title="装备" :length="4">
-                <div class="flex w-full">
-                  <div class="w-20"></div>
-                  <div class="flex flex-col p-2">
-                    <p class="text-lg">装备名称装备名称</p>
-                    <p class="text-zinc-400 text-sm">装备效果</p>
-                    <p class="text-zinc-400 text-sm">品质 123 耐久 123</p>
+              <Card title="装备" :length="4" class="group transition hover:(ring-zinc-500 ring-2)">
+                <div class="flex w-full p-2 items-center">
+                  <div class="w-16 h-16 bg-zinc-900/50 rounded mr-2">
+                    <img src="img/weapon1.png" alt=""/>
                   </div>
+                  <div class="flex flex-col flex-1">
+                    <p>装备名称装备名称</p>
+                    <p class="text-zinc-400 text-sm">装备效果</p>
+                    <p class="text-zinc-400 text-sm">品质 123 耐久 666</p>
+                  </div>
+                </div>
+                <div class="absolute right-1 bottom-1 space-y-1 transition opacity-0 group-hover:(opacity-100)">
+                  <p class="m-auto text-xs px-3 py-1 bg-zinc-600 rounded">卸下</p>
+                  <p class="m-auto text-xs px-3 py-1 bg-rose-800 rounded">丢弃</p>
                 </div>
               </Card>
               <!-- 装备 -->
