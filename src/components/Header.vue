@@ -18,7 +18,7 @@ window.onscroll = function() {
     :class="!state.showHeader && 'opacity-0'"
   >
     <div class="max-w-screen-xl h-15 mx-auto flex items-center">
-      <img class="h-6" src="/img/logo.svg" alt="">
+      <img class="h-6" src="/img/logo.png" alt="">
     </div>
   </header>
 </template>

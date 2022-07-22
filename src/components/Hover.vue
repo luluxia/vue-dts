@@ -12,38 +12,58 @@ const state = inject<GameState>('state', {
   hoverHeight: 0,
 })
 const hoverDom = ref()
+const tippyRef = ref()
+let tippys = tippy('.tippy-tip', {
+  content: '123',
+  allowHTML: true,
+})
+const singleton = createSingleton(tippys, {
+  interactive: true,
+  arrow: false,
+  moveTransition: 'transform 0.2s ease-out',
+  animation: 'shift-away-subtle',
+})
 watch(() => state.showHover, (val) => {
   if (val) {
     nextTick(() => {
       state.hoverHeight = hoverDom.value.getClientRects()[0].height
       console.log(state.hoverHeight)
-      // tippy('.tippy-tip', {
-      //   content: '<p>用途 体力恢复/120/2</p><p>材料 杂炊 松茸</p>',
-      //   allowHTML: true,
-      //   arrow: false,
-      //   trigger: 'click',
-      // })
+      tippys.forEach(item => item.destroy())
+      tippys = tippy('.tippy-tip', {
+        content: () => tippyRef.value.cloneNode(true),
+        allowHTML: true,
+      })
+      console.log(tippys)
+      singleton.setInstances(tippys)
     })
   } else {
     state.hoverHeight = 0
   }
 })
-// onMounted(() => {
-//   createSingleton(tippy('.tippy-tip', {
-//     // content: () => tippyRef.value,
-//     content: '123',
-//     allowHTML: true,
-//   }), {
-//     interactive: true,
-//     arrow: false,
-//     moveTransition: 'transform 0.2s ease-out',
-//     // delay: 100,
-//     // trigger: 'click',
-//     animation: 'shift-away-subtle',
-//   })
-// })
 </script>
 <template>
+  <div class="hidden">
+    <div class="flex" ref="tippyRef">
+      <div>
+        <p class="p-1 text-center">合成物品</p>
+        <Card :length="2" :title="'物品'">
+          <div class="p-1.5">
+            <p>物品名</p>
+          </div>
+        </Card>
+      </div>
+      <div>
+        <p class="p-1 text-center">需求材料</p>
+        <div class="bg-zinc-700/50 text-zinc-300 p-2 h-28 rounded m-0.5">
+          <p>材料1</p>
+          <p>材料22</p>
+          <p>材料333</p>
+          <p>材料4444</p>
+          <p>材料55555</p>
+        </div>
+      </div>
+    </div>
+  </div>
   <div
     class="fixed bottom-0 w-screen flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition transform duration-300"
     ref="hoverDom"
@@ -175,8 +195,8 @@ watch(() => state.showHover, (val) => {
         </div>
         <div class="text-zinc-300 flex w-200 justify-center flex-wrap">
           <p class="tippy-tip bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">松茸御饭</p>
-          <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">火水木金土符『贤者之石』</p>
-          <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">◆◆◆意念数据</p>
+          <p class="tippy-tip bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">火水木金土符『贤者之石』</p>
+          <p class="tippy-tip bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">◆◆◆意念数据</p>
         </div>
         <div class="text-zinc-400 text-sm my-2">
           <p>当前缺少部分素材的道具</p>
