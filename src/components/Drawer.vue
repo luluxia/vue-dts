@@ -99,7 +99,7 @@ watch(() => state.showDrawer, (val) => {
         </div>
       </template>
       <!-- 敌人相关 -->
-      <template v-if="['find-enemy', 'attack-enemy', 'attacked-by-enemy'].includes(state.drawerType)">
+      <template v-if="['find-enemy', 'attack-enemy', 'attacked-by-enemy'].includes(state.drawerType as string)">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">
           <template v-if="state.drawerType == 'find-enemy'">发现敌人</template>
           <template v-else>发生战斗</template>
@@ -222,7 +222,7 @@ watch(() => state.showDrawer, (val) => {
         </div>
       </template>
       <!-- 睡眠/治疗 -->
-      <template v-if="['sleep', 'heal'].includes(state.drawerType)">
+      <template v-if="['sleep', 'heal'].includes(state.drawerType as string)">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">
           <template v-if="state.drawerType == 'sleep'">睡眠</template>
           <template v-else>治疗</template>

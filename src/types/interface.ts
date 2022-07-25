@@ -1,9 +1,9 @@
 /** 游戏状态 */
 export interface GameState {
   /** 是否显示抽屉 */
-  showDrawer: boolean
+  showDrawer?: boolean
   /** 抽屉类别 */
-  drawerType: '' |
+  drawerType?: '' |
              'find-item' |
              'find-enemy' | 'attack-enemy' | 'attacked-by-enemy' |
              'map' | 
@@ -14,5 +14,41 @@ export interface GameState {
   /** 抽屉高度 */
   drawerHeight?: number
   /** 加载状态 */
-  loading?: boolean
+  loading?: boolean,
+  /** 玩家状态 */
+  playerState?: PlayerState
+}
+
+export interface PlayerInfo {
+  /** 姓名 */
+  name: string
+  /** 性别 */
+  sex: string
+  /** 编号 */
+  id: number
+}
+
+export interface PlayerState {
+  /** 玩家信息 */
+  playerInfo: PlayerInfo
+  level: {
+    /** 当前等级 */
+    nowLevel: number
+    /** 经验 */
+    exp: number
+    /** 升级经验 */
+    upgradeExp: number
+  }
+  hp: {
+    /** 当前生命 */
+    nowHp: number
+    /** 最大生命 */
+    maxHp: number
+  }
+  mp: {
+    /** 当前体力 */
+    nowMp: number
+    /** 最大体力 */
+    maxMp: number
+  }
 }

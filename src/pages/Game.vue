@@ -3,6 +3,9 @@ import Card from '../components/Card.vue'
 import Action from '../components/Action.vue'
 import Drawer from '../components/Drawer.vue'
 import Loading from '../components/Loading.vue'
+
+import Player from '../components/cards/Player.vue'
+
 import { provide, reactive } from 'vue'
 import type { GameState } from '../types/interface'
 const initState: GameState = {
@@ -10,6 +13,26 @@ const initState: GameState = {
   drawerType: 'find-item',
   drawerHeight: 0,
   loading: false,
+  playerState: {
+    playerInfo: {
+      name: '玩家姓名',
+      sex: '？',
+      id: 1,
+    },
+    level: {
+      nowLevel: 1,
+      exp: 1,
+      upgradeExp: 1,
+    },
+    hp: {
+      nowHp: 1,
+      maxHp: 1,
+    },
+    mp: {
+      nowMp: 1,
+      maxMp: 1
+    }
+  }
 }
 const state = reactive(initState)
 provide('state', state)
@@ -33,15 +56,7 @@ provide('state', state)
             <div class="flex flex-wrap max-w-152">
               <!-- 头像 -->
               <Card title="参展者" :length="4">
-                <div class="flex w-full">
-                  <img class="avatar object-cover" src="/img/m_1.gif" alt="">
-                  <div class="flex-1 flex">
-                    <div class="m-auto">
-                      <p class="font-bold">玩家昵称</p>
-                      <p class="text-xs mt-1">男生1号</p>
-                    </div>
-                  </div>
-                </div>
+                <Player/>
               </Card>
               <!-- 等级 -->
               <Card title="等级">
