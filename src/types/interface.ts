@@ -6,6 +6,8 @@ export interface GameState {
              'map' | 
              'crafting' |
              'sleep' | 'heal' |
-             'tactics'
-  hoverHeight: number
+             'tactics' |
+             'shop'
+  hoverHeight?: number
+  loading?: boolean
 }

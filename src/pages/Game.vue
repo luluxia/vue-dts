@@ -2,6 +2,7 @@
 import Card from '../components/Card.vue'
 import Action from '../components/Action.vue'
 import Hover from '../components/Hover.vue'
+import Loading from '../components/Loading.vue'
 import { provide, reactive } from 'vue'
 import type { GameState } from '../types/interface'
 // interface State {
@@ -13,13 +14,15 @@ const state: GameState = reactive({
   showHover: false,
   hoverType: 'find-item',
   hoverHeight: 0,
+  loading: false,
 })
 provide('state', state)
 </script>
 <template>
   <div>
+    <Transition><Loading/></Transition>
     <!-- 游戏卡片 -->
-    <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': state.hoverHeight + 50 + 'px'}">
+    <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.hoverHeight || 100) + 50 + 'px'}">
       <p class="w-18 w-37 w-75 hidden"></p>
       <div class="flex justify-between">
         <!-- 左侧 -->
@@ -210,13 +213,18 @@ provide('state', state)
               <!-- 装备 -->
               <Card title="装备" :length="4" class="group transition hover:(ring-zinc-500 ring-2)">
                 <div class="flex w-full p-2 items-center">
-                  <div class="w-16 h-16 bg-zinc-900/50 rounded mr-2">
+                  <div class="w-16 h-16 rounded bg-zinc-900/50 mr-2">
                     <img src="img/weapon1.png" alt=""/>
                   </div>
                   <div class="flex flex-col flex-1">
-                    <p>装备名称装备名称</p>
-                    <p class="text-zinc-400 text-sm">装备效果</p>
-                    <p class="text-zinc-400 text-sm">品质 123 耐久 666</p>
+                    <div class="ml-0.5">
+                      <p class="font-bold text-sm">最终战术『心火』</p>
+                      <p class="text-zinc-400 text-sm">菁英 连击 重击辅助 爆炸</p>
+                    </div>
+                    <p class="text-sm space-x-1 mt-1">
+                      <span class="text-blue-300 bg-zinc-900/50 rounded px-1.5 py-0.5">品质 99999</span>
+                      <span class="text-green-400 bg-zinc-900/50 rounded px-1.5 py-0.5">耐久 20</span>
+                    </p>
                   </div>
                 </div>
                 <div class="absolute right-1 bottom-1 space-y-1 transition opacity-0 group-hover:(opacity-100)">
@@ -243,27 +251,34 @@ provide('state', state)
                 </div>
               </Card>
               <!-- 装备 -->
-              <Card title="装备" :length="4">
+              <Card :length="4" class="border-2 border-dashed bg-transparent">
                 <div class="m-auto">
-                  <p class="text-xl">装备</p>
+                  <p class="text-xl opacity-50">腿部装备</p>
                 </div>
               </Card>
               <!-- 装备 -->
-              <Card title="装备" :length="4">
+              <Card :length="4" class="border-2 border-dashed bg-transparent">
                 <div class="m-auto">
-                  <p class="text-xl">装备</p>
+                  <p class="text-xl opacity-50">饰品</p>
                 </div>
               </Card>
             </div>
           </div>
-          <!-- 行动记录 -->
+          <!-- 记录 -->
           <div class="relative">
             <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
-              行动记录<span class="text-base -ml-1 opacity-10">LOG</span>
+              记录<span class="text-base -ml-1 opacity-10">LOG</span>
             </h1>
             <!-- 负面效果 内容 -->
-            <div class="flex flex-wrap max-w-152 text-zinc-200 p-1">
-              <p><span class="text-zinc-500">[20:30] </span>你来到了一片平原。</p>
+            <div class="max-w-152 h-65 overflow-y-auto text-zinc-200 px-1">
+              <div v-for="item in 20" class="flex space-x-1">
+                <p class="text-zinc-500">[20:30]</p>
+                <p>你来到了一片平原。</p>
+              </div>
+              <div class="flex space-x-1">
+                <p class="text-zinc-500">[20:30]</p>
+                <p>AC翻唱职人被参展者 admin埋设最终战术『心火』伏击炸死【各路党派 AC翻唱职人：“我觉得我还可以抢救一下……”】</p>
+              </div>
             </div>
           </div>
         </div>
@@ -278,6 +293,18 @@ provide('state', state)
 <style>
 :root {
   scrollbar-gutter: stable;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  background-color: hsla(0,0%,100%,.025);
+  border-radius: 100px;
+}
+*::-webkit-scrollbar-thumb {
+  background: hsla(0,0%,100%,.5);
+  border-radius: 100px;
+  background-clip: padding-box;
+  border: 2px solid hsla(0,0%,100%,0);
+  min-height: 10px;
 }
 .avatar {
   clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
@@ -311,5 +338,14 @@ provide('state', state)
   bottom: 0;
   right: 0;
   transform: rotate(180deg);
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

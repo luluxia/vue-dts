@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { inject, onMounted, reactive, ref } from 'vue'
 import Card from '../components/Card.vue'
+import { test } from '../utils/api'
 import tippy, { createSingleton, hideAll } from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away-subtle.css'
+import type { GameState } from '../types/interface'
 interface ActionState {
   item: Array<Item>
   action: Array<Action>
@@ -21,13 +23,20 @@ interface Item {
   name: string
   active?: boolean
 }
-const state = inject('state', {
+const state: GameState = inject('state', {
   showHover: false,
-  hoverType: ''
+  hoverType: '',
+  loading: false,
 })
 // 行动
 // 发现物品
-const search = () => {
+const search = async () => {
+  let waitTimer = setTimeout(() => {
+    state.loading = true
+  }, 200)
+  await test()
+  window.clearTimeout(waitTimer)
+  state.loading = false
   state.hoverType = 'find-item'
   state.showHover = !state.showHover
   actionState.oldAction = actionState.action
@@ -54,7 +63,13 @@ const attackEnemy = () => {
   ]
 }
 // 获取物品
-const getItem = () => {
+const getItem = async () => {
+  let waitTimer = setTimeout(() => {
+    state.loading = true
+  }, 200)
+  await test()
+  window.clearTimeout(waitTimer)
+  state.loading = false
   actionState.item.push({ type: '物品', name: '石头' })
   actionState.action = actionState.oldAction
   state.showHover = !state.showHover
@@ -120,6 +135,18 @@ const tactics = () => {
     }
   })
 }
+// 商店
+const shop = () => {
+  state.hoverType = 'shop'
+  state.showHover = !state.showHover
+  actionState.action.map(action => {
+    if (state.showHover) {
+      action.name != '商店' && (action.active = false)
+    } else {
+      action.active = true
+    }
+  })
+}
 // 行动卡片
 const actionState: ActionState = reactive({
   item: [
@@ -132,7 +159,8 @@ const actionState: ActionState = reactive({
     { name: '合成', action: () => crafting() },
     { name: '睡眠', action: () => sleep() },
     { name: '治疗', action: () => heal() },
-    { name: '战术', action: () => tactics() }
+    { name: '战术', action: () => tactics() },
+    { name: '商店', action: () => shop() },
   ],
   oldAction: [{ name: '', action: () => {} }],
   disableItem: false,
@@ -166,23 +194,28 @@ onMounted(() => {
   <div class="hidden">
     <div class="w-max" ref="tippyRef">
       <div class="flex">
-        <Card :length="2" :title="'物品'" class="group transition hover:(ring-zinc-500 ring-2)">
-          <div class="p-1.5">
-            <p>物品名</p>
+        <Card :length="4" :title="'爆炸物'" class="group transition hover:(ring-zinc-500 ring-2)">
+          <div class="flex w-full p-2 items-center">
+            <div class="w-16 h-16 rounded bg-zinc-900/50 mr-2">
+              <img src="img/weapon1.png" alt=""/>
+            </div>
+            <div class="flex flex-col flex-1">
+              <div class="ml-0.5">
+                <p class="font-bold text-sm">最终战术『心火』</p>
+                <p class="text-zinc-400 text-sm">菁英 连击 重击辅助 爆炸</p>
+              </div>
+              <p class="text-sm space-x-1 mt-1">
+                <span class="text-blue-300 bg-zinc-900/50 rounded px-1.5 py-0.5">品质 123</span>
+                <span class="text-green-400 bg-zinc-900/50 rounded px-1.5 py-0.5">耐久 666</span>
+              </p>
+            </div>
           </div>
           <div class="absolute right-1 bottom-1 space-y-1 transition opacity-0 group-hover:(opacity-100)">
+            <p class="m-auto text-xs px-3 py-1 bg-zinc-600 rounded">快捷</p>
             <p class="m-auto text-xs px-3 py-1 bg-rose-800 rounded">丢弃</p>
           </div>
         </Card>
-        <Card :length="2" :title="'物品'" class="group transition hover:(ring-zinc-500 ring-2)">
-          <div class="p-1.5">
-            <p>物品名</p>
-          </div>
-          <div class="absolute right-1 bottom-1 space-y-1 transition opacity-0 group-hover:(opacity-100)">
-            <p class="m-auto text-xs px-3 py-1 bg-rose-800 rounded">丢弃</p>
-          </div>
-        </Card>
-        <Card :length="2" :title="'物品'" class="group transition hover:(ring-zinc-500 ring-2)">
+        <Card :length="4" :title="'物品'" class="group transition hover:(ring-zinc-500 ring-2)">
           <div class="p-1.5">
             <p>物品名</p>
           </div>
@@ -192,9 +225,12 @@ onMounted(() => {
         </Card>
       </div>
       <div class="flex">
-        <Card :length="2" class="border-2 border-dashed"/>
-        <Card :length="2" class="border-2 border-dashed"/>
-        <Card :length="2" class="border-2 border-dashed"/>
+        <Card :length="4" class="border-2 border-dashed"/>
+        <Card :length="4" class="border-2 border-dashed"/>
+      </div>
+      <div class="flex">
+        <Card :length="4" class="border-2 border-dashed"/>
+        <Card :length="4" class="border-2 border-dashed"/>
       </div>
     </div>
   </div>
@@ -206,7 +242,10 @@ onMounted(() => {
           class="transform transition-all top-0 cursor-pointer relative group-hover:(-top-1)"
           title="背包" :length="2"
         >
-          <p class="m-auto">背包</p>
+          <div class="m-auto text-center">
+            <p>空间 3 / 6</p>
+            <p>金币 50</p>
+          </div>
         </Card>
       </div>
       <!-- 行动 -->
@@ -221,7 +260,10 @@ onMounted(() => {
           title="行动"
           @click="() => {item.action()}"
         >
-          <p class="m-auto">{{item.name}}</p>
+          <div class="m-auto text-center">
+            <!-- <img class="w-12 h-12" src="img/item.png" alt=""> -->
+            <p class="m-auto">{{item.name}}</p>
+          </div>
         </Card>
       </div>
     </TransitionGroup>
@@ -260,6 +302,7 @@ onMounted(() => {
   box-shadow: 0 0 2px 2px rgb(0 0 0 / 20%);
   max-width: max-content !important;
   padding: 0.125em;
+  background-color: #252528;
 }
 .tippy-content {
   padding: 0em;

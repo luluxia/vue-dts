@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { inject, watch, ref, nextTick, onMounted } from 'vue'
+import { inject, watch, ref, nextTick } from 'vue'
 import Card from './Card.vue'
 import GameData from '../utils/data'
-import tippy, { createSingleton, hideAll } from 'tippy.js'
+import tippy, { createSingleton } from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away-subtle.css'
 import type { GameState } from '../types/interface'
@@ -77,8 +77,22 @@ watch(() => state.showHover, (val) => {
           <p>消耗15点体力，你搜索着周围的一切。</p>
           <p>发现了物品 某某。</p>
         </div>
-        <Card :length="2" title="物品">
-
+        <Card :length="4" :title="'爆炸物'" class="group transition hover:(ring-zinc-500 ring-2)">
+          <div class="flex w-full p-2 items-center">
+            <div class="w-16 h-16 rounded bg-zinc-900/50 mr-2">
+              <img src="img/weapon1.png" alt=""/>
+            </div>
+            <div class="flex flex-col flex-1">
+              <div class="ml-0.5">
+                <p class="font-bold text-sm">最终战术『心火』</p>
+                <p class="text-zinc-400 text-sm">菁英 连击 重击辅助 爆炸</p>
+              </div>
+              <p class="text-sm space-x-1 mt-1">
+                <span class="text-blue-300 bg-zinc-900/50 rounded px-1.5 py-0.5">品质 123</span>
+                <span class="text-green-400 bg-zinc-900/50 rounded px-1.5 py-0.5">耐久 666</span>
+              </p>
+            </div>
+          </div>
         </Card>
         <div class="text-zinc-400 text-sm mt-2">
           <p>你想如何处理？</p>
@@ -91,18 +105,18 @@ watch(() => state.showHover, (val) => {
           <template v-else>发生战斗</template>
         </h1>
         <div v-if="state.hoverType == 'find-enemy'" class="text-zinc-400 text-sm mb-2">
-          <p>消耗15点体力，移动到了端点。</p>
-          <p>你发现了敌人？？？！</p>
+          <p>消耗<span class="text-yellow-600 font-bold">15</span>点体力，移动到了端点。</p>
+          <p>你发现了敌人<span class="text-red-600 font-bold">✦覆唱的篝火</span></p>
           <p>对方好像完全没有注意到你！</p>
         </div>
         <div v-if="state.hoverType == 'attack-enemy'" class="text-zinc-400 text-sm mb-2">
-          <p>你向✦执念的残火发起了攻击！</p>
-          <p>使用乒乓球投掷✦执念的残火！</p>
-          <p>你的攻击完全被✦执念的残火的装备吸收了！</p>
-          <p>造成1点伤害！</p>
-          <p>你用掉了1个乒乓球。</p>
+          <p>你向<span class="text-red-600 font-bold">✦执念的残火</span>发起了攻击！</p>
+          <p>使用乒乓球<span class="text-yellow-600 font-bold">投掷</span>✦执念的残火！</p>
+          <p>你的攻击完全被<span class="text-red-600 font-bold">✦执念的残火</span>的装备吸收了！</p>
+          <p>造成<span class="text-yellow-600 font-bold">1</span>点伤害！</p>
+          <p>你用掉了<span class="text-yellow-600 font-bold">1</span>个乒乓球。</p>
           <p>“ΨХΛТΔЫЩΨΡ ЦΨΜПΨХЩЦ...”</p>
-          <p>✦执念的残火攻击范围不足，不能反击，逃跑了！</p>
+          <p><span class="text-red-600 font-bold">✦执念的残火</span>攻击范围不足，不能反击，逃跑了！</p>
         </div>
         <div class="flex">
           <Card title="种火" :length="4">
@@ -218,7 +232,7 @@ watch(() => state.showHover, (val) => {
           <template v-else>治疗</template>
         </div>
       </template>
-      <!-- 战术-->
+      <!-- 战术 -->
       <template v-if="state.hoverType == 'tactics'">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">战术选择</h1>
         <div class="text-zinc-400 text-sm mb-2">
@@ -239,6 +253,53 @@ watch(() => state.showHover, (val) => {
           <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">重视反击</p>
           <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">重视防御</p>
           <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">重视躲避</p>
+        </div>
+      </template>
+      <!-- 商店 -->
+      <template v-if="state.hoverType == 'shop'">
+        <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">商店</h1>
+        <div class="flex">
+          <div class="text-zinc-300 justify-center flex-wrap">
+            <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 text-center">分类</p>
+            <div class="h-60 overflow-y-auto overflow-x-hidden overscroll-contain snap snap-y">
+              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">补给品</p>
+              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">药剂</p>
+              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">埃克法轻工特供商品</p>
+              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
+              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
+              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
+              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
+              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
+              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
+              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
+            </div>
+          </div>
+          <div class="text-zinc-300 w-150 justify-center flex-wrap">
+            <div class="flex bg-zinc-700/50 px-2.5 py-1 rounded m-0.5">
+              <p class="flex-1 text-center">物品名</p>
+              <p class="w-20 text-center">库存</p>
+              <p class="w-20 text-center mr-2.5">价格</p>
+            </div>
+            <div class="h-60 overflow-y-auto overflow-x-hidden overscroll-contain snap snap-y">
+              <div class="flex px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">
+                <p class="flex-1">物品名</p>
+                <p class="w-20 text-center">20</p>
+                <p class="w-20 text-center">50</p>
+              </div>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
+            </div>
+          </div>
         </div>
       </template>
     </div>
