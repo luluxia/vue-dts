@@ -1,28 +1,25 @@
 <script lang="ts" setup>
 import Card from '../components/Card.vue'
 import Action from '../components/Action.vue'
-import Hover from '../components/Hover.vue'
+import Drawer from '../components/Drawer.vue'
 import Loading from '../components/Loading.vue'
 import { provide, reactive } from 'vue'
 import type { GameState } from '../types/interface'
-// interface State {
-//   showHover: boolean
-//   hoverType: 'find-item' | 'find-enemy' | 'map'
-//   hoverHeight: number
-// }
-const state: GameState = reactive({
-  showHover: false,
-  hoverType: 'find-item',
-  hoverHeight: 0,
+const initState: GameState = {
+  showDrawer: false,
+  drawerType: 'find-item',
+  drawerHeight: 0,
   loading: false,
-})
+}
+const state = reactive(initState)
 provide('state', state)
 </script>
+
 <template>
   <div>
     <Transition><Loading/></Transition>
     <!-- 游戏卡片 -->
-    <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.hoverHeight || 100) + 50 + 'px'}">
+    <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.drawerHeight || 100) + 50 + 'px'}">
       <p class="w-18 w-37 w-75 hidden"></p>
       <div class="flex justify-between">
         <!-- 左侧 -->
@@ -285,7 +282,7 @@ provide('state', state)
       </div>
     </div>
     <!-- 游戏行动 -->
-    <Hover/>
+    <Drawer/>
     <Action/>
   </div>
 </template>
@@ -308,36 +305,6 @@ provide('state', state)
 }
 .avatar {
   clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-}
-.corner {
-  position: absolute;
-}
-.corner::after, .corner::before {
-  position: absolute;
-  content: '';
-  display: block;
-  background: #71717A;
-}
-.corner::after {
-  width: 2px;
-  height: 15px;
-}
-.corner::before {
-  width: 15px;
-  height: 2px;
-}
-.corner-rt {
-  right: 0;
-  transform: rotate(90deg);
-}
-.corner-lb {
-  bottom: 0;
-  transform: rotate(270deg);
-}
-.corner-rb {
-  bottom: 0;
-  right: 0;
-  transform: rotate(180deg);
 }
 .v-enter-active,
 .v-leave-active {

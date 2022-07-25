@@ -7,9 +7,9 @@ import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away-subtle.css'
 import type { GameState } from '../types/interface'
 const state = inject<GameState>('state', {
-  showHover: false,
-  hoverType: '',
-  hoverHeight: 0,
+  showDrawer: false,
+  drawerType: '',
+  drawerHeight: 0,
 })
 const hoverDom = ref()
 const tippyRef = ref()
@@ -23,11 +23,11 @@ const singleton = createSingleton(tippys, {
   moveTransition: 'transform 0.2s ease-out',
   animation: 'shift-away-subtle',
 })
-watch(() => state.showHover, (val) => {
+watch(() => state.showDrawer, (val) => {
   if (val) {
     nextTick(() => {
-      state.hoverHeight = hoverDom.value.getClientRects()[0].height
-      console.log(state.hoverHeight)
+      state.drawerHeight = hoverDom.value.getClientRects()[0].height
+      console.log(state.drawerHeight)
       tippys.forEach(item => item.destroy())
       tippys = tippy('.tippy-tip', {
         content: () => tippyRef.value.cloneNode(true),
@@ -37,7 +37,7 @@ watch(() => state.showHover, (val) => {
       singleton.setInstances(tippys)
     })
   } else {
-    state.hoverHeight = 0
+    state.drawerHeight = 0
   }
 })
 </script>
@@ -67,11 +67,11 @@ watch(() => state.showHover, (val) => {
   <div
     class="fixed bottom-0 w-screen flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition transform duration-300"
     ref="hoverDom"
-    :class="state.showHover ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'"
+    :class="state.showDrawer ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'"
   >
     <div class="m-auto flex flex-col items-center pb-32">
       <!-- 发现物品 -->
-      <template v-if="state.hoverType == 'find-item'">
+      <template v-if="state.drawerType == 'find-item'">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">发现物品</h1>
         <div class="text-zinc-400 text-sm mb-2">
           <p>消耗15点体力，你搜索着周围的一切。</p>
@@ -99,17 +99,17 @@ watch(() => state.showHover, (val) => {
         </div>
       </template>
       <!-- 敌人相关 -->
-      <template v-if="['find-enemy', 'attack-enemy', 'attacked-by-enemy'].includes(state.hoverType)">
+      <template v-if="['find-enemy', 'attack-enemy', 'attacked-by-enemy'].includes(state.drawerType)">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">
-          <template v-if="state.hoverType == 'find-enemy'">发现敌人</template>
+          <template v-if="state.drawerType == 'find-enemy'">发现敌人</template>
           <template v-else>发生战斗</template>
         </h1>
-        <div v-if="state.hoverType == 'find-enemy'" class="text-zinc-400 text-sm mb-2">
+        <div v-if="state.drawerType == 'find-enemy'" class="text-zinc-400 text-sm mb-2">
           <p>消耗<span class="text-yellow-600 font-bold">15</span>点体力，移动到了端点。</p>
           <p>你发现了敌人<span class="text-red-600 font-bold">✦覆唱的篝火</span></p>
           <p>对方好像完全没有注意到你！</p>
         </div>
-        <div v-if="state.hoverType == 'attack-enemy'" class="text-zinc-400 text-sm mb-2">
+        <div v-if="state.drawerType == 'attack-enemy'" class="text-zinc-400 text-sm mb-2">
           <p>你向<span class="text-red-600 font-bold">✦执念的残火</span>发起了攻击！</p>
           <p>使用乒乓球<span class="text-yellow-600 font-bold">投掷</span>✦执念的残火！</p>
           <p>你的攻击完全被<span class="text-red-600 font-bold">✦执念的残火</span>的装备吸收了！</p>
@@ -190,7 +190,7 @@ watch(() => state.showHover, (val) => {
         </div>
       </template>
       <!-- 地图 -->
-      <template v-if="state.hoverType == 'map'">
+      <template v-if="state.drawerType == 'map'">
         <img class="w-200 h-140" src="img/map.png" alt="">
         <div class="fixed w-200 px-10 py-10 text-zinc-200 text-sm text-shadow-sm grid grid-cols-10 grid-rows-10 text-center">
           <p
@@ -202,7 +202,7 @@ watch(() => state.showHover, (val) => {
         </div>
       </template>
       <!-- 合成 -->
-      <template v-if="state.hoverType == 'crafting'">
+      <template v-if="state.drawerType == 'crafting'">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">合成</h1>
         <div class="text-zinc-400 text-sm mb-2">
           <p>当前可以合成的道具</p>
@@ -222,18 +222,18 @@ watch(() => state.showHover, (val) => {
         </div>
       </template>
       <!-- 睡眠/治疗 -->
-      <template v-if="['sleep', 'heal'].includes(state.hoverType)">
+      <template v-if="['sleep', 'heal'].includes(state.drawerType)">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">
-          <template v-if="state.hoverType == 'sleep'">睡眠</template>
+          <template v-if="state.drawerType == 'sleep'">睡眠</template>
           <template v-else>治疗</template>
         </h1>
         <div class="text-zinc-400 text-sm mb-2">
-          <template v-if="state.hoverType == 'sleep'">睡眠</template>
+          <template v-if="state.drawerType == 'sleep'">睡眠</template>
           <template v-else>治疗</template>
         </div>
       </template>
       <!-- 战术 -->
-      <template v-if="state.hoverType == 'tactics'">
+      <template v-if="state.drawerType == 'tactics'">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">战术选择</h1>
         <div class="text-zinc-400 text-sm mb-2">
           <p>基础姿态</p>
@@ -256,7 +256,7 @@ watch(() => state.showHover, (val) => {
         </div>
       </template>
       <!-- 商店 -->
-      <template v-if="state.hoverType == 'shop'">
+      <template v-if="state.drawerType == 'shop'">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">商店</h1>
         <div class="flex">
           <div class="text-zinc-300 justify-center flex-wrap">

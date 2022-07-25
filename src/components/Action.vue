@@ -18,14 +18,16 @@ interface Action {
   action: Function
   active?: boolean
 }
+/** test */
 interface Item {
+  /** 物品 */
   type: string
   name: string
   active?: boolean
 }
-const state: GameState = inject('state', {
-  showHover: false,
-  hoverType: '',
+const state = inject<GameState>('state', {
+  showDrawer: false,
+  drawerType: '',
   loading: false,
 })
 // 行动
@@ -37,29 +39,29 @@ const search = async () => {
   await test()
   window.clearTimeout(waitTimer)
   state.loading = false
-  state.hoverType = 'find-item'
-  state.showHover = !state.showHover
+  state.drawerType = 'find-item'
+  state.showDrawer = !state.showDrawer
   actionState.oldAction = actionState.action
   actionState.action = [
     { name: '获取', action: () => getItem() },
-    { name: '丢弃', action: () => { state.showHover = false; actionState.action = actionState.oldAction } },
+    { name: '丢弃', action: () => { state.showDrawer = false; actionState.action = actionState.oldAction } },
   ]
 }
 // 发现敌人
 const findEnemy = () => {
-  state.hoverType = 'find-enemy'
-  state.showHover = !state.showHover
+  state.drawerType = 'find-enemy'
+  state.showDrawer = !state.showDrawer
   actionState.oldAction = actionState.action
   actionState.action = [
     { name: '攻击', action: () => attackEnemy() },
-    { name: '逃跑', action: () => { state.showHover = false; actionState.action = actionState.oldAction } },
+    { name: '逃跑', action: () => { state.showDrawer = false; actionState.action = actionState.oldAction } },
   ]
 }
 // 攻击敌人
 const attackEnemy = () => {
-  state.hoverType = 'attack-enemy'
+  state.drawerType = 'attack-enemy'
   actionState.action = [
-    { name: '确定', action: () => { state.showHover = false; actionState.action = actionState.oldAction } }
+    { name: '确定', action: () => { state.showDrawer = false; actionState.action = actionState.oldAction } }
   ]
 }
 // 获取物品
@@ -72,27 +74,27 @@ const getItem = async () => {
   state.loading = false
   actionState.item.push({ type: '物品', name: '石头' })
   actionState.action = actionState.oldAction
-  state.showHover = !state.showHover
+  state.showDrawer = !state.showDrawer
 }
 // 打开地图
 const map = () => {
-  state.hoverType = 'map'
-  state.showHover = !state.showHover
+  state.drawerType = 'map'
+  state.showDrawer = !state.showDrawer
   actionState.action.map(action => {
-    if (state.showHover) {
+    if (state.showDrawer) {
       action.name != '地图' && (action.active = false)
     } else {
       action.active = true
     }
   })
-  actionState.disableItem = state.showHover
+  actionState.disableItem = state.showDrawer
 }
 // 打开合成页面
 const crafting = () => {
-  state.hoverType = 'crafting'
-  state.showHover = !state.showHover
+  state.drawerType = 'crafting'
+  state.showDrawer = !state.showDrawer
   actionState.action.map(action => {
-    if (state.showHover) {
+    if (state.showDrawer) {
       action.name != '合成' && (action.active = false)
     } else {
       action.active = true
@@ -101,10 +103,10 @@ const crafting = () => {
 }
 // 打开睡眠
 const sleep = () => {
-  state.hoverType = 'sleep'
-  state.showHover = !state.showHover
+  state.drawerType = 'sleep'
+  state.showDrawer = !state.showDrawer
   actionState.action.map(action => {
-    if (state.showHover) {
+    if (state.showDrawer) {
       action.name != '睡眠' && (action.active = false)
     } else {
       action.active = true
@@ -113,10 +115,10 @@ const sleep = () => {
 }
 // 治疗
 const heal = () => {
-  state.hoverType = 'heal'
-  state.showHover = !state.showHover
+  state.drawerType = 'heal'
+  state.showDrawer = !state.showDrawer
   actionState.action.map(action => {
-    if (state.showHover) {
+    if (state.showDrawer) {
       action.name != '治疗' && (action.active = false)
     } else {
       action.active = true
@@ -125,10 +127,10 @@ const heal = () => {
 }
 // 战术
 const tactics = () => {
-  state.hoverType = 'tactics'
-  state.showHover = !state.showHover
+  state.drawerType = 'tactics'
+  state.showDrawer = !state.showDrawer
   actionState.action.map(action => {
-    if (state.showHover) {
+    if (state.showDrawer) {
       action.name != '战术' && (action.active = false)
     } else {
       action.active = true
@@ -137,10 +139,10 @@ const tactics = () => {
 }
 // 商店
 const shop = () => {
-  state.hoverType = 'shop'
-  state.showHover = !state.showHover
+  state.drawerType = 'shop'
+  state.showDrawer = !state.showDrawer
   actionState.action.map(action => {
-    if (state.showHover) {
+    if (state.showDrawer) {
       action.name != '商店' && (action.active = false)
     } else {
       action.active = true
