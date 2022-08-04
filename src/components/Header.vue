@@ -18,7 +18,10 @@ window.onscroll = function() {
     :class="!state.showHeader && 'opacity-0'"
   >
     <div class="max-w-screen-xl h-15 mx-auto flex items-center">
-      <img class="h-6" src="/img/logo.png" alt="">
+      <img class="h-6 mr-5" src="/img/logo.png" alt="">
+      <div class="text-zinc-300">
+        <router-link to="/game">游戏</router-link>
+      </div>
     </div>
   </header>
 </template>

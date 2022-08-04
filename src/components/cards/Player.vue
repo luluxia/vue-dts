@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import { inject, reactive, ref, watch, watchEffect } from 'vue'
-import type { GameState, PlayerInfo } from '../../types/interface'
+import { computed } from '@vue/reactivity';
+import { inject } from 'vue'
+import type { GameState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
-let state = reactive({}) as PlayerInfo
-watchEffect(() => {
+const state = computed(() => {
   if (gameState.playerState) {
-    state = {...gameState.playerState.playerInfo}
+    return {...gameState.playerState.playerInfo}
   }
 })
 </script>
 
 <template>
-<div v-if="state.name" class="flex w-full">
+<div v-if="state" class="flex w-full">
   <img class="avatar object-cover" src="/img/m_1.gif" alt="">
   <div class="flex-1 flex">
     <div class="m-auto">

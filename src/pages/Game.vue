@@ -5,6 +5,21 @@ import Drawer from '../components/Drawer.vue'
 import Loading from '../components/Loading.vue'
 
 import Player from '../components/cards/Player.vue'
+import Level from '../components/cards/Level.vue'
+import Hp from '../components/cards/Hp.vue'
+import Mp from '../components/cards/Mp.vue'
+import Rage from '../components/cards/Rage.vue'
+import Gift from '../components/cards/Gift.vue'
+import Tactic from '../components/cards/Tactic.vue'
+import Pose from '../components/cards/Pose.vue'
+import Attack from '../components/cards/Attack.vue'
+import Defense from '../components/cards/Defense.vue'
+import Team from '../components/cards/Team.vue'
+import Proficiency from '../components/cards/Proficiency.vue'
+
+import NowArea from '../components/cards/NowArea.vue'
+import Weather from '../components/cards/Weather.vue'
+import Time from '../components/cards/Time.vue'
 
 import { provide, reactive } from 'vue'
 import type { GameState } from '../types/interface'
@@ -16,22 +31,43 @@ const initState: GameState = {
   playerState: {
     playerInfo: {
       name: '玩家姓名',
-      sex: '？',
+      sex: '男',
       id: 1,
     },
     level: {
       nowLevel: 1,
-      exp: 1,
-      upgradeExp: 1,
+      exp: 8,
+      upgradeExp: 10,
     },
     hp: {
-      nowHp: 1,
-      maxHp: 1,
+      nowHp: 100,
+      maxHp: 150,
     },
     mp: {
-      nowMp: 1,
-      maxMp: 1
-    }
+      nowMp: 200,
+      maxMp: 400,
+    },
+    rage: 0,
+    gift: '内定称呼',
+    tactic: '基础姿态',
+    pose: '应战策略',
+    attack: 100,
+    defense: 100,
+    team: '队伍',
+    proficiency: {
+      melee: 1,
+      slash: 2,
+      shoot: 3,
+      throw: 4,
+      blast: 5,
+      spirit: 6,
+    },
+    debuff: ['负面状态']
+  },
+  areaState: {
+    nowArea: '当前区域',
+    remain: 5,
+    weather: '多云'
   }
 }
 const state = reactive(initState)
@@ -60,140 +96,88 @@ provide('state', state)
               </Card>
               <!-- 等级 -->
               <Card title="等级">
-                <div class="w-full h-1 bg-green-600 absolute bottom-0"></div>
-                <div class="m-auto text-center">
-                  <p class="text-2xl">1</p>
-                  <p class="text-sm opacity-50">5/10</p>
-                </div>
+                <Level/>
               </Card>
               <!-- 生命 -->
               <Card title="生命">
-                <div class="w-full h-full bg-green-600 absolute bottom-0"></div>
-                <div class="m-auto text-center relative">
-                  <p>400</p>
-                  <p class="text-sm opacity-50">400</p>
-                </div>
-                <div class="absolute w-full h-full flex p-2">
-                  <img class="opacity-10 m-auto" src="/img/heart.png" alt=""/>
-                </div>
+                <Hp/>
               </Card>
               <!-- 体力 -->
               <Card title="体力">
-                <div class="w-full h-full bg-blue-500 absolute bottom-0"></div>
-                <div class="m-auto text-center relative">
-                  <p>400</p>
-                  <p class="text-sm opacity-50">400</p>
-                </div>
-                <div class="absolute w-full h-full flex p-3">
-                  <img class="opacity-10 m-auto" src="/img/thunder.png" alt=""/>
-                </div>
+                <Mp/>
               </Card>
               <!-- 怒气 -->
               <Card title="怒气">
-                <div class="m-auto">
-                  <p class="text-2xl">0</p>
-                </div>
+                <Rage/>
               </Card>
               <!-- 内定称号 -->
               <Card title="内定称号" :length="2">
-                <div class="m-auto">
-                  <p class="text-xl">内定称号</p>
-                </div>
+                <Gift/>
               </Card>
               <!-- 基础姿态 -->
               <Card title="基础姿态" :length="2">
-                <div class="m-auto">
-                  <p class="text-xl">基础姿态</p>
-                </div>
+                <Tactic/>
               </Card>
               <!-- 应战策略 -->
               <Card title="应战策略" :length="2">
-                <div class="m-auto">
-                  <p class="text-xl">应战策略</p>
-                </div>
+                <Pose/>
               </Card>
               <!-- 攻击力 -->
               <Card title="攻击力">
-                <div class="m-auto text-center">
-                  <p class="text-xl">100</p>
-                  <p class="text-sm opacity-50">+50</p>
-                </div>
+                <Attack/>
               </Card>
               <!-- 防御力 -->
               <Card title="防御力">
-                <div class="m-auto text-center">
-                  <p class="text-xl">100</p>
-                  <p class="text-sm opacity-50">+50</p>
-                </div>
+                <Defense/>
               </Card>
               <!-- 队伍 -->
               <Card title="队伍" :length="2">
-                <div class="m-auto">
-                  <p class="text-xl">队伍</p>
-                </div>
+                <Team/>
               </Card>
               <!-- 殴熟 -->
               <Card title="殴熟">
-                <div class="m-auto">
-                  <p class="text-xl">0</p>
-                </div>
+                <Proficiency type="melee"/>
               </Card>
               <!-- 斩熟 -->
               <Card title="斩熟">
-                <div class="m-auto">
-                  <p class="text-xl">0</p>
-                </div>
+                <Proficiency type="slash"/>
               </Card>
               <!-- 射熟 -->
               <Card title="射熟">
-                <div class="m-auto">
-                  <p class="text-xl">0</p>
-                </div>
+                <Proficiency type="shoot"/>
               </Card>
               <!-- 投熟 -->
               <Card title="投熟">
-                <div class="m-auto">
-                  <p class="text-xl">0</p>
-                </div>
+                <Proficiency type="throw"/>
               </Card>
               <!-- 爆熟 -->
               <Card title="爆熟">
-                <div class="m-auto">
-                  <p class="text-xl">0</p>
-                </div>
+                <Proficiency type="blast"/>
               </Card>
               <!-- 灵熟 -->
               <Card title="灵熟">
-                <div class="m-auto">
-                  <p class="text-xl">0</p>
-                </div>
+                <Proficiency type="spirit"/>
               </Card>
             </div>
           </div>
           <!-- 位置 -->
           <div class="relative">
             <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
-              位置<span class="text-base -ml-1 opacity-10">PLACE</span>
+              地点<span class="text-base -ml-1 opacity-10">AREA</span>
             </h1>
             <!-- 位置 内容 -->
             <div class="flex flex-wrap max-w-152">
-              <!-- 当前地区 -->
-              <Card title="当前地区" :length="2">
-                <div class="m-auto">
-                  <p class="text-xl">当前地区</p>
-                </div>
+              <!-- 当前地点 -->
+              <Card title="当前地点" :length="2">
+                <NowArea/>
               </Card>
               <!-- 天气 -->
               <Card title="天气" :length="2">
-                <div class="m-auto">
-                  <p class="text-xl">多云</p>
-                </div>
+                <Weather/>
               </Card>
               <!-- 时间 -->
               <Card title="时间" :length="4">
-                <div class="m-auto">
-                  <p class="text-xl">时间</p>
-                </div>
+                <Time/>
               </Card>
             </div>
           </div>

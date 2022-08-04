@@ -38,6 +38,9 @@ const search = async () => {
   }, 200)
   await test()
   window.clearTimeout(waitTimer)
+  if (state.playerState) {
+    state.playerState.mp.nowMp -= 15
+  }
   state.loading = false
   state.drawerType = 'find-item'
   state.showDrawer = !state.showDrawer
@@ -60,6 +63,8 @@ const findEnemy = () => {
 // 攻击敌人
 const attackEnemy = () => {
   state.drawerType = 'attack-enemy'
+  state.playerState && (state.playerState.playerInfo.name = '123')
+  console.log(state.playerState?.playerInfo.name)
   actionState.action = [
     { name: '确定', action: () => { state.showDrawer = false; actionState.action = actionState.oldAction } }
   ]
