@@ -6,7 +6,7 @@ const gameState = inject<GameState>('state') as GameState
 const state = computed(() => {
   if (gameState.areaState) {
     return {
-      nowArea: gameState.areaState.nowArea,
+      remain: gameState.areaState.remain,
     }
   }
 })
@@ -14,6 +14,6 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="m-auto text-center">
-  <p class="text-xl">{{state.nowArea}}</p>
+  <p class="text-xl">{{state.remain}}</p>
 </div>
 </template>

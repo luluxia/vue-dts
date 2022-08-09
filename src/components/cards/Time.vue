@@ -5,11 +5,11 @@ const state = reactive({
 })
 setInterval(() => {
   state.time = new Date().toLocaleString()
-}, 1000)
+}, 10000)
 </script>
 
 <template>
 <div class="m-auto">
-  <p class="text-xl">{{state.time}}</p>
+  <p class="text-xl">{{state.time.slice(0, -3)}}</p>
 </div>
 </template>

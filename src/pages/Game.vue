@@ -18,8 +18,15 @@ import Team from '../components/cards/Team.vue'
 import Proficiency from '../components/cards/Proficiency.vue'
 
 import NowArea from '../components/cards/NowArea.vue'
+import Remain from '../components/cards/Remain.vue'
+import Passage from '../components/cards/Passage.vue'
 import Weather from '../components/cards/Weather.vue'
-import Time from '../components/cards/Time.vue'
+
+import Debuffs from '../components/cards/Debuffs.vue'
+
+import Item from '../components/cards/Item.vue'
+
+import Log from '../components/Log.vue'
 
 import { provide, reactive } from 'vue'
 import type { GameState } from '../types/interface'
@@ -62,13 +69,61 @@ const initState: GameState = {
       blast: 5,
       spirit: 6,
     },
-    debuff: ['负面状态']
+    debuff: ['负面状态', '致残损伤'],
+    equipment: {
+      weapon: {
+        type: '远程兵器',
+        name: '最终战术『心火』',
+        props: '菁英 连击 重击辅助 爆炸',
+        quality: 0,
+        durability: 0
+      },
+      armor: {
+        type: '身体装备',
+        name: '',
+        props: '',
+        quality: 0,
+        durability: 0
+      },
+      arm: {
+        type: '手臂装备',
+        name: '',
+        props: '',
+        quality: 0,
+        durability: 0
+      },
+      helmet: {
+        type: '头部装备',
+        name: '',
+        props: '',
+        quality: 0,
+        durability: 0
+      },
+      boot: {
+        type: '腿部装备',
+        name: '',
+        props: '',
+        quality: 0,
+        durability: 0
+      },
+      accessory: {
+        type: '饰品',
+        name: '',
+        props: '',
+        quality: 0,
+        durability: 0
+      }
+    }
   },
   areaState: {
     nowArea: '当前区域',
+    passage: '可通行',
     remain: 5,
     weather: '多云'
-  }
+  },
+  log: [
+    { time: '11:11', content: '测试' }
+  ]
 }
 const state = reactive(initState)
 provide('state', state)
@@ -78,11 +133,11 @@ provide('state', state)
   <div>
     <Transition><Loading/></Transition>
     <!-- 游戏卡片 -->
-    <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.drawerHeight || 100) + 50 + 'px'}">
+    <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.drawerHeight || 100) + 40 + 'px'}">
       <p class="w-18 w-37 w-75 hidden"></p>
       <div class="flex justify-between">
         <!-- 左侧 -->
-        <div class="space-y-4">
+        <div class="space-y-1">
           <!-- 状态 -->
           <div class="relative">
             <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
@@ -171,13 +226,17 @@ provide('state', state)
               <Card title="当前地点" :length="2">
                 <NowArea/>
               </Card>
+              <!-- 通行状态 -->
+              <Card title="通行状态" :length="2">
+                <Passage/>
+              </Card>
+              <!-- 剩余人数 -->
+              <Card title="剩余人数" :length="2">
+                <Remain/>
+              </Card>
               <!-- 天气 -->
               <Card title="天气" :length="2">
                 <Weather/>
-              </Card>
-              <!-- 时间 -->
-              <Card title="时间" :length="4">
-                <Time/>
               </Card>
             </div>
           </div>
@@ -189,74 +248,25 @@ provide('state', state)
             <!-- 负面效果 内容 -->
             <div class="flex flex-wrap max-w-152">
               <!-- 负面效果 -->
-              <Card title="负面效果" :length="2">
-                <div class="m-auto">
-                  <p class="text-xl">负面效果</p>
-                </div>
-              </Card>
+              <Debuffs/>
             </div>
           </div>
         </div>
         <!-- 右侧 -->
-        <div class="space-y-4">
+        <div class="space-y-1">
           <!-- 装备 -->
           <div class="relative">
             <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
               装备<span class="text-base -ml-1 opacity-10">EQUIPMENT</span>
             </h1>
-            <!-- 负面效果 内容 -->
-            <div class="flex flex-wrap max-w-152">
-              <!-- 装备 -->
-              <Card title="装备" :length="4" class="group transition hover:(ring-zinc-500 ring-2)">
-                <div class="flex w-full p-2 items-center">
-                  <div class="w-16 h-16 rounded bg-zinc-900/50 mr-2">
-                    <img src="img/weapon1.png" alt=""/>
-                  </div>
-                  <div class="flex flex-col flex-1">
-                    <div class="ml-0.5">
-                      <p class="font-bold text-sm">最终战术『心火』</p>
-                      <p class="text-zinc-400 text-sm">菁英 连击 重击辅助 爆炸</p>
-                    </div>
-                    <p class="text-sm space-x-1 mt-1">
-                      <span class="text-blue-300 bg-zinc-900/50 rounded px-1.5 py-0.5">品质 99999</span>
-                      <span class="text-green-400 bg-zinc-900/50 rounded px-1.5 py-0.5">耐久 20</span>
-                    </p>
-                  </div>
-                </div>
-                <div class="absolute right-1 bottom-1 space-y-1 transition opacity-0 group-hover:(opacity-100)">
-                  <p class="m-auto text-xs px-3 py-1 bg-zinc-600 rounded">卸下</p>
-                  <p class="m-auto text-xs px-3 py-1 bg-rose-800 rounded">丢弃</p>
-                </div>
-              </Card>
-              <!-- 装备 -->
-              <Card title="装备" :length="4">
-                <div class="m-auto">
-                  <p class="text-xl">装备</p>
-                </div>
-              </Card>
-              <!-- 装备 -->
-              <Card title="装备" :length="4">
-                <div class="m-auto">
-                  <p class="text-xl">装备</p>
-                </div>
-              </Card>
-              <!-- 装备 -->
-              <Card title="装备" :length="4">
-                <div class="m-auto">
-                  <p class="text-xl">装备</p>
-                </div>
-              </Card>
-              <!-- 装备 -->
-              <Card :length="4" class="border-2 border-dashed bg-transparent">
-                <div class="m-auto">
-                  <p class="text-xl opacity-50">腿部装备</p>
-                </div>
-              </Card>
-              <!-- 装备 -->
-              <Card :length="4" class="border-2 border-dashed bg-transparent">
-                <div class="m-auto">
-                  <p class="text-xl opacity-50">饰品</p>
-                </div>
+            <!-- 装备 内容 -->
+            <div v-if="state.playerState" class="flex flex-wrap max-w-152">
+              <Card
+                v-for="item in state.playerState?.equipment"
+                :title="item.name && item.type" :length="4"
+                :class="`${item.name ? 'group transition hover:(ring-zinc-500 ring-2)' : 'border-2 border-dashed bg-transparent'}`"
+              >
+                <Item type="equipment" :item='item'/>
               </Card>
             </div>
           </div>
@@ -266,16 +276,7 @@ provide('state', state)
               记录<span class="text-base -ml-1 opacity-10">LOG</span>
             </h1>
             <!-- 负面效果 内容 -->
-            <div class="max-w-152 h-65 overflow-y-auto text-zinc-200 px-1">
-              <div v-for="item in 20" class="flex space-x-1">
-                <p class="text-zinc-500">[20:30]</p>
-                <p>你来到了一片平原。</p>
-              </div>
-              <div class="flex space-x-1">
-                <p class="text-zinc-500">[20:30]</p>
-                <p>AC翻唱职人被参展者 admin埋设最终战术『心火』伏击炸死【各路党派 AC翻唱职人：“我觉得我还可以抢救一下……”】</p>
-              </div>
-            </div>
+            <Log/>
           </div>
         </div>
       </div>

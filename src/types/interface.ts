@@ -19,6 +19,26 @@ export interface GameState {
   playerState?: PlayerState
   /** 地区状态 */
   areaState?: AreaState
+  /** 游戏日志 */
+  log?: {
+    /** 时间 */
+    time: string,
+    /** 内容 */
+    content: string,
+  }[]
+}
+/** 物品 */
+export interface Item {
+  /** 类型 */
+  type: string,
+  /** 名称 */
+  name: string,
+  /** 属性 */
+  props: string,
+  /** 品质 */
+  quality: number,
+  /** 耐久 */
+  durability: number,
 }
 /** 玩家状态 */
 export interface PlayerState {
@@ -84,12 +104,29 @@ export interface PlayerState {
     spirit: number,
   },
   /** 负面状态 */
-  debuff: [string]
+  debuff: string[],
+  /** 装备 */
+  equipment: {
+    /** 武器 */
+    weapon: Item,
+    /** 装甲 */
+    armor: Item,
+    /** 护臂 */
+    arm: Item,
+    /** 头盔 */
+    helmet: Item,
+    /** 靴子 */
+    boot: Item,
+    /** 饰品 */
+    accessory: Item,
+  }
 }
 /** 地区状态 */
 export interface AreaState {
   /** 当前地区 */
   nowArea: string,
+  /** 通行状态 */
+  passage: string,
   /** 剩余人数 */
   remain: number,
   /** 天气 */

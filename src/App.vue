@@ -4,7 +4,7 @@ import HeaderVue from './components/Header.vue'
 
 <template>
   <HeaderVue/>
-  <router-view class="mt-20"></router-view>
+  <router-view class="mt-16"></router-view>
 </template>
 
 <style>
