@@ -119,7 +119,18 @@ export interface PlayerState {
     boot: Item,
     /** 饰品 */
     accessory: Item,
-  }
+  },
+  /** 背包 */
+  bag: {
+    item1: Item | null,
+    item2: Item | null,
+    item3: Item | null,
+    item4: Item | null,
+    item5: Item | null,
+    item6: Item | null,
+  },
+  /** 金钱 */
+  money: number,
 }
 /** 地区状态 */
 export interface AreaState {

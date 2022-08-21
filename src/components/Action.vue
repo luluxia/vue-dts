@@ -1,36 +1,25 @@
 <script lang="ts" setup>
 import { inject, onMounted, reactive, ref } from 'vue'
 import Card from '../components/Card.vue'
+import Bag from './cards/Bag.vue'
 import { test } from '../utils/api'
-import tippy, { createSingleton, hideAll } from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
-import 'tippy.js/animations/shift-away-subtle.css'
+
 import type { GameState } from '../types/interface'
-interface ActionState {
-  item: Array<Item>
-  action: Array<Action>
-  oldAction: Array<Action>
-  disableItem: boolean // 是否禁用物品
-  hoverItem: Item | null // 鼠标悬停的物品
-}
 interface Action {
   name: string
   action: Function
   active?: boolean
 }
-/** test */
-interface Item {
-  /** 物品 */
-  type: string
-  name: string
-  active?: boolean
+interface ActionState {
+  action: Array<Action>
+  oldAction: Array<Action>
+  disableItem: boolean // 是否禁用物品
 }
 const state = inject<GameState>('state', {
   showDrawer: false,
   drawerType: '',
   loading: false,
 })
-// 行动
 // 发现物品
 const search = async () => {
   let waitTimer = setTimeout(() => {
@@ -77,7 +66,7 @@ const getItem = async () => {
   await test()
   window.clearTimeout(waitTimer)
   state.loading = false
-  actionState.item.push({ type: '物品', name: '石头' })
+  // actionState.item.push({ type: '物品', name: '石头' })
   actionState.action = actionState.oldAction
   state.showDrawer = !state.showDrawer
 }
@@ -156,9 +145,6 @@ const shop = () => {
 }
 // 行动卡片
 const actionState: ActionState = reactive({
-  item: [
-    { type: '背包', name: '物品1' },
-  ],
   action: [
     { name: '探索1', action: () => search() },
     { name: '探索2', action: () => findEnemy() },
@@ -171,89 +157,15 @@ const actionState: ActionState = reactive({
   ],
   oldAction: [{ name: '', action: () => {} }],
   disableItem: false,
-  hoverItem: null
 })
-// 物品悬浮框
-const tippyRef = ref()
-const dropItem = () => {
-  actionState.item.pop()
-  hideAll()
-}
-const hoverItem = (item: Item) => {
-  actionState.hoverItem = item
-}
-onMounted(() => {
-  createSingleton(tippy('.tippy', {
-    content: () => tippyRef.value,
-    allowHTML: true,
-  }), {
-    interactive: true,
-    arrow: false,
-    moveTransition: 'transform 0.2s ease-out',
-    // delay: 100,
-    trigger: 'click',
-    animation: 'shift-away-subtle',
-  })
-})
+
 </script>
 <template>
-  <!-- 背包悬浮窗 -->
-  <div class="hidden">
-    <div class="w-max" ref="tippyRef">
-      <div class="flex">
-        <Card :length="4" :title="'爆炸物'" class="group transition hover:(ring-zinc-500 ring-2)">
-          <div class="flex w-full p-2 items-center">
-            <div class="w-16 h-16 rounded bg-zinc-900/50 mr-2">
-              <img src="img/weapon1.png" alt=""/>
-            </div>
-            <div class="flex flex-col flex-1">
-              <div class="ml-0.5">
-                <p class="font-bold text-sm">最终战术『心火』</p>
-                <p class="text-zinc-400 text-sm">菁英 连击 重击辅助 爆炸</p>
-              </div>
-              <p class="text-sm space-x-1 mt-1">
-                <span class="text-blue-300 bg-zinc-900/50 rounded px-1.5 py-0.5">品质 123</span>
-                <span class="text-green-400 bg-zinc-900/50 rounded px-1.5 py-0.5">耐久 666</span>
-              </p>
-            </div>
-          </div>
-          <div class="absolute right-1 bottom-1 space-y-1 transition opacity-0 group-hover:(opacity-100)">
-            <p class="m-auto text-xs px-3 py-1 bg-zinc-600 rounded">快捷</p>
-            <p class="m-auto text-xs px-3 py-1 bg-rose-800 rounded">丢弃</p>
-          </div>
-        </Card>
-        <Card :length="4" :title="'物品'" class="group transition hover:(ring-zinc-500 ring-2)">
-          <div class="p-1.5">
-            <p>物品名</p>
-          </div>
-          <div class="absolute right-1 bottom-1 space-y-1 transition opacity-0 group-hover:(opacity-100)">
-            <p class="m-auto text-xs px-3 py-1 bg-rose-800 rounded">丢弃</p>
-          </div>
-        </Card>
-      </div>
-      <div class="flex">
-        <Card :length="4" class="border-2 border-dashed"/>
-        <Card :length="4" class="border-2 border-dashed"/>
-      </div>
-      <div class="flex">
-        <Card :length="4" class="border-2 border-dashed"/>
-        <Card :length="4" class="border-2 border-dashed"/>
-      </div>
-    </div>
-  </div>
   <div class="fixed flex bg-zinc-800/80 border-zinc-700/20 border-t-2 space-x-2 py-1 w-screen bottom-0">
     <TransitionGroup name="list" tag="div" class="flex m-auto items-center">
       <!-- 背包 -->
-      <div class="tippy group transition-opacity" key="bag">
-        <Card
-          class="transform transition-all top-0 cursor-pointer relative group-hover:(-top-1)"
-          title="背包" :length="2"
-        >
-          <div class="m-auto text-center">
-            <p>空间 3 / 6</p>
-            <p>金币 50</p>
-          </div>
-        </Card>
+      <div class="group transition-opacity" key="bag">
+        <Bag/>
       </div>
       <!-- 行动 -->
       <div
@@ -268,22 +180,12 @@ onMounted(() => {
           @click="() => {item.action()}"
         >
           <div class="m-auto text-center">
-            <!-- <img class="w-12 h-12" src="img/item.png" alt=""> -->
             <p class="m-auto">{{item.name}}</p>
           </div>
         </Card>
       </div>
     </TransitionGroup>
   </div>
-  <!-- <div class="text-white">
-    <p @click="() => {test.push(test.length + 1)}">add</p>
-    <p @click="() => {test.shift()}">remove</p>
-    <div class="w-200">
-      <TransitionGroup name="list" tag="ul" class="flex m-auto w-max">
-        <Card v-for="item in test" :title="item.toString()" :key="item" />
-      </TransitionGroup>
-    </div>
-  </div> -->
 </template>
 <style>
 .list-move,

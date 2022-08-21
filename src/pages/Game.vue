@@ -113,7 +113,16 @@ const initState: GameState = {
         quality: 0,
         durability: 0
       }
-    }
+    },
+    bag: {
+      item1: null,
+      item2: null,
+      item3: null,
+      item4: null,
+      item5: null,
+      item6: null,
+    },
+    money: 0,
   },
   areaState: {
     nowArea: '当前区域',
