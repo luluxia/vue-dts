@@ -143,7 +143,7 @@ provide('state', state)
     <Transition><Loading/></Transition>
     <!-- 游戏卡片 -->
     <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.drawerHeight || 100) + 40 + 'px'}">
-      <p class="w-18 w-37 w-75 hidden"></p>
+      <p class="w-18.5 w-37.5 w-75.5 hidden"></p>
       <div class="flex justify-between">
         <!-- 左侧 -->
         <div class="space-y-1">

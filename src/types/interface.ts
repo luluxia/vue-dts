@@ -122,6 +122,7 @@ export interface PlayerState {
   },
   /** 背包 */
   bag: {
+    [key: string]: Item | null,
     item1: Item | null,
     item2: Item | null,
     item3: Item | null,
