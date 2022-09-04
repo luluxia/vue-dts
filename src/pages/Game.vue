@@ -28,8 +28,9 @@ import Item from '../components/cards/Item.vue'
 
 import Log from '../components/Log.vue'
 
-import { provide, reactive } from 'vue'
+import { onMounted, provide, reactive } from 'vue'
 import type { GameState } from '../types/interface'
+import { command } from '../utils/api'
 const initState: GameState = {
   showDrawer: false,
   drawerType: 'find-item',
@@ -136,6 +137,18 @@ const initState: GameState = {
 }
 const state = reactive(initState)
 provide('state', state)
+
+onMounted(async () => {
+  await command({})
+    .then(res => {
+      const data = res as any
+      if (data.playerState) {
+        state.playerState = data.playerState
+        state.log = data.log
+      }
+      console.log(res)
+    })
+})
 </script>
 
 <template>
@@ -273,7 +286,7 @@ provide('state', state)
               <Card
                 v-for="item in state.playerState?.equipment"
                 :title="item.name && item.type" :length="4"
-                :class="`${item.name ? 'group transition hover:(ring-zinc-500 ring-2)' : 'border-2 border-dashed bg-transparent'}`"
+                :class="`${item.name ? 'group transition hover:(ring-zinc-500 ring-2)' : 'border-2 border-dashed border-zinc-800 bg-transparent'}`"
               >
                 <Item type="equipment" :item='item'/>
               </Card>

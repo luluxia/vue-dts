@@ -6,10 +6,10 @@ defineProps<{item: Item, type: 'equipment' | 'bag'}>()
 <template>
   <template v-if="item.name">
     <div class="flex w-full p-2 items-center">
-      <div class="w-16 h-16 rounded bg-zinc-900/50 mr-2">
-        <img src="img/weapon1.png" alt=""/>
+      <div class="w-12 h-full rounded bg-zinc-900/50 mr-2 flex">
+        <img class="m-auto" src="img/weapon1.png" alt=""/>
       </div>
-      <div class="flex flex-col flex-1">
+      <div class="flex flex-col flex-1 h-full justify-between">
         <div class="ml-0.5">
           <p class="font-bold text-sm">{{item.name}}</p>
           <p class="text-zinc-400 text-sm">{{item.props}}</p>

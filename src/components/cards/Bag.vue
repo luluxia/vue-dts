@@ -5,6 +5,7 @@ import tippy, { createSingleton, hideAll } from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away-subtle.css'
 import Card from '../Card.vue'
+import Item from './Item.vue'
 import type { GameState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const state = computed(() => {

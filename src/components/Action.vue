@@ -2,7 +2,7 @@
 import { inject, onMounted, reactive, ref } from 'vue'
 import Card from '../components/Card.vue'
 import Bag from './cards/Bag.vue'
-import { test } from '../utils/api'
+import { test, command } from '../utils/api'
 
 import type { GameState } from '../types/interface'
 interface Action {
@@ -25,19 +25,31 @@ const search = async () => {
   let waitTimer = setTimeout(() => {
     state.loading = true
   }, 200)
-  await test()
-  window.clearTimeout(waitTimer)
-  if (state.playerState) {
-    state.playerState.mp.nowMp -= 15
-  }
-  state.loading = false
-  state.drawerType = 'find-item'
-  state.showDrawer = !state.showDrawer
-  actionState.oldAction = actionState.action
-  actionState.action = [
-    { name: '获取', action: () => getItem() },
-    { name: '丢弃', action: () => { state.showDrawer = false; actionState.action = actionState.oldAction } },
-  ]
+  await command({mode: 'command', command: 'search'}).then(res => {
+    window.clearTimeout(waitTimer)
+    state.loading = false
+    const data = res as any
+    state.playerState = data.playerState
+    if (data.searchState.findEnemy) {
+      // 发现敌人
+      state.drawerType = 'find-enemy'
+      state.showDrawer = !state.showDrawer
+    } else if (data.searchState.findItem) {
+      // 发现物品
+      state.drawerType = 'find-item'
+      state.showDrawer = !state.showDrawer
+      actionState.oldAction = actionState.action
+      actionState.action = [
+        { name: '获取', action: () => getItem() },
+        { name: '丢弃', action: () => { state.showDrawer = false; actionState.action = actionState.oldAction } },
+      ]
+    } else {
+      state.log?.unshift({
+        time: new Date().toLocaleTimeString(),
+        content: `【行动】消耗15体力进行了搜索，但是什么都没有发现。`,
+      })
+    }
+  })
 }
 // 发现敌人
 const findEnemy = () => {

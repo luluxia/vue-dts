@@ -25,7 +25,9 @@ export interface GameState {
     time: string,
     /** 内容 */
     content: string,
-  }[]
+  }[],
+  /** 搜寻状态 */
+  searchState?: SearchState
 }
 /** 物品 */
 export interface Item {
@@ -143,4 +145,40 @@ export interface AreaState {
   remain: number,
   /** 天气 */
   weather: string,
+}
+/** 搜寻状态 */
+export interface SearchState {
+  /** 发现物品 */
+  findItem: Item | null,
+  /** 发现敌人 */
+  findEnemy: {
+    /** 敌方等级 */
+    level: number,
+    /** 敌方姓名 */
+    name: string,
+    /** 敌方称号 */
+    sub: string,
+    /** 敌方头像 */
+    avatar: string,
+    /** 敌方怒气 */
+    rage: number,
+    /** 敌方体力 */
+    mp: number,
+    /** 敌方生命 */
+    hp: number,
+    /** 敌方攻击 */
+    attack: number,
+    /** 敌方武器种类 */
+    weaponType: string,
+    /** 敌方武器 */
+    weapon: string,
+    /** 敌方应战策略 */
+    pose: string,
+    /** 敌方基础姿态 */
+    tactic: string,
+    /** 敌方受伤部位 */
+    hurt: string,
+    /** 战斗状态 */
+    battleState: string,
+  } | null,
 }

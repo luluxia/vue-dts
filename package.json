@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "esbuild-windows-64": "^0.14.49",
     "tippy.js": "^6.3.7",
     "vue": "^3.2.25",
