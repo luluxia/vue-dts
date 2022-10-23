@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { reactive } from '@vue/reactivity'
+import { reactive } from 'vue'
 const state = reactive({
   time: new Date().toLocaleString()
 })

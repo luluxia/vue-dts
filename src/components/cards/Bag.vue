@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed } from '@vue/reactivity'
+import { computed } from 'vue'
 import { inject, ref, onMounted } from 'vue'
 import tippy, { createSingleton, hideAll } from 'tippy.js'
 import 'tippy.js/dist/tippy.css'

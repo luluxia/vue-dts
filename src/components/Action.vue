@@ -14,6 +14,7 @@ interface ActionState {
   action: Array<Action>
   oldAction: Array<Action>
   disableItem: boolean // 是否禁用物品
+  showDetail: boolean // 是否显示详情
 }
 const state = inject<GameState>('state', {
   showDrawer: false,
@@ -155,6 +156,10 @@ const shop = () => {
     }
   })
 }
+// 测试
+const test = () => {
+  actionState.showDetail = !actionState.showDetail
+}
 // 行动卡片
 const actionState: ActionState = reactive({
   action: [
@@ -166,37 +171,45 @@ const actionState: ActionState = reactive({
     { name: '治疗', action: () => heal() },
     { name: '战术', action: () => tactics() },
     { name: '商店', action: () => shop() },
+    { name: '测试', action: () => test() },
   ],
   oldAction: [{ name: '', action: () => {} }],
   disableItem: false,
+  showDetail: false,
 })
 
 </script>
 <template>
-  <div class="fixed flex bg-zinc-800/80 border-zinc-700/20 border-t-2 space-x-2 py-1 w-screen bottom-0">
-    <TransitionGroup name="list" tag="div" class="flex m-auto items-center">
-      <!-- 背包 -->
-      <div class="group transition-opacity" key="bag">
-        <Bag/>
+  <div class="fixed flex space-x-2 py-1 w-screen bottom-0">
+    <div class="bg-zinc-800/50 rounded p-2 my-2 mx-auto">
+      <div class="text-zinc-300 text-center mb-2">
+        <p>消耗了15点体力，什么也没有发现！</p>
+        <p>现在想要做什么？</p>
       </div>
-      <!-- 行动 -->
-      <div
-        v-for="item in actionState.action"
-        class="group transition-opacity"
-        :class="item.active == false && 'opacity-50 pointer-events-none'"
-        :key="item.name"
-      >
-        <Card
-          class="transform transition-all top-0 cursor-pointer relative group-hover:(-top-1)"
-          title="行动"
-          @click="() => {item.action()}"
+      <TransitionGroup name="list" tag="div" class="flex m-auto items-center">
+        <!-- 背包 -->
+        <div class="group transition-opacity" key="bag">
+          <!-- <Bag/> -->
+        </div>
+        <!-- 行动 -->
+        <div
+          v-for="item in actionState.action"
+          class="group transition-opacity"
+          :class="item.active == false && 'opacity-50 pointer-events-none'"
+          :key="item.name"
         >
-          <div class="m-auto text-center">
-            <p class="m-auto">{{item.name}}</p>
+          <div
+            class="transform transition-all top-0 cursor-pointer relative group-hover:(-top-1)"
+            title="行动"
+            @click="() => {item.action()}"
+          >
+            <div class="text-zinc-300 px-4 py-2 m-0.5 rounded-sm bg-zinc-700">
+              <p class="m-auto">{{item.name}}</p>
+            </div>
           </div>
-        </Card>
-      </div>
-    </TransitionGroup>
+        </div>
+      </TransitionGroup>
+    </div>
   </div>
 </template>
 <style>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { computed } from '@vue/reactivity'
-import { inject } from 'vue'
+// import { computed } from 'vue'
+import { inject, computed } from 'vue'
 import type { GameState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const state = computed(() => {
