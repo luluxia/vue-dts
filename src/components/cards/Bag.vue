@@ -96,14 +96,19 @@ onMounted(() => {
     </div>
   </div>
   <template v-if="state">
-    <Card
+    <!-- <Card
       class="transform transition-all top-0 cursor-pointer relative group-hover:(-top-1) tippy group "
       title="背包" :length="2"
     >
       <div class="m-auto text-center">
         <p>剩余空间 {{state.left}}</p>
-        <p>金币 {{state.money}}</p>
+        <p></p>
       </div>
-    </Card>
+    </Card> -->
+    <div class="transform transition-all top-0 cursor-pointer relative group-hover:(-top-1) tippy group">
+      <div class="text-zinc-300 px-4 py-2">
+        <p class="m-auto">查看背包 | <span class="text-sm opacity-80">{{state.left}} 空位 {{state.money}} 金币</span></p>
+      </div>
+    </div>
   </template>
 </template>

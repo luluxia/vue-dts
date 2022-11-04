@@ -69,7 +69,7 @@ watch(() => state.showDrawer, (val) => {
     ref="hoverDom"
     :class="state.showDrawer ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'"
   >
-    <div class="m-auto flex flex-col items-center pb-32">
+    <div class="m-auto flex flex-col items-center pb-18">
       <!-- 发现物品 -->
       <template v-if="state.drawerType == 'find-item'">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">发现物品</h1>

@@ -176,20 +176,18 @@ const actionState: ActionState = reactive({
   oldAction: [{ name: '', action: () => {} }],
   disableItem: false,
   showDetail: false,
+  width: 0,
+  height: 0,
 })
 
 </script>
 <template>
-  <div class="fixed flex space-x-2 py-1 w-screen bottom-0">
-    <div class="bg-zinc-800/50 rounded p-2 my-2 mx-auto">
-      <div class="text-zinc-300 text-center mb-2">
-        <p>消耗了15点体力，什么也没有发现！</p>
-        <p>现在想要做什么？</p>
-      </div>
-      <TransitionGroup name="list" tag="div" class="flex m-auto items-center">
+  <div class="fixed flex w-screen bottom-0">
+    <div class="p-2 my-4 mx-auto flex flex-col">
+      <TransitionGroup name="list" tag="div" class="flex m-auto items-center bg-zinc-500/30">
         <!-- 背包 -->
         <div class="group transition-opacity" key="bag">
-          <!-- <Bag/> -->
+          <Bag/>
         </div>
         <!-- 行动 -->
         <div
@@ -200,10 +198,9 @@ const actionState: ActionState = reactive({
         >
           <div
             class="transform transition-all top-0 cursor-pointer relative group-hover:(-top-1)"
-            title="行动"
             @click="() => {item.action()}"
           >
-            <div class="text-zinc-300 px-4 py-2 m-0.5 rounded-sm bg-zinc-700">
+            <div class="text-zinc-300 px-4 py-2">
               <p class="m-auto">{{item.name}}</p>
             </div>
           </div>
