@@ -112,7 +112,7 @@ const back = async (mode: string) => {
           <div class="flex w-full">
             <div class="flex-1 flex">
               <div class="m-auto">
-                <p>冰</p>
+                <p v-html="state.enemy.hurt"></p>
               </div>
             </div>
           </div>

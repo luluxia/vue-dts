@@ -64,7 +64,7 @@ const memory = async (key: any) => {
       >
         <span v-if="item[1] === 'itm'">获取 <span class="text-yellow-600 font-bold">{{ item[2] }}</span></span>
       </div>
-      <div v-if="state.semo && Object.keys(state.semo).length === 0" class="p-2">视野内空无一物</div>
+      <div v-if="state.semo && Object.keys(state.semo).length === 0 || !state.semo" class="p-2">视野内空无一物</div>
     </div>
   </div>
   <template v-if="state">

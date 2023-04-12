@@ -27,11 +27,11 @@ onMounted(() => {
 })
 // 首次加载时判断内容
 watch(() => state.searchState, (val) => {
-  if (actionState.firstCheck) {
-    actionState.firstCheck = false
-  } else {
-    return
-  }
+  // if (actionState.firstCheck) {
+  //   actionState.firstCheck = false
+  // } else {
+  //   return
+  // }
   if (val && val.findEnemy) {
     state.drawerType = 'find-enemy'
   } else if (val && val.findItem) {

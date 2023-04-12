@@ -2,8 +2,9 @@
 import { inject, computed } from 'vue'
 import gameData from '../../utils/data'
 import { command } from '../../utils/api'
-import type { GameState } from '../../types/interface'
+import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
+const actionState = inject<ActionState>('actionState') as ActionState
 const state = computed(() => {
   if (gameState.playerState) {
     const areaNum = gameState.playerState.area.areaNum
@@ -27,16 +28,10 @@ const moveTo = async (index: number) => {
     gameState.playerState = data.playerState
     gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
-    if (data.searchState.findEnemy) {
-      // 发现敌人
-      gameState.drawerType = 'find-enemy'
-    } else if (data.searchState.findItem) {
-      // 发现物品
-      gameState.drawerType = 'find-item'
-    } else {
-      // 什么都没有发现
-      gameState.drawerType = 'find-nothing'
-    }
+    gameState.drawerType = ''
+    actionState.action.forEach(item => {
+      item.active = true
+    })
   })
 }
 </script>

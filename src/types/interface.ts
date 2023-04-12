@@ -86,7 +86,16 @@ export interface PlayerState {
   /** 怒气 */
   rage: number
   /** 内定称号 */
-  gift: string
+  gift: {
+    /** 当前称号 */
+    nowGiftId: string
+    /** 可选称号 */
+    giftList: string[]
+    /** 类型 */
+    type: {
+      [key: string]: string
+    }
+  }
   /** 基础姿态 */
   tactic: {
     /** 当前姿态id */
