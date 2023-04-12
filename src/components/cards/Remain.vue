@@ -4,9 +4,10 @@ import { inject, computed } from 'vue'
 import type { GameState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const state = computed(() => {
-  if (gameState.areaState) {
+  //TODO 剩余人数为null
+  if (gameState.playerState) {
     return {
-      remain: gameState.areaState.remain,
+      remain: gameState.playerState.area.aliveNum,
     }
   }
 })

@@ -1,28 +1,61 @@
 <script lang="ts" setup>
-import { inject, onMounted, reactive, ref } from 'vue'
+import { inject, onMounted, provide, reactive, ref, watch } from 'vue'
 import Card from '../components/Card.vue'
-import Bag from './cards/Bag.vue'
+import Semo from './cards/Semo.vue'
 import { test, command } from '../utils/api'
 
-import type { GameState } from '../types/interface'
-interface Action {
-  name: string
-  action: Function
-  active?: boolean
-}
-interface ActionState {
-  action: Array<Action>
-  oldAction: Array<Action>
-  disableItem: boolean // 是否禁用物品
-  showDetail: boolean // 是否显示详情
-}
+import type { GameState, ActionState } from '../types/interface'
+
 const state = inject<GameState>('state', {
   showDrawer: false,
   drawerType: '',
   loading: false,
 })
-// 发现物品
+// 行动卡片
+const actionState = inject<ActionState>('actionState') as ActionState
+onMounted(() => {
+  actionState.action = [
+    { name: '探索', action: () => search() },
+    { name: '地图', action: () => map() },
+    { name: '战术', action: () => tactics() },
+    // { name: '合成', action: () => crafting() },
+    // { name: '睡眠', action: () => sleep() },
+    // { name: '治疗', action: () => heal() },
+    // { name: '战术', action: () => tactics() },
+    // { name: '商店', action: () => shop() },
+  ]
+})
+// 首次加载时判断内容
+watch(() => state.searchState, (val) => {
+  if (actionState.firstCheck) {
+    actionState.firstCheck = false
+  } else {
+    return
+  }
+  if (val && val.findEnemy) {
+    state.drawerType = 'find-enemy'
+  } else if (val && val.findItem) {
+    state.drawerType = 'find-item'
+  }
+})
+// 恢复选项
+watch(() => state.drawerType, type => {
+  if (type === '') {
+    actionState.action = [
+      { name: '探索', action: () => search() },
+      { name: '地图', action: () => map() },
+      { name: '战术', action: () => tactics() },
+      // { name: '合成', action: () => crafting() },
+      // { name: '睡眠', action: () => sleep() },
+      // { name: '治疗', action: () => heal() },
+      // { name: '战术', action: () => tactics() },
+      // { name: '商店', action: () => shop() },
+    ]
+  }
+})
+// 探索
 const search = async () => {
+  // 搜索指令
   let waitTimer = setTimeout(() => {
     state.loading = true
   }, 200)
@@ -31,70 +64,35 @@ const search = async () => {
     state.loading = false
     const data = res as any
     state.playerState = data.playerState
+    state.searchState = data.searchState
+    state.actionLog = data.actionLog
     if (data.searchState.findEnemy) {
       // 发现敌人
       state.drawerType = 'find-enemy'
-      state.showDrawer = !state.showDrawer
     } else if (data.searchState.findItem) {
       // 发现物品
       state.drawerType = 'find-item'
-      state.showDrawer = !state.showDrawer
-      actionState.oldAction = actionState.action
-      actionState.action = [
-        { name: '获取', action: () => getItem() },
-        { name: '丢弃', action: () => { state.showDrawer = false; actionState.action = actionState.oldAction } },
-      ]
-    } else {
-      state.log?.unshift({
-        time: new Date().toLocaleTimeString(),
-        content: `【行动】消耗15体力进行了搜索，但是什么都没有发现。`,
-      })
     }
   })
-}
-// 发现敌人
-const findEnemy = () => {
-  state.drawerType = 'find-enemy'
-  state.showDrawer = !state.showDrawer
-  actionState.oldAction = actionState.action
-  actionState.action = [
-    { name: '攻击', action: () => attackEnemy() },
-    { name: '逃跑', action: () => { state.showDrawer = false; actionState.action = actionState.oldAction } },
-  ]
-}
-// 攻击敌人
-const attackEnemy = () => {
-  state.drawerType = 'attack-enemy'
-  state.playerState && (state.playerState.playerInfo.name = '123')
-  console.log(state.playerState?.playerInfo.name)
-  actionState.action = [
-    { name: '确定', action: () => { state.showDrawer = false; actionState.action = actionState.oldAction } }
-  ]
-}
-// 获取物品
-const getItem = async () => {
-  let waitTimer = setTimeout(() => {
-    state.loading = true
-  }, 200)
-  await test()
-  window.clearTimeout(waitTimer)
-  state.loading = false
-  // actionState.item.push({ type: '物品', name: '石头' })
-  actionState.action = actionState.oldAction
-  state.showDrawer = !state.showDrawer
 }
 // 打开地图
 const map = () => {
-  state.drawerType = 'map'
-  state.showDrawer = !state.showDrawer
-  actionState.action.map(action => {
-    if (state.showDrawer) {
+  if (state.drawerType !== 'map') {
+    actionState.oldType = state.drawerType
+    actionState.action.map(action => {
       action.name != '地图' && (action.active = false)
-    } else {
-      action.active = true
-    }
-  })
-  actionState.disableItem = state.showDrawer
+    })
+    state.drawerType = 'map'
+  } else {
+    state.drawerType = actionState.oldType
+  }
+  // actionState.action.map(action => {
+  //   if (state.showDrawer) {
+  //     action.name != '地图' && (action.active = false)
+  //   } else {
+  //     action.active = true
+  //   }
+  // })
 }
 // 打开合成页面
 const crafting = () => {
@@ -134,60 +132,51 @@ const heal = () => {
 }
 // 战术
 const tactics = () => {
-  state.drawerType = 'tactics'
-  state.showDrawer = !state.showDrawer
-  actionState.action.map(action => {
-    if (state.showDrawer) {
+  if (state.drawerType !== 'tactics') {
+    actionState.oldType = state.drawerType
+    actionState.action.map(action => {
       action.name != '战术' && (action.active = false)
-    } else {
-      action.active = true
-    }
-  })
+    })
+    state.drawerType = 'tactics'
+  } else {
+    state.drawerType = actionState.oldType
+  }
 }
 // 商店
 const shop = () => {
-  state.drawerType = 'shop'
-  state.showDrawer = !state.showDrawer
-  actionState.action.map(action => {
-    if (state.showDrawer) {
-      action.name != '商店' && (action.active = false)
-    } else {
-      action.active = true
-    }
-  })
+  if (state.drawerType != 'shop') {
+    state.showDrawer = false
+    setTimeout(() => {
+      state.showDrawer = true
+      state.drawerType = 'shop'
+      actionState.action.map(action => {
+        if (state.showDrawer) {
+          action.name != '商店' && (action.active = false)
+        } else {
+          action.active = true
+        }
+      })
+    }, 200)
+  } else {
+    state.showDrawer = !state.showDrawer
+    actionState.action.map(action => {
+      if (state.showDrawer) {
+        action.name != '商店' && (action.active = false)
+      } else {
+        action.active = true
+      }
+    })
+  }
 }
-// 测试
-const test = () => {
-  actionState.showDetail = !actionState.showDetail
-}
-// 行动卡片
-const actionState: ActionState = reactive({
-  action: [
-    { name: '探索1', action: () => search() },
-    { name: '探索2', action: () => findEnemy() },
-    { name: '地图', action: () => map() },
-    { name: '合成', action: () => crafting() },
-    { name: '睡眠', action: () => sleep() },
-    { name: '治疗', action: () => heal() },
-    { name: '战术', action: () => tactics() },
-    { name: '商店', action: () => shop() },
-    { name: '测试', action: () => test() },
-  ],
-  oldAction: [{ name: '', action: () => {} }],
-  disableItem: false,
-  showDetail: false,
-  width: 0,
-  height: 0,
-})
 
 </script>
 <template>
   <div class="fixed flex w-screen bottom-0">
     <div class="p-2 my-4 mx-auto flex flex-col">
-      <TransitionGroup name="list" tag="div" class="flex m-auto items-center bg-zinc-500/30">
+      <TransitionGroup name="list" tag="div" class="flex m-auto items-center bg-zinc-700/90 ring-zinc-600 ring-1">
         <!-- 背包 -->
-        <div class="group transition-opacity" key="bag">
-          <Bag/>
+        <div v-if="state.drawerType === ''" class="group transition-opacity" key="semo">
+          <Semo/>
         </div>
         <!-- 行动 -->
         <div

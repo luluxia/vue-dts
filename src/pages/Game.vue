@@ -28,87 +28,92 @@ import Item from '../components/cards/Item.vue'
 
 import Log from '../components/Log.vue'
 
+import Equipment from '../components/Equipment.vue'
+import Package from '../components/Package.vue'
+
 import { onMounted, provide, reactive } from 'vue'
-import type { GameState } from '../types/interface'
+import type { GameState, ActionState } from '../types/interface'
 import { command } from '../utils/api'
 const initState: GameState = {
   showDrawer: false,
-  drawerType: 'find-item',
+  drawerType: '',
   drawerHeight: 0,
   loading: false,
   playerState: {
     playerInfo: {
-      name: '玩家姓名',
-      sex: '男',
-      id: 1,
+      nick: '',
+      name: '',
+      sex: '',
+      id: 0,
+      avatar: '',
     },
     level: {
-      nowLevel: 1,
-      exp: 8,
-      upgradeExp: 10,
+      nowLevel: 0,
+      exp: 0,
+      upgradeExp: 0,
     },
     hp: {
-      nowHp: 100,
-      maxHp: 150,
+      nowHp: 0,
+      maxHp: 0,
     },
     mp: {
-      nowMp: 200,
-      maxMp: 400,
+      nowMp: 0,
+      maxMp: 0,
     },
     rage: 0,
-    gift: '内定称呼',
-    tactic: '基础姿态',
-    pose: '应战策略',
-    attack: 100,
-    defense: 100,
-    team: '队伍',
+    gift: '',
+    tactic: '',
+    pose: '',
+    attack: 0,
+    defense: 0,
+    team: '',
     proficiency: {
-      melee: 1,
-      slash: 2,
-      shoot: 3,
-      throw: 4,
-      blast: 5,
-      spirit: 6,
+      melee: 0,
+      slash: 0,
+      shoot: 0,
+      throw: 0,
+      blast: 0,
+      spirit: 0,
     },
-    debuff: ['负面状态', '致残损伤'],
+    debuff: [''],
     equipment: {
       weapon: {
-        type: '远程兵器',
-        name: '最终战术『心火』',
-        props: '菁英 连击 重击辅助 爆炸',
+        type: '',
+        name: '',
+        props: '',
         quality: 0,
         durability: 0
       },
       armor: {
-        type: '身体装备',
+        type: '',
         name: '',
         props: '',
         quality: 0,
         durability: 0
       },
       arm: {
-        type: '手臂装备',
+        type: '',
         name: '',
         props: '',
         quality: 0,
         durability: 0
       },
       helmet: {
-        type: '头部装备',
+        type: '',
         name: '',
         props: '',
         quality: 0,
         durability: 0
       },
       boot: {
-        type: '腿部装备',
+        type: '',
         name: '',
         props: '',
         quality: 0,
         durability: 0
       },
       accessory: {
-        type: '饰品',
+        type: '',
         name: '',
         props: '',
         quality: 0,
@@ -124,19 +129,40 @@ const initState: GameState = {
       item6: null,
     },
     money: 0,
+    area: {
+      nowArea: 0,
+      aliveNum: 0,
+      weather: 0,
+      areaList: [],
+      areaNum: 0,
+      areaAdd: 0,
+    },
+    attackType: {
+      type1: {
+        id: '',
+        name: '',
+      },
+      type2: {
+        id: '',
+        name: '',
+      },
+    }
   },
-  areaState: {
-    nowArea: '当前区域',
-    passage: '可通行',
-    remain: 5,
-    weather: '多云'
-  },
-  log: [
-    { time: '11:11', content: '测试' }
-  ]
+  log: []
 }
 const state = reactive(initState)
 provide('state', state)
+
+const actionState: ActionState = reactive({
+  action: [],
+  oldAction: [{ name: '', action: () => {} }],
+  oldType: '',
+  showDetail: false,
+  width: 0,
+  height: 0,
+  firstCheck: true,
+})
+provide('actionState', actionState)
 
 onMounted(async () => {
   await command({})
@@ -144,6 +170,8 @@ onMounted(async () => {
       const data = res as any
       if (data.playerState) {
         state.playerState = data.playerState
+        state.searchState = data.searchState
+        state.actionLog = data.actionLog
         state.log = data.log
       }
       console.log(res)
@@ -168,19 +196,19 @@ onMounted(async () => {
             <!-- 状态 内容 -->
             <div class="flex flex-wrap max-w-152">
               <!-- 头像 -->
-              <Card title="参展者" :length="4">
+              <Card :title="state.playerState?.playerInfo.nick" :length="4">
                 <Player/>
               </Card>
               <!-- 等级 -->
-              <Card title="等级">
+              <Card class="overflow-hidden" title="等级">
                 <Level/>
               </Card>
               <!-- 生命 -->
-              <Card title="生命">
+              <Card class="overflow-hidden" title="生命">
                 <Hp/>
               </Card>
               <!-- 体力 -->
-              <Card title="体力">
+              <Card class="overflow-hidden" title="体力">
                 <Mp/>
               </Card>
               <!-- 怒气 -->
@@ -193,11 +221,11 @@ onMounted(async () => {
               </Card>
               <!-- 基础姿态 -->
               <Card title="基础姿态" :length="2">
-                <Tactic/>
+                <Pose/>
               </Card>
               <!-- 应战策略 -->
               <Card title="应战策略" :length="2">
-                <Pose/>
+                <Tactic/>
               </Card>
               <!-- 攻击力 -->
               <Card title="攻击力">
@@ -273,6 +301,16 @@ onMounted(async () => {
               <Debuffs/>
             </div>
           </div>
+          <!-- 记录 -->
+          <div class="relative">
+            <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
+              记录<span class="text-base -ml-1 opacity-10">LOG</span>
+            </h1>
+            <!-- 记录 内容 -->
+            <div class="flex flex-wrap max-w-152">
+              <Log/>
+            </div>
+          </div>
         </div>
         <!-- 右侧 -->
         <div class="space-y-1">
@@ -283,22 +321,18 @@ onMounted(async () => {
             </h1>
             <!-- 装备 内容 -->
             <div v-if="state.playerState" class="flex flex-wrap max-w-152">
-              <Card
-                v-for="item in state.playerState?.equipment"
-                :title="item.name && item.type" :length="4"
-                :class="`${item.name ? 'group transition hover:(ring-zinc-500 ring-2)' : 'border-2 border-dashed border-zinc-800 bg-transparent'}`"
-              >
-                <Item type="equipment" :item='item'/>
-              </Card>
+              <Equipment/>
             </div>
           </div>
-          <!-- 记录 -->
+          <!-- 包裹 -->
           <div class="relative">
             <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
-              记录<span class="text-base -ml-1 opacity-10">LOG</span>
+              包裹<span class="text-base -ml-1 opacity-10">PACKAGE</span>
             </h1>
-            <!-- 负面效果 内容 -->
-            <Log/>
+            <!-- 包裹 内容 -->
+            <div v-if="state.playerState" class="flex flex-wrap max-w-152">
+              <Package/>
+            </div>
           </div>
         </div>
       </div>
@@ -309,7 +343,7 @@ onMounted(async () => {
   </div>
 </template>
 
-<style>
+<style lang="postcss">
 :root {
   scrollbar-gutter: stable;
 }
@@ -336,5 +370,20 @@ onMounted(async () => {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+span[tooltip] {
+  @apply relative flex justify-center items-center w-max;
+}
+span[tooltip]::after {
+  content: '[?]';
+  @apply text-sm opacity-50;
+}
+span[tooltip]::before {
+  content: attr(tooltip);
+  @apply bg-zinc-800/95 text-sm text-left p-2 absolute bottom-10 w-max max-w-70 border-2 text-zinc-200 border-zinc-600 z-1 whitespace-pre-line shadow opacity-0 pointer-events-none transition transition-opacity;
+}
+span[tooltip]:hover::before {
+  opacity: 1;
 }
 </style>

@@ -74,6 +74,25 @@ const gameData = {
     "19": { name: "晶莹剔透", tip: '若你心中毫无杂念，一心求生……' },
     "98": { name: "换装迷宫", tip: '？' },
     "99": { name: "决死结界", tip: '？' }
-  }
+  },
+  weather: [
+    "晴天",
+    "大晴",
+    "多云",
+    "小雨",
+    "暴雨",
+    "台风",
+    "雷雨",
+    "下雪",
+    "起雾",
+    "浓雾",
+    "<span class=\"yellow\">瘴气</span>",
+    "<span class=\"red\">龙卷风</span>",
+    "<span class=\"clan\">暴风雪</span>",
+    "<span class=\"blue\">冰雹</span>",
+    "<span class=\"linen\">离子暴</span>",
+    "<span class=\"green\">辐射尘</span>",
+    "<span class=\"purple\">臭氧洞</span>"
+  ]
 }
 export default gameData

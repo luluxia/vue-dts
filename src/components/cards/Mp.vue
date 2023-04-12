@@ -17,7 +17,7 @@ const state = computed(() => {
   <p>{{state?.nowMp}}</p>
   <p class="text-sm opacity-50">{{state?.maxMp}}</p>
 </div>
-<div class="absolute w-full h-full flex p-4">
+<!-- <div class="absolute w-full h-full flex p-4">
   <img class="opacity-10 m-auto" src="/img/thunder.png" alt=""/>
-</div>
+</div> -->
 </template>

@@ -6,7 +6,7 @@ const gameState = inject<GameState>('state') as GameState
 const state = computed(() => {
   if (gameState.playerState) {
     return {
-      pose: gameState.playerState.pose
+      pose: gameState.playerState.pose.nowPose
     }
   }
 })
@@ -14,6 +14,6 @@ const state = computed(() => {
 
 <template>
 <div class="m-auto">
-  <p class="text-xl">{{state?.pose}}</p>
+  <p v-html="state?.pose" class="text-xl"></p>
 </div>
 </template>

@@ -12,11 +12,11 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="flex w-full">
-  <img class="avatar object-cover" src="/img/m_1.gif" alt="">
+  <img v-if="state.avatar" class="avatar object-cover" :src="`http://localhost/phpdts/img/${state.avatar}`" alt="">
   <div class="flex-1 flex">
     <div class="m-auto">
-      <p class="font-bold">{{state.name || '玩家名称'}}</p>
-      <p class="text-xs mt-1">{{state.sex}}生{{state.id}}号</p>
+      <p class="font-bold">{{ state.name }}</p>
+      <p class="text-xs mt-1">{{ state.sex }}{{ state.id }}号</p>
     </div>
   </div>
 </div>

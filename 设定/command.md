@@ -67,6 +67,15 @@ mode: combat
 command: F【攻击方式】
 w1: 释放灵力攻击
 back: 逃跑
+
+message: 
+mode: revcombat
+command: F
+
+# 战斗中武器切换
+message: 
+mode: revcombat
+command: changewep
 # 逃跑
 message: 【信息】
 mode: combat

@@ -6,7 +6,7 @@ const gameState = inject<GameState>('state') as GameState
 const state = computed(() => {
   if (gameState.playerState) {
     return {
-      defense: gameState.playerState.defense
+      defense: gameState.playerState.defense,
     }
   }
 })
@@ -14,7 +14,6 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="m-auto text-center">
-  <p class="text-xl">{{state.defense}}</p>
-  <p class="text-sm opacity-50">+50</p>
+  <p v-html="state.defense" class="text-xl"></p>
 </div>
 </template>

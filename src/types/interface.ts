@@ -1,24 +1,25 @@
+// '' |
+// 'forbidden-area' |
+// 'find-nothing' |
+// 'find-item' |
+// 'find-enemy' | 'attack-enemy' | 'attacked-by-enemy' |
+// 'map' | 'to-map' |
+// 'crafting' |
+// 'sleep' | 'heal' |
+// 'tactics' |
+// 'shop'
 /** 游戏状态 */
 export interface GameState {
   /** 是否显示抽屉 */
   showDrawer?: boolean
   /** 抽屉类别 */
-  drawerType?: '' |
-             'find-item' |
-             'find-enemy' | 'attack-enemy' | 'attacked-by-enemy' |
-             'map' | 
-             'crafting' |
-             'sleep' | 'heal' |
-             'tactics' |
-             'shop'
+  drawerType?: string
   /** 抽屉高度 */
   drawerHeight?: number
   /** 加载状态 */
   loading?: boolean,
   /** 玩家状态 */
   playerState?: PlayerState
-  /** 地区状态 */
-  areaState?: AreaState
   /** 游戏日志 */
   log?: {
     /** 时间 */
@@ -28,6 +29,8 @@ export interface GameState {
   }[],
   /** 搜寻状态 */
   searchState?: SearchState
+  /** 行动日志 */
+  actionLog?: string
 }
 /** 物品 */
 export interface Item {
@@ -46,12 +49,16 @@ export interface Item {
 export interface PlayerState {
   /** 玩家信息 */
   playerInfo: {
+    /** 称号 */
+    nick: string
     /** 姓名 */
     name: string
     /** 性别 */
     sex: string
     /** 编号 */
     id: number
+    /** 头像 */
+    avatar: string
   }
   /** 等级 */
   level: {
@@ -81,9 +88,31 @@ export interface PlayerState {
   /** 内定称号 */
   gift: string
   /** 基础姿态 */
-  tactic: string
+  tactic: {
+    /** 当前姿态id */
+    nowTacticId: string
+    /** 当前姿态 */
+    nowTactic: string
+    /** 可选id */
+    idList: string[]
+    /** 类型 */
+    type: string[]
+    /** tips */
+    tips: string[]
+  }
   /** 应战策略 */
-  pose: string,
+  pose: {
+    /** 当前应战策略id */
+    nowPoseId: string
+    /** 当前应战策略 */
+    nowPose: string
+    /** 可选id */
+    idList: string[]
+    /** 类型 */
+    type: string[]
+    /** tips */
+    tips: string[]
+  },
   /** 攻击力 */
   attack: number,
   /** 防御力 */
@@ -134,17 +163,36 @@ export interface PlayerState {
   },
   /** 金钱 */
   money: number,
-}
-/** 地区状态 */
-export interface AreaState {
   /** 当前地区 */
-  nowArea: string,
-  /** 通行状态 */
-  passage: string,
-  /** 剩余人数 */
-  remain: number,
-  /** 天气 */
-  weather: string,
+  area: {
+    /** 当前地区id */
+    nowArea: number,
+    /** 当前地区剩余人数 */
+    aliveNum: number,
+    /** 当前地区天气 */
+    weather: number,
+    /** 禁区进度列表 */
+    areaList: number[],
+    /** 当前禁区数量 */
+    areaNum: number,
+    /** 每次禁区增加数 */
+    areaAdd: number,
+  },
+  /** 攻击方式 */
+  attackType: {
+    type1: {
+      id: string,
+      name: string,
+    }
+    type2: {
+      id: string | null,
+      name: string | null,
+    }
+  }
+  /** 视野 */
+  semo: {
+    [key: string]: string[],
+  }
 }
 /** 搜寻状态 */
 export interface SearchState {
@@ -152,6 +200,10 @@ export interface SearchState {
   findItem: Item | null,
   /** 发现敌人 */
   findEnemy: {
+    /** 敌方类型 */
+    type: string,
+    /** 敌方称号 */
+    title: string,
     /** 敌方等级 */
     level: number,
     /** 敌方姓名 */
@@ -181,4 +233,18 @@ export interface SearchState {
     /** 战斗状态 */
     battleState: string,
   } | null,
+}
+
+export interface Action {
+  name: string
+  action: Function
+  active?: boolean
+}
+export interface ActionState {
+  action: Array<Action>
+  oldAction: Array<Action>
+  oldType: string | undefined
+  showDetail: boolean // 是否显示详情
+  firstCheck: boolean // 初始检测
+  height: number // 高度
 }

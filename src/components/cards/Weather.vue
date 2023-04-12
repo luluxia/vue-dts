@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { inject } from 'vue'
+import gameData from '../../utils/data'
 import type { GameState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const state = computed(() => {
-  if (gameState.areaState) {
+  if (gameState.playerState) {
     return {
-      weather: gameState.areaState.weather,
+      weather: gameData.weather[gameState.playerState.area.weather],
     }
   }
 })
