@@ -1,13 +1,3 @@
-// '' |
-// 'forbidden-area' |
-// 'find-nothing' |
-// 'find-item' |
-// 'find-enemy' | 'attack-enemy' | 'attacked-by-enemy' |
-// 'map' | 'to-map' |
-// 'crafting' |
-// 'sleep' | 'heal' |
-// 'tactics' |
-// 'shop'
 /** 游戏状态 */
 export interface GameState {
   /** 是否显示抽屉 */
@@ -32,6 +22,7 @@ export interface GameState {
   /** 行动日志 */
   actionLog?: string
 }
+
 /** 物品 */
 export interface Item {
   /** 类型 */
@@ -45,6 +36,7 @@ export interface Item {
   /** 耐久 */
   durability: number,
 }
+
 /** 玩家状态 */
 export interface PlayerState {
   /** 玩家信息 */
@@ -170,6 +162,17 @@ export interface PlayerState {
     item5: Item | null,
     item6: Item | null,
   },
+  /** 道具背包 */
+  itemBag: {
+    /** 背包内物品 */
+    item: {itm: string}[] | null,
+    /** 背包内物品数量 */
+    num: number,
+    /** 背包内物品上限 */
+    limit: number,
+    /** 是否装备中 */
+    isEquip: boolean,
+  }
   /** 金钱 */
   money: number,
   /** 当前地区 */
@@ -203,6 +206,7 @@ export interface PlayerState {
     [key: string]: string[],
   }
 }
+
 /** 搜寻状态 */
 export interface SearchState {
   /** 发现物品 */
@@ -244,11 +248,14 @@ export interface SearchState {
   } | null,
 }
 
+/** 指令 */
 export interface Action {
   name: string
   action: Function
   active?: boolean
 }
+
+/** 指令状态 */
 export interface ActionState {
   action: Array<Action>
   oldAction: Array<Action>

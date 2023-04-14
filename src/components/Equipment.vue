@@ -63,8 +63,8 @@ const specialWeapon = async () => {
   >
     <Item :item='item'/>
     <div v-if="key === 'weapon'" class="absolute right-1 bottom-1 space-y-1 cursor-pointer">
-      <p @click.stop="switchWeapon()" class="m-auto text-xs px-3 py-1 rounded transition transition-colors bg-sky-900 hover:bg-sky-600">切换武器</p>
-      <p @click.stop="specialWeapon()" class="m-auto text-xs px-3 py-1 rounded transition transition-colors bg-sky-900 hover:bg-sky-600">武器模式</p>
+      <p @click.stop="switchWeapon()" class="text-xs px-3 py-1 rounded transition transition-colors bg-slate-700 hover:bg-slate-500">切换武器</p>
+      <p @click.stop="specialWeapon()" class="text-xs px-3 py-1 rounded transition transition-colors bg-slate-700 hover:bg-slate-500">武器模式</p>
     </div>
   </Card>
 </template>

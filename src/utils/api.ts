@@ -12,7 +12,7 @@ export async function test() {
 
 export async function command(cmd: {}) {
   let data = cmd
-  let res = await axios.post('/newdts/phpdts/command.php', transRequest(data), {
+  let res = await axios.post('/old/command.php', transRequest(data), {
     headers: {
       'content-type': 'application/x-www-form-urlencoded'
     },

@@ -61,9 +61,25 @@ const initState: GameState = {
       maxMp: 0,
     },
     rage: 0,
-    gift: '',
-    tactic: '',
-    pose: '',
+    gift: {
+      nowGiftId: '',
+      giftList: [],
+      type: {},
+    },
+    tactic: {
+      nowTacticId: '',
+      nowTactic: '',
+      idList: [],
+      type: [],
+      tips: [],
+    },
+    pose: {
+      nowPoseId: '',
+      nowPose: '',
+      idList: [],
+      type: [],
+      tips: [],
+    },
     attack: 0,
     defense: 0,
     team: '',
@@ -128,6 +144,11 @@ const initState: GameState = {
       item5: null,
       item6: null,
     },
+    itemBag: {
+      item: null,
+      num: 0,
+      limit: 0,
+    },
     money: 0,
     area: {
       nowArea: 0,
@@ -146,7 +167,8 @@ const initState: GameState = {
         id: '',
         name: '',
       },
-    }
+    },
+    semo: {},
   },
   log: []
 }

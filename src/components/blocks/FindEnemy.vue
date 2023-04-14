@@ -71,7 +71,7 @@ const back = async (mode: string) => {
     <p v-html="state?.actionLog"></p>
   </div>
   <div v-if="state?.enemy" class="flex">
-    <img class="h-57 border-2 border-zinc-700 mr-0.25" :src="`http://localhost/newdts/phpdts/img/${state.enemy.avatar}`" alt="">
+    <img class="h-57 border-2 border-zinc-700 mr-0.25" :src="`http://dts.llx.life/old/img/${state.enemy.avatar}`" alt="">
       <div>
         <div class="flex">
         <Card :title="state.enemy.type" :length="2">

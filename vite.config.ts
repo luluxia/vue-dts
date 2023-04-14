@@ -7,8 +7,9 @@ export default defineConfig({
   plugins: [vue(), WindiCSS()],
   server: {
     proxy: {
-      '/newdts/phpdts': {
-        target: 'http://localhost/',
+      '/old': {
+        rewrite: (path) => path.replace(/^\/old/, ''),
+        target: 'http://localhost/newdts/phpdts/',
         changeOrigin: true
       }
     }

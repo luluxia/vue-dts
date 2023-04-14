@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { inject, onMounted, provide, reactive, ref, watch } from 'vue'
 import Card from '../components/Card.vue'
-import Semo from './cards/Semo.vue'
+import Semo from './Semo.vue'
+import ItemBag from './ItemBag.vue'
 import { test, command } from '../utils/api'
 
 import type { GameState, ActionState } from '../types/interface'
@@ -172,11 +173,15 @@ const shop = () => {
 </script>
 <template>
   <div class="fixed flex w-screen bottom-0">
-    <div class="p-2 my-4 mx-auto flex flex-col">
+    <div class="p-2 mb-4 mx-auto flex flex-col">
       <TransitionGroup name="list" tag="div" class="flex m-auto items-center bg-zinc-700/90 ring-zinc-600 ring-1">
-        <!-- 背包 -->
+        <!-- 视野 -->
         <div v-if="state.drawerType === ''" class="group transition-opacity" key="semo">
           <Semo/>
+        </div>
+        <!-- 背包 -->
+        <div v-if="state.drawerType === ''" class="group transition-opacity" key="itemBag">
+          <ItemBag/>
         </div>
         <!-- 行动 -->
         <div

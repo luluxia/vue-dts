@@ -12,7 +12,7 @@ const state = computed(() => {
     }
   }
 })
-const change = async (type: 'tac' | 'pose', id: string) => {
+const change = async (type: 'tac' | 'pose' | 'clubsel', id: string) => {
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
@@ -57,14 +57,14 @@ const change = async (type: 'tac' | 'pose', id: string) => {
     </p>
   </div>
   <!-- 内定称号 -->
-  <template v-if="state?.gift.giftList">
+  <template v-if="!state?.gift.nowGiftId">
     <div class="text-zinc-400 my-2">
       <p>内定称号</p>
     </div>
     <div class="text-zinc-300 flex w-200 justify-center flex-wrap mb-2">
       <p
-        v-for="id in state?.gift.giftList"
-        @click="change('tac', id)"
+        v-for="(id, index) in state?.gift.giftList"
+        @click="change('clubsel', String(index))"
         :class="state?.gift.nowGiftId == id && 'ring-2 ring-zinc-500'"
         class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
       >

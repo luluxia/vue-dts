@@ -246,3 +246,15 @@ command: teammake
 nteamID: 
 nteamPass: 
 submit: 提交
+# 背包存放
+mode: itemmain
+command: itemencase
+mitm1: 0
+mitm2: 0
+mitm3: 0
+mitm4: 0
+mitm5: 0
+mitm6: 6
+# 背包取出
+mode: itemmain
+command: usebagitm_1

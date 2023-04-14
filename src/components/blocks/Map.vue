@@ -36,7 +36,7 @@ const moveTo = async (index: number) => {
 }
 </script>
 <template>
-  <img class="w-200 h-140" src="img/map.png" alt="">
+  <img class="w-200 h-140" src="/img/map.png" alt="">
   <div v-if="state" class="fixed w-200 px-10 py-10 text-zinc-200 text-sm text-shadow-sm grid grid-cols-10 grid-rows-10 text-center">
     <p
       @click="moveTo(index)"
