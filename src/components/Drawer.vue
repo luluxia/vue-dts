@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import { inject, watch, ref, nextTick } from 'vue'
+
 import Map from './blocks/Map.vue'
 import Tactic from './blocks/Tactics.vue'
 import FindItem from './blocks/FindItem.vue'
 import FindEnemy from './blocks/FindEnemy.vue'
+import Crafting from './blocks/Crafting.vue'
+
 import Card from './Card.vue'
 import gameData from '../utils/data'
 import tippy, { createSingleton } from 'tippy.js'
@@ -107,25 +110,7 @@ watch(() => state.drawerType, (val) => {
       <!-- 地图 -->
       <Map v-else-if="state.drawerType == 'map'" />
       <!-- 合成 -->
-      <template v-else-if="state.drawerType == 'crafting'">
-        <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">合成</h1>
-        <div class="text-zinc-400 text-sm mb-2">
-          <p>当前可以合成的道具</p>
-        </div>
-        <div class="text-zinc-300 flex w-200 justify-center flex-wrap">
-          <p class="tippy-tip bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">松茸御饭</p>
-          <p class="tippy-tip bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">火水木金土符『贤者之石』</p>
-          <p class="tippy-tip bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">◆◆◆意念数据</p>
-        </div>
-        <div class="text-zinc-400 text-sm my-2">
-          <p>当前缺少部分素材的道具</p>
-        </div>
-        <div class="text-zinc-300 flex w-200 justify-center flex-wrap">
-          <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">「VW-强击虎」</p>
-          <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">正义盟军 光明守望者 ★8</p>
-          <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 whitespace-nowrap">神枪『Spear The Gungnir』</p>
-        </div>
-      </template>
+      <Crafting v-else-if="state.drawerType == 'crafting'"/>
       <!-- 睡眠/治疗 -->
       <template v-else-if="['sleep', 'heal'].includes(state.drawerType as string)">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">

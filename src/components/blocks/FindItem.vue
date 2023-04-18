@@ -1,53 +1,62 @@
 <script setup lang="ts">
-import { computed, inject, onMounted } from 'vue'
+import { computed, inject, onMounted, ref } from 'vue'
 import Card from '../Card.vue'
 import Item from '../cards/Item.vue'
 import { command } from '../../utils/api'
-import type { GameState } from '../../types/interface'
+import type { GameState, Item as ItemType } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const actionState = inject('actionState') as any
 const state = computed(() => {
   if (gameState.searchState && gameState.playerState) {
-    let left = 6
+    const findItem = gameState.searchState.findItem
+    // 判断背包是否已满 筛选背包中不为空的物品 筛选背包中与发现物品可合并的物品
+    let isBagFull = true
+    const bag: {[key: string]: ItemType | null} = {}
+    const sameItems: {[key: string]: ItemType | null} = {}
     Object.keys(gameState.playerState.bag).forEach((key) => {
-      if (gameState.playerState && gameState.playerState.bag[key]) {
-        left--
+      if (gameState.playerState?.bag[key]) {
+        const item = gameState.playerState.bag[key]
+        bag[key] = item
+        // 相同名字 相同品质
+        if (item?.name === findItem?.name && item?.quality === findItem?.quality && findItem?.canMerge) {
+          sameItems[key] = item
+        }
+      } else {
+        isBagFull = false
       }
     })
-    if (left > 0) {
-      const action = actionState.action.filter((item: any) => item.name === '拾取')[0]
-      if (action) {
-        action.active = true
-      }
-    }
+    actionState.action[0].active = !isBagFull
     return {
-      findItem: gameState.searchState.findItem,
-      left: left
+      findItem: findItem,
+      isBagFull: isBagFull,
+      sameItems: sameItems,
+      bag: bag,
     }
   }
 })
+const dropKey = ref<any>('')
+const mergeKey = ref<any>('')
 onMounted(() => {
   actionState.oldAction = actionState.action
-  // 判断合并物品
-  let mergeFlag = false
-  gameState.playerState && Object.keys(gameState.playerState?.bag).forEach((key, index) => {
-    const item = gameState.playerState?.bag[key]
-    if (item && item.name === state.value?.findItem?.name && item.quality === state.value?.findItem?.quality) {
-      mergeFlag = true
-      actionState.action = [
-        { name: '拾取', action: () => getItem(), active: state.value && state.value.left > 0},
-        { name: '与已有道具合并', action: () => mergeItem(index + 1) },
-        { name: '丢弃', action: () => dropItem() },
-      ]
-    }
-  })
-  if (!mergeFlag) {
-    actionState.action = [
-      { name: '拾取', action: () => getItem(), active: state.value && state.value.left > 0},
-      { name: '丢弃', action: () => dropItem() },
-    ]
-  }
+  actionState.action = [
+    { name: '拾取', action: () => getItem() },
+    { name: '丢弃', action: () => dropItem() },
+  ]
 })
+const selectDropItem = (key: any) => {
+  dropKey.value = key
+  mergeKey.value = ''
+  actionState.action[0].name = '替换 ' + gameState.playerState?.bag[key]?.name
+  actionState.action[0].action = () => swapItem(key.replace('item', ''))
+  actionState.action[0].active = true
+}
+const selectMergeItem = (key: any) => {
+  dropKey.value = ''
+  mergeKey.value = key
+  actionState.action[0].name = '与 ' + gameState.playerState?.bag[key]?.name + ' 合并'
+  actionState.action[0].action = () => mergeItem(key.replace('item', ''))
+  actionState.action[0].active = true
+}
 // 拾取物品
 const getItem = async () => {
   // 搜索指令
@@ -96,6 +105,22 @@ const mergeItem = async (index: number) => {
     gameState.drawerType = ''
   })
 }
+// 替换物品
+const swapItem = async (index: string) => {
+  // 搜索指令
+  let waitTimer = setTimeout(() => {
+    gameState.loading = true
+  }, 200)
+  await command({ mode: 'itemmain', command: `swapitm${index}` }).then(res => {
+    window.clearTimeout(waitTimer)
+    gameState.loading = false
+    const data = res as any
+    gameState.playerState = data.playerState
+    gameState.searchState = data.searchState
+    gameState.actionLog = data.actionLog
+    gameState.drawerType = ''
+  })
+}
 </script>
 <template>
   <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">发现物品</h1>
@@ -103,7 +128,32 @@ const mergeItem = async (index: number) => {
   <Card :length="4" :title="state?.findItem?.type" class="group transition hover:(ring-zinc-500 ring-2)">
     <Item v-if="state?.findItem" :item="state.findItem"/>
   </Card>
-  <p v-if="!state?.left" class="text-zinc-400 mt-2">但是背包已满，你需要先腾出一个空位才能放下这个物品。</p>
+  <template v-if="state?.isBagFull">
+    <p class="text-zinc-400 mt-2">你的包裹已经满了。想要替换哪个物品？</p>
+    <div class="text-zinc-300 flex justify-center flex-wrap mt-2">
+      <p
+        v-for="(item, key) in state?.bag"
+        @click="selectDropItem(key)"
+        :class="dropKey == key && 'ring-2 ring-zinc-500'"
+        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
+      >
+        <span>{{ item?.name }}</span>
+      </p>
+    </div>
+  </template>
+  <template v-if="state?.sameItems && Object.keys(state?.sameItems).length">
+    <p class="text-zinc-400 mt-2">发现了可以堆叠的物品。想要与哪个物品合并？</p>
+    <div class="text-zinc-300 flex justify-center flex-wrap mt-2">
+      <p
+        v-for="(item, key) in state?.sameItems"
+        @click="selectMergeItem(key)"
+        :class="mergeKey == key && 'ring-2 ring-zinc-500'"
+        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
+      >
+        <span>{{ item?.name }}</span>
+      </p>
+    </div>
+  </template>
   <div class="text-zinc-400 mt-2">
     <p>现在想要做什么？</p>
   </div>

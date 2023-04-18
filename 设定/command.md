@@ -126,6 +126,9 @@ rest2: 治疗
 teammake: 组建队伍
 teamjoin: 加入队伍
 sp_skpts: 升级技能
+# 返回菜单
+mode: itemmain
+command: menu
 # 合成
 mode: itemmain
 command: itemmix

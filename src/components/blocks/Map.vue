@@ -9,8 +9,8 @@ const state = computed(() => {
   if (gameState.playerState) {
     const areaNum = gameState.playerState.area.areaNum
     const areaAdd = gameState.playerState.area.areaAdd
-    const nowAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum).map(item => Number(item))
-    const nextAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum + areaAdd).map(item => Number(item))
+    const nowAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum + 1).map(item => Number(item))
+    const nextAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum + areaAdd + 1).map(item => Number(item))
     return {
       nowAreaList, nextAreaList
     }
@@ -41,7 +41,7 @@ const moveTo = async (index: number) => {
     <p
       @click="moveTo(index)"
       class="flex justify-center items-center py-1 cursor-pointer" 
-      :class="[`row-start-${item.x} col-start-${item.y}`, state.nowAreaList.includes(index) || !index ? 'text-red-500' : state.nextAreaList.includes(index) ? 'text-yellow-500' : 'text-green-500']"
+      :class="[`row-start-${item.x} col-start-${item.y}`, state.nowAreaList.includes(Number(index)) || !index ? 'text-red-500' : state.nextAreaList.includes(index) ? 'text-yellow-500' : 'text-green-500']"
       v-for="(item, index) of gameData.map"
       v-html="item.name"
     ></p>

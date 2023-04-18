@@ -12,7 +12,7 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="flex w-full">
-  <img v-if="state.avatar" class="avatar object-cover" :src="`http://dts.llx.life/old/img/${state.avatar}`" alt="">
+  <img v-if="state.avatar" class="avatar object-cover" :src="`/old/img/${state.avatar}`" alt="">
   <div class="flex-1 flex">
     <div class="m-auto">
       <p class="font-bold">{{ state.name }}</p>

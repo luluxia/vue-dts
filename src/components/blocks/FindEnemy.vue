@@ -22,6 +22,7 @@ onMounted(() => {
     if (attackType?.type2.name) {
       actionState.action.push({ name: attackType.type2.name, action: () => attack(attackType.type2.id) })
     }
+    actionState.action.push({ name: '切换', action: () => changeWeapon()})
     actionState.action.push({ name: '逃跑', action: () => back('revcombat') })
   } else {
     actionState.action = [
@@ -31,7 +32,6 @@ onMounted(() => {
 })
 // 攻击
 const attack = async (type: string | null) => {
-  // 搜索指令
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
@@ -47,8 +47,8 @@ const attack = async (type: string | null) => {
     ]
   })
 }
+// 逃跑 / 确定
 const back = async (mode: string) => {
-  // 搜索指令
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
@@ -62,6 +62,20 @@ const back = async (mode: string) => {
     gameState.drawerType = ''
   })
 }
+// 切换武器
+const changeWeapon = async () => {
+  let waitTimer = setTimeout(() => {
+    gameState.loading = true
+  }, 200)
+  await command({ mode: 'revcombat', command: 'changewep' }).then(res => {
+    window.clearTimeout(waitTimer)
+    gameState.loading = false
+    const data = res as any
+    gameState.playerState = data.playerState
+    gameState.searchState = data.searchState
+    gameState.actionLog = data.actionLog
+  })
+}
 </script>
 <template>
   <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">
@@ -71,7 +85,7 @@ const back = async (mode: string) => {
     <p v-html="state?.actionLog"></p>
   </div>
   <div v-if="state?.enemy" class="flex">
-    <img class="h-57 border-2 border-zinc-700 mr-0.25" :src="`http://dts.llx.life/old/img/${state.enemy.avatar}`" alt="">
+    <img class="h-57 border-2 border-zinc-700 mr-0.25" :src="`/old/img/${state.enemy.avatar}`" alt="">
       <div>
         <div class="flex">
         <Card :title="state.enemy.type" :length="2">

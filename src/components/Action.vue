@@ -19,7 +19,7 @@ onMounted(() => {
     { name: '探索', action: () => search() },
     { name: '地图', action: () => map() },
     { name: '战术', action: () => tactics() },
-    // { name: '合成', action: () => crafting() },
+    { name: '合成', action: () => crafting() },
     // { name: '睡眠', action: () => sleep() },
     // { name: '治疗', action: () => heal() },
     // { name: '战术', action: () => tactics() },
@@ -46,7 +46,7 @@ watch(() => state.drawerType, type => {
       { name: '探索', action: () => search() },
       { name: '地图', action: () => map() },
       { name: '战术', action: () => tactics() },
-      // { name: '合成', action: () => crafting() },
+      { name: '合成', action: () => crafting() },
       // { name: '睡眠', action: () => sleep() },
       // { name: '治疗', action: () => heal() },
       // { name: '战术', action: () => tactics() },
@@ -96,15 +96,18 @@ const map = () => {
   // })
 }
 // 打开合成页面
-const crafting = () => {
-  state.drawerType = 'crafting'
-  state.showDrawer = !state.showDrawer
-  actionState.action.map(action => {
-    if (state.showDrawer) {
-      action.name != '合成' && (action.active = false)
-    } else {
-      action.active = true
-    }
+const crafting = async () => {
+  // 搜索指令
+  let waitTimer = setTimeout(() => {
+    state.loading = true
+  }, 200)
+  await command({mode: 'command', command: 'itemmain', itemcmd: 'itemmix'}).then(res => {
+    window.clearTimeout(waitTimer)
+    state.loading = false
+    const data = res as any
+    state.playerState = data.playerState
+    state.actionLog = data.actionLog
+    state.drawerType = 'crafting'
   })
 }
 // 打开睡眠

@@ -6,11 +6,11 @@ const gameState = inject<GameState>('state') as GameState
 const state = computed(() => {
   if (gameState.playerState) {
     let passage = ''
-    const nowArea = gameState.playerState.area.nowArea
+    const nowArea = Number(gameState.playerState.area.nowArea)
     const areaNum = gameState.playerState.area.areaNum
     const areaAdd = gameState.playerState.area.areaAdd
-    const nowAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum)
-    const nextAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum + areaAdd)
+    const nowAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum + 1).map(item => Number(item))
+    const nextAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum + areaAdd + 1).map(item => Number(item))
     if (nowAreaList.includes(nowArea) || nowArea == 0) {
       passage = '禁区'
     } else if (nextAreaList.includes(nowArea)) {

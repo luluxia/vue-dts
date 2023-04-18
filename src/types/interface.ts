@@ -34,7 +34,12 @@ export interface Item {
   /** 品质 */
   quality: number,
   /** 耐久 */
-  durability: number,
+  durability: string,
+}
+
+export interface FindItem extends Item {
+  /** 是否可堆叠 */
+  canMerge: boolean,
 }
 
 /** 玩家状态 */
@@ -205,12 +210,14 @@ export interface PlayerState {
   semo: {
     [key: string]: string[],
   }
+  /** 合成提示 */
+  craftTips: string,
 }
 
 /** 搜寻状态 */
 export interface SearchState {
   /** 发现物品 */
-  findItem: Item | null,
+  findItem: FindItem | null,
   /** 发现敌人 */
   findEnemy: {
     /** 敌方类型 */
