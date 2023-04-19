@@ -61,7 +61,7 @@ const takeItem = async (key: any) => {
           >
             <p><span>取出 </span><span class="text-yellow-600 font-bold">{{ item.itm }}</span></p>
           </div>
-          <div v-if="state.itemBag.num === 0" class="p-2">背包内空无一物</div>
+          <div v-if="state.itemBag.num == 0" class="p-2">背包内空无一物</div>
         </div>
       </div>
       <div class="text-zinc-300 px-4 py-2">

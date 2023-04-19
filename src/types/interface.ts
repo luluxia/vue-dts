@@ -232,12 +232,14 @@ export interface SearchState {
     sub: string,
     /** 敌方头像 */
     avatar: string,
+    /** 是否有大头像 */
+    hasBigAvatar: boolean,
     /** 敌方怒气 */
-    rage: number,
+    rage: string,
     /** 敌方体力 */
-    mp: number,
+    mp: string,
     /** 敌方生命 */
-    hp: number,
+    hp: string,
     /** 敌方攻击 */
     attack: number,
     /** 敌方武器种类 */
@@ -252,6 +254,8 @@ export interface SearchState {
     hurt: string,
     /** 战斗状态 */
     battleState: string,
+    /** 发现尸体后的操作列表 */
+    actionList: string[],
   } | null,
 }
 

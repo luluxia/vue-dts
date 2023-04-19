@@ -105,7 +105,7 @@ const craft = async () => {
   </div>
 </template>
 <style lang="postcss">
-.crafting br {
+.crafting br:last-child {
   @apply hidden;
 }
 .crafting ul {

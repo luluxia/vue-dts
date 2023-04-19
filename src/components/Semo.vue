@@ -61,6 +61,7 @@ const memory = async (key: any) => {
           >
             <span v-if="item[1] === 'itm'">获取 <span class="text-yellow-600 font-bold">{{ item[2] }}</span></span>
             <span v-if="item[1] === 'enemy'">迎战 <span class="text-yellow-600 font-bold">{{ item[2] }}</span></span>
+            <span v-if="item[1] === 'corpse'">检查 <span class="text-yellow-600 font-bold">{{ item[2] }}</span> 的尸体</span>
           </div>
           <div v-if="state.semo && Object.keys(state.semo).length === 0 || !state.semo" class="p-2">视野内空无一物</div>
         </div>

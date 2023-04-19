@@ -34,6 +34,7 @@ import Package from '../components/Package.vue'
 import { onMounted, provide, reactive } from 'vue'
 import type { GameState, ActionState } from '../types/interface'
 import { command } from '../utils/api'
+import axios from 'axios'
 const initState: GameState = {
   showDrawer: false,
   drawerType: '',
@@ -189,9 +190,9 @@ const actionState: ActionState = reactive({
 provide('actionState', actionState)
 
 onMounted(async () => {
-  await command({})
+  await axios.get('/old/game.php')
     .then(res => {
-      const data = res as any
+      const data = res.data as any
       if (data.playerState) {
         state.playerState = data.playerState
         state.searchState = data.searchState
