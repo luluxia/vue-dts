@@ -256,6 +256,18 @@ export interface SearchState {
     battleState: string,
     /** 发现尸体后的操作列表 */
     actionList: string[],
+    /** 物品 */
+    items: {
+      key: string,
+      title: string,
+    }[],
+    /** 可用技能 */
+    battleSkills: {
+      unlock: string,
+      key: string,
+      title: string,
+      desc: string,
+    }[],
   } | null,
 }
 
@@ -264,6 +276,7 @@ export interface Action {
   name: string
   action: Function
   active?: boolean
+  desc?: string
 }
 
 /** 指令状态 */

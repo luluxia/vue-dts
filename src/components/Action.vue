@@ -187,20 +187,34 @@ const shop = () => {
           <ItemBag/>
         </div>
         <!-- 行动 -->
-        <div
-          v-for="item in actionState.action"
-          class="group transition-opacity"
-          :class="item.active == false && 'opacity-50 pointer-events-none'"
-          :key="item.name"
-        >
-          <div
-            class="transform transition-all top-0 cursor-pointer relative group-hover:(-top-1)"
-            @click="() => {item.action()}"
-          >
-            <div class="text-zinc-300 px-4 py-2">
-              <p class="m-auto">{{item.name}}</p>
+        <div v-for="item in actionState.action" class="group transition-opacity" :key="item.name">
+          <!-- 禁用项 -->
+          <div v-if="item.active === false" class="cursor-default">
+            <!-- 悬浮 -->
+            <div v-if="item.desc" class="absolute bottom-0 pb-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
+              <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
+              </div>
+            </div>
+            <div class="text-zinc-500 px-4 py-2">
+              <p class="m-auto">{{item.name}}<span v-if="item.desc" class="text-sm ml-0.5 text-zinc-500">[?]</span></p>
             </div>
           </div>
+          <!-- 非禁用项 -->
+          <div
+            v-else
+            class="flex justify-center transform transition-all top-0 cursor-pointer relative group-hover:(-top-1)"
+            @click="() => {item.action()}"
+          >
+            <!-- 悬浮 -->
+            <div v-if="item.desc" class="absolute bottom-0 pb-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
+              <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
+              </div>
+            </div>
+            <div class="text-zinc-300 px-4 py-2">
+              <p class="m-auto">{{item.name}}<span v-if="item.desc" class="text-sm ml-0.5 text-zinc-500">[?]</span></p>
+            </div>
+          </div>
+          
         </div>
       </TransitionGroup>
     </div>

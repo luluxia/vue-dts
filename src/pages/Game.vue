@@ -406,7 +406,7 @@ span[tooltip]::after {
 }
 span[tooltip]::before {
   content: attr(tooltip);
-  @apply bg-zinc-800/95 text-sm text-left p-2 absolute bottom-8 w-max max-w-70 border-2 text-zinc-200 border-zinc-600 z-1 whitespace-pre-line shadow opacity-0 pointer-events-none transition transition-opacity;
+  @apply bg-zinc-800/95 text-sm font-normal text-left p-2 absolute bottom-8 w-max max-w-70 border-2 text-zinc-200 border-zinc-600 z-1 whitespace-pre-line shadow opacity-0 pointer-events-none transition transition-opacity;
 }
 span[tooltip]:hover::before {
   opacity: 1;

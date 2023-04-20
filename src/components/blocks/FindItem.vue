@@ -135,7 +135,7 @@ const swapItem = async (index: string) => {
         v-for="(item, key) in state?.bag"
         @click="selectDropItem(key)"
         :class="dropKey == key && 'ring-2 ring-zinc-500'"
-        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
+        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
         <span>{{ item?.name }}</span>
       </p>
@@ -148,7 +148,7 @@ const swapItem = async (index: string) => {
         v-for="(item, key) in state?.sameItems"
         @click="selectMergeItem(key)"
         :class="mergeKey == key && 'ring-2 ring-zinc-500'"
-        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
+        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
         <span>{{ item?.name }}</span>
       </p>
