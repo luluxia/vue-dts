@@ -172,6 +172,7 @@ const initState: GameState = {
     },
     semo: {},
     craftTips: '',
+    message: '',
   },
   log: []
 }
@@ -215,7 +216,7 @@ onMounted(async () => {
         <div class="space-y-1">
           <!-- 状态 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
+            <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
               状态<span class="text-base -ml-1 opacity-10">STATUS</span>
             </h1>
             <!-- 状态 内容 -->
@@ -292,7 +293,7 @@ onMounted(async () => {
           </div>
           <!-- 位置 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
+            <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
               地点<span class="text-base -ml-1 opacity-10">AREA</span>
             </h1>
             <!-- 位置 内容 -->
@@ -317,7 +318,7 @@ onMounted(async () => {
           </div>
           <!-- 负面效果 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
+            <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
               负面效果<span class="text-base -ml-1 opacity-10">DEBUFF</span>
             </h1>
             <!-- 负面效果 内容 -->
@@ -326,22 +327,12 @@ onMounted(async () => {
               <Debuffs/>
             </div>
           </div>
-          <!-- 记录 -->
-          <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
-              记录<span class="text-base -ml-1 opacity-10">LOG</span>
-            </h1>
-            <!-- 记录 内容 -->
-            <div class="flex flex-wrap max-w-152">
-              <Log/>
-            </div>
-          </div>
         </div>
         <!-- 右侧 -->
         <div class="space-y-1">
           <!-- 装备 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
+            <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
               装备<span class="text-base -ml-1 opacity-10">EQUIPMENT</span>
             </h1>
             <!-- 装备 内容 -->
@@ -351,7 +342,7 @@ onMounted(async () => {
           </div>
           <!-- 包裹 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-2xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-2">
+            <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
               包裹<span class="text-base -ml-1 opacity-10">PACKAGE</span>
             </h1>
             <!-- 包裹 内容 -->
@@ -359,6 +350,16 @@ onMounted(async () => {
               <Package/>
             </div>
           </div>
+        </div>
+      </div>
+      <!-- 记录 -->
+      <div class="relative">
+        <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
+          消息<span class="text-base -ml-1 opacity-10">MESSAGE</span>
+        </h1>
+        <!-- 记录 内容 -->
+        <div class="flex flex-wrap max-w-152">
+          <Log/>
         </div>
       </div>
     </div>

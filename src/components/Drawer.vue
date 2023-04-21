@@ -190,4 +190,7 @@ watch(() => state.drawerType, (val) => {
 .purple {
   @apply text-purple-600 font-bold;
 }
+.lime {
+  @apply text-lime-600 font-bold;
+}
 </style>

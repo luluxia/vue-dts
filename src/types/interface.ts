@@ -212,6 +212,8 @@ export interface PlayerState {
   }
   /** 合成提示 */
   craftTips: string,
+  /** 消息 */
+  message: string,
 }
 
 /** 搜寻状态 */
