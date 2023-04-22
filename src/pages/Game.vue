@@ -173,6 +173,7 @@ const initState: GameState = {
     semo: {},
     craftTips: '',
     message: '',
+    rest: '',
   },
   log: []
 }
@@ -210,7 +211,7 @@ onMounted(async () => {
     <Transition><Loading/></Transition>
     <!-- 游戏卡片 -->
     <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.drawerHeight || 100) + 40 + 'px'}">
-      <p class="w-18.5 w-37.5 w-75.5 hidden"></p>
+      <p class="w-18.5 w-37.5 w-56.5 w-75.5 hidden"></p>
       <div class="flex justify-between">
         <!-- 左侧 -->
         <div class="space-y-1">
@@ -222,7 +223,7 @@ onMounted(async () => {
             <!-- 状态 内容 -->
             <div class="flex flex-wrap max-w-152">
               <!-- 头像 -->
-              <Card :title="state.playerState?.playerInfo.nick" :length="4">
+              <Card :title="state.playerState?.playerInfo.nick" :length="3">
                 <Player/>
               </Card>
               <!-- 等级 -->
@@ -240,6 +241,10 @@ onMounted(async () => {
               <!-- 怒气 -->
               <Card title="怒气">
                 <Rage/>
+              </Card>
+              <!-- 歌魂 -->
+              <Card title="歌魂">
+                <p>todo</p>
               </Card>
               <!-- 内定称号 -->
               <Card title="内定称号" :length="2">
@@ -414,5 +419,29 @@ span[tooltip]:hover::before {
 }
 .tooltip-down span[tooltip]::before {
   @apply top-8 bottom-auto;
+}
+.rainbow {
+	text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+	animation: rainbowshimmer 2s ease-in-out infinite;
+}
+@keyframes rainbowshimmer {
+	0% {
+		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+	}
+	20% {
+		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #00ff00, 0 0 40px #00ff00, 0 0 50px #00ff00, 0 0 60px #00ff00, 0 0 70px #00ff00;
+	}
+	40% {
+		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ffff00, 0 0 40px #ffff00, 0 0 50px #ffff00, 0 0 60px #ffff00, 0 0 70px #ffff00;
+	}
+	60% {
+		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0000ff, 0 0 40px #0000ff, 0 0 50px #0000ff, 0 0 60px #0000ff, 0 0 70px #0000ff;
+	}
+	80% {
+		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff;
+	}
+	100% {
+		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+	}
 }
 </style>

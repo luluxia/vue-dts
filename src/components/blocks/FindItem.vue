@@ -63,7 +63,11 @@ const getItem = async () => {
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
-  await command({ mode: 'itemmain', command: 'itemget' }).then(res => {
+  let commandSend: any = { mode: 'itemmain', command: 'itemget' }
+  if (gameState.searchState?.findItem?.canMerge) {
+    commandSend = { mode: 'itemmain', command: 'itemmerge', merge1: 0, merge2: 'n' }
+  }
+  await command(commandSend).then(res => {
     window.clearTimeout(waitTimer)
     gameState.loading = false
     const data = res as any

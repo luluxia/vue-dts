@@ -11,7 +11,7 @@ defineProps<{ item: Item }>()
       </div> -->
       <div class="flex flex-col flex-1 h-full justify-between">
         <div class="ml-0.5">
-          <p class="font-bold text-sm">{{item.name}}</p>
+          <p class="font-bold text-sm" v-html="item.name"></p>
           <p class="text-zinc-400 text-sm" v-html="item.props"></p>
         </div>
         <p class="text-sm space-x-1 mt-1">

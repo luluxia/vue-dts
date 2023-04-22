@@ -5,7 +5,11 @@ import Map from './blocks/Map.vue'
 import Tactic from './blocks/Tactics.vue'
 import FindItem from './blocks/FindItem.vue'
 import FindEnemy from './blocks/FindEnemy.vue'
+import FindTeam from './blocks/FindTeam.vue'
 import Crafting from './blocks/Crafting.vue'
+import Arrange from './blocks/Arrange.vue'
+import Rest from './blocks/Rest.vue'
+import Team from './blocks/Team.vue'
 
 import Card from './Card.vue'
 import gameData from '../utils/data'
@@ -107,23 +111,20 @@ watch(() => state.drawerType, (val) => {
       <FindItem v-else-if="state.drawerType == 'find-item'" />
       <!-- 敌人相关 -->
       <FindEnemy v-else-if="state.drawerType == 'find-enemy'" />
+      <!-- 发现队伍 -->
+      <FindTeam v-else-if="state.drawerType == 'find-team'" />
       <!-- 地图 -->
       <Map v-else-if="state.drawerType == 'map'" />
       <!-- 合成 -->
       <Crafting v-else-if="state.drawerType == 'crafting'"/>
+      <!-- 整理 -->
+      <Arrange v-else-if="state.drawerType == 'arrange'"/>
       <!-- 睡眠/治疗 -->
-      <template v-else-if="['sleep', 'heal'].includes(state.drawerType as string)">
-        <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">
-          <template v-if="state.drawerType == 'sleep'">睡眠</template>
-          <template v-else>治疗</template>
-        </h1>
-        <div class="text-zinc-400 text-sm mb-2">
-          <template v-if="state.drawerType == 'sleep'">睡眠</template>
-          <template v-else>治疗</template>
-        </div>
-      </template>
+      <Rest v-else-if="state.drawerType == 'rest'"/>
       <!-- 战术 -->
       <Tactic v-else-if="state.drawerType == 'tactics'"/>
+      <!-- 队伍 -->
+      <Team v-else-if="state.drawerType == 'team'"/>
       <!-- 商店 -->
       <template v-else-if="state.drawerType == 'shop'">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">商店</h1>
@@ -192,5 +193,8 @@ watch(() => state.drawerType, (val) => {
 }
 .lime {
   @apply text-lime-600 font-bold;
+}
+.clan {
+  @apply text-sky-600;
 }
 </style>

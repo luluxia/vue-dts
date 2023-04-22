@@ -20,24 +20,11 @@ onMounted(() => {
     { name: '地图', action: () => map() },
     { name: '战术', action: () => tactics() },
     { name: '合成', action: () => crafting() },
-    // { name: '睡眠', action: () => sleep() },
-    // { name: '治疗', action: () => heal() },
-    // { name: '战术', action: () => tactics() },
-    // { name: '商店', action: () => shop() },
+    { name: '整理', action: () => arrange(), desc: '交换道具位置，或合并可堆叠道具' },
+    { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
+    { name: '治疗', action: () => rest('rest2'), desc: '进入治疗状态，随时间缓慢恢复生命' },
+    { name: '队伍', action: () => team() },
   ]
-})
-// 首次加载时判断内容
-watch(() => state.searchState, (val) => {
-  // if (actionState.firstCheck) {
-  //   actionState.firstCheck = false
-  // } else {
-  //   return
-  // }
-  if (val && val.findEnemy) {
-    state.drawerType = 'find-enemy'
-  } else if (val && val.findItem) {
-    state.drawerType = 'find-item'
-  }
 })
 // 恢复选项
 watch(() => state.drawerType, type => {
@@ -47,11 +34,21 @@ watch(() => state.drawerType, type => {
       { name: '地图', action: () => map() },
       { name: '战术', action: () => tactics() },
       { name: '合成', action: () => crafting() },
-      // { name: '睡眠', action: () => sleep() },
-      // { name: '治疗', action: () => heal() },
-      // { name: '战术', action: () => tactics() },
-      // { name: '商店', action: () => shop() },
+      { name: '整理', action: () => arrange(), desc: '交换道具位置，或合并可堆叠道具' },
+      { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
+      { name: '治疗', action: () => rest('rest2'), desc: '进入治疗状态，随时间缓慢恢复生命' },
+      { name: '队伍', action: () => team() },
     ]
+  }
+})
+// 判断探索结果
+watch(() => state.searchState, (val) => {
+  if (val && val.findEnemy) {
+    state.drawerType = 'find-enemy'
+  } else if (val && val.findItem) {
+    state.drawerType = 'find-item'
+  } else if (val && val.findTeam) {
+    state.drawerType = 'find-team'
   }
 })
 // 探索
@@ -76,7 +73,7 @@ const search = async () => {
     }
   })
 }
-// 打开地图
+// 地图
 const map = () => {
   if (state.drawerType !== 'map') {
     actionState.oldType = state.drawerType
@@ -95,7 +92,19 @@ const map = () => {
   //   }
   // })
 }
-// 打开合成页面
+// 战术
+const tactics = () => {
+  if (state.drawerType !== 'tactics') {
+    actionState.oldType = state.drawerType
+    actionState.action.map(action => {
+      action.name != '战术' && (action.active = false)
+    })
+    state.drawerType = 'tactics'
+  } else {
+    state.drawerType = actionState.oldType
+  }
+}
+// 合成
 const crafting = async () => {
   // 搜索指令
   let waitTimer = setTimeout(() => {
@@ -110,41 +119,28 @@ const crafting = async () => {
     state.drawerType = 'crafting'
   })
 }
-// 打开睡眠
-const sleep = () => {
-  state.drawerType = 'sleep'
-  state.showDrawer = !state.showDrawer
-  actionState.action.map(action => {
-    if (state.showDrawer) {
-      action.name != '睡眠' && (action.active = false)
-    } else {
-      action.active = true
-    }
+// 整理
+const arrange = () => {
+  state.drawerType = 'arrange'
+}
+// 睡眠/治疗
+const rest = async (type: string) => {
+  // 搜索指令
+  let waitTimer = setTimeout(() => {
+    state.loading = true
+  }, 200)
+  await command({ mode: 'command', command: type }).then(res => {
+    window.clearTimeout(waitTimer)
+    state.loading = false
+    const data = res as any
+    state.playerState = data.playerState
+    state.actionLog = data.actionLog
+    state.drawerType = 'rest'
   })
 }
-// 治疗
-const heal = () => {
-  state.drawerType = 'heal'
-  state.showDrawer = !state.showDrawer
-  actionState.action.map(action => {
-    if (state.showDrawer) {
-      action.name != '治疗' && (action.active = false)
-    } else {
-      action.active = true
-    }
-  })
-}
-// 战术
-const tactics = () => {
-  if (state.drawerType !== 'tactics') {
-    actionState.oldType = state.drawerType
-    actionState.action.map(action => {
-      action.name != '战术' && (action.active = false)
-    })
-    state.drawerType = 'tactics'
-  } else {
-    state.drawerType = actionState.oldType
-  }
+// 队伍
+const team = () => {
+  state.drawerType = 'team'
 }
 // 商店
 const shop = () => {
@@ -189,9 +185,9 @@ const shop = () => {
         <!-- 行动 -->
         <div v-for="item in actionState.action" class="group transition-opacity" :key="item.name">
           <!-- 禁用项 -->
-          <div v-if="item.active === false" class="cursor-default">
+          <div v-if="item.active === false" class="relative flex justify-center cursor-default">
             <!-- 悬浮 -->
-            <div v-if="item.desc" class="absolute bottom-0 pb-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
+            <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
               <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
               </div>
             </div>
@@ -202,11 +198,11 @@ const shop = () => {
           <!-- 非禁用项 -->
           <div
             v-else
-            class="flex justify-center transform transition-all top-0 cursor-pointer relative group-hover:(-top-1)"
+            class="relative flex justify-center cursor-pointer top-0 transform transition-all group-hover:(-top-1)"
             @click="() => {item.action()}"
           >
             <!-- 悬浮 -->
-            <div v-if="item.desc" class="absolute bottom-0 pb-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
+            <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
               <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
               </div>
             </div>
@@ -214,7 +210,6 @@ const shop = () => {
               <p class="m-auto">{{item.name}}<span v-if="item.desc" class="text-sm ml-0.5 text-zinc-500">[?]</span></p>
             </div>
           </div>
-          
         </div>
       </TransitionGroup>
     </div>

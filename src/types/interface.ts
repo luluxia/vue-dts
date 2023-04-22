@@ -214,6 +214,8 @@ export interface PlayerState {
   craftTips: string,
   /** 消息 */
   message: string,
+  /** 休息状态 */
+  rest: string,
 }
 
 /** 搜寻状态 */
@@ -270,6 +272,41 @@ export interface SearchState {
       title: string,
       desc: string,
     }[],
+  } | null,
+  /** 发现队友 */
+  findTeam: {
+    /** 队友类型 */
+    type: string,
+    /** 队友称号 */
+    title: string,
+    /** 队友等级 */
+    level: number,
+    /** 队友姓名 */
+    name: string,
+    /** 队友称号 */
+    sub: string,
+    /** 队友头像 */
+    avatar: string,
+    /** 是否有大头像 */
+    hasBigAvatar: boolean,
+    /** 队友怒气 */
+    rage: string,
+    /** 队友体力 */
+    mp: string,
+    /** 队友生命 */
+    hp: string,
+    /** 队友攻击 */
+    attack: number,
+    /** 队友武器种类 */
+    weaponType: string,
+    /** 队友武器 */
+    weapon: string,
+    /** 队友应战策略 */
+    pose: string,
+    /** 队友基础姿态 */
+    tactic: string,
+    /** 队友受伤部位 */
+    hurt: string,
   } | null,
 }
 
