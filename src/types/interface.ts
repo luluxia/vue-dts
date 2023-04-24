@@ -82,6 +82,13 @@ export interface PlayerState {
   }
   /** 怒气 */
   rage: number
+  /** 歌魂 */
+  songSoul: {
+    /** 当前歌魂 */
+    nowSongSoul: number
+    /** 最大歌魂 */
+    maxSongSoul: number
+  }
   /** 内定称号 */
   gift: {
     /** 当前称号 */
@@ -216,6 +223,25 @@ export interface PlayerState {
   message: string,
   /** 休息状态 */
   rest: string,
+  /** 技能 */
+  skill: {
+    /** 技能ID */
+    id: string,
+    /** 技能名称 */
+    name: string,
+    /** 技能描述 */
+    desc: string,
+    /** 数字框数量 */
+    num: number,
+    /** 技能行动 */
+    action: string,
+    /** 是否解锁 */
+    unlockFlag: boolean,
+    /** 解锁描述 */
+    unlockDesc: string,
+  }[],
+  /** 技能点 */
+  skillPoint: number,
 }
 
 /** 搜寻状态 */

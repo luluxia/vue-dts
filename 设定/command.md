@@ -261,3 +261,7 @@ mitm6: 6
 # 背包取出
 mode: itemmain
 command: usebagitm_1
+# 技能
+mode: revskpts
+command: upgskill_技能id
+upgskill_技能id_nums: 1

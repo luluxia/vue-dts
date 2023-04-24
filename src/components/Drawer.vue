@@ -10,6 +10,7 @@ import Crafting from './blocks/Crafting.vue'
 import Arrange from './blocks/Arrange.vue'
 import Rest from './blocks/Rest.vue'
 import Team from './blocks/Team.vue'
+import Skill from './blocks/Skill.vue'
 
 import Card from './Card.vue'
 import gameData from '../utils/data'
@@ -54,17 +55,17 @@ watch(() => state.showDrawer, (val) => {
 watch(() => state.playerState, (val) => {
   nextTick(() => {
     state.drawerHeight = hoverDom.value.getClientRects()[0].height
-    const timerDom = document.querySelector('#timer') as HTMLElement
-    if (val && timerDom) {
-      let num = 1
-      const countdown = setInterval(function() {
-        num -= 0.01
-        timerDom.innerHTML = Math.abs(num).toFixed(2)
-        if (num < 0) {
-          clearInterval(countdown)
-        }
-      }, 10)
-    }
+    // const timerDom = document.querySelector('#timer') as HTMLElement
+    // if (val && timerDom) {
+    //   let num = 1
+    //   const countdown = setInterval(function() {
+    //     num -= 0.01
+    //     timerDom.innerHTML = Math.abs(num).toFixed(2)
+    //     if (num < 0) {
+    //       clearInterval(countdown)
+    //     }
+    //   }, 10)
+    // }
   })
 })
 watch(() => state.drawerType, (val) => {
@@ -125,6 +126,8 @@ watch(() => state.drawerType, (val) => {
       <Tactic v-else-if="state.drawerType == 'tactics'"/>
       <!-- 队伍 -->
       <Team v-else-if="state.drawerType == 'team'"/>
+      <!-- 技能 -->
+      <Skill v-else-if="state.drawerType == 'skill'"/>
       <!-- 商店 -->
       <template v-else-if="state.drawerType == 'shop'">
         <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">商店</h1>
@@ -183,7 +186,7 @@ watch(() => state.drawerType, (val) => {
 </template>
 <style lang="postcss">
 .yellow {
-  @apply text-yellow-600 font-bold;
+  @apply text-yellow-500 font-bold;
 }
 .red {
   @apply text-red-600 font-bold;
@@ -196,5 +199,8 @@ watch(() => state.drawerType, (val) => {
 }
 .clan {
   @apply text-sky-600;
+}
+.gold {
+  @apply text-yellow-600 font-bold;
 }
 </style>

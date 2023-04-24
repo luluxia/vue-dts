@@ -9,6 +9,7 @@ import Level from '../components/cards/Level.vue'
 import Hp from '../components/cards/Hp.vue'
 import Mp from '../components/cards/Mp.vue'
 import Rage from '../components/cards/Rage.vue'
+import SongSoul from '../components/cards/SongSoul.vue'
 import Gift from '../components/cards/Gift.vue'
 import Tactic from '../components/cards/Tactic.vue'
 import Pose from '../components/cards/Pose.vue'
@@ -62,6 +63,10 @@ const initState: GameState = {
       maxMp: 0,
     },
     rage: 0,
+    songSoul: {
+      nowSongSoul: 0,
+      maxSongSoul: 0,
+    },
     gift: {
       nowGiftId: '',
       giftList: [],
@@ -174,6 +179,7 @@ const initState: GameState = {
     craftTips: '',
     message: '',
     rest: '',
+    skill: [],
   },
   log: []
 }
@@ -210,7 +216,7 @@ onMounted(async () => {
   <div>
     <Transition><Loading/></Transition>
     <!-- 游戏卡片 -->
-    <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.drawerHeight || 100) + 40 + 'px'}">
+    <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
       <p class="w-18.5 w-37.5 w-56.5 w-75.5 hidden"></p>
       <div class="flex justify-between">
         <!-- 左侧 -->
@@ -244,7 +250,7 @@ onMounted(async () => {
               </Card>
               <!-- 歌魂 -->
               <Card title="歌魂">
-                <p>todo</p>
+                <SongSoul/>
               </Card>
               <!-- 内定称号 -->
               <Card title="内定称号" :length="2">
@@ -355,16 +361,6 @@ onMounted(async () => {
               <Package/>
             </div>
           </div>
-        </div>
-      </div>
-      <!-- 记录 -->
-      <div class="relative">
-        <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
-          消息<span class="text-base -ml-1 opacity-10">MESSAGE</span>
-        </h1>
-        <!-- 记录 内容 -->
-        <div class="flex flex-wrap max-w-152">
-          <Log/>
         </div>
       </div>
     </div>

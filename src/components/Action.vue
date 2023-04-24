@@ -24,6 +24,7 @@ onMounted(() => {
     { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
     { name: '治疗', action: () => rest('rest2'), desc: '进入治疗状态，随时间缓慢恢复生命' },
     { name: '队伍', action: () => team() },
+    { name: '技能', action: () => skill() },
   ]
 })
 // 恢复选项
@@ -38,6 +39,7 @@ watch(() => state.drawerType, type => {
       { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
       { name: '治疗', action: () => rest('rest2'), desc: '进入治疗状态，随时间缓慢恢复生命' },
       { name: '队伍', action: () => team() },
+      { name: '技能', action: () => skill() },
     ]
   }
 })
@@ -142,6 +144,17 @@ const rest = async (type: string) => {
 const team = () => {
   state.drawerType = 'team'
 }
+const skill = () => {
+  if (state.drawerType !== 'skill') {
+    actionState.oldType = state.drawerType
+    actionState.action.map(action => {
+      action.name != '技能' && (action.active = false)
+    })
+    state.drawerType = 'skill'
+  } else {
+    state.drawerType = actionState.oldType
+  }
+}
 // 商店
 const shop = () => {
   if (state.drawerType != 'shop') {
@@ -191,7 +204,7 @@ const shop = () => {
               <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
               </div>
             </div>
-            <div class="text-zinc-500 px-4 py-2">
+            <div class="text-zinc-500 px-3 py-2">
               <p class="m-auto">{{item.name}}<span v-if="item.desc" class="text-sm ml-0.5 text-zinc-500">[?]</span></p>
             </div>
           </div>
@@ -206,8 +219,16 @@ const shop = () => {
               <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
               </div>
             </div>
-            <div class="text-zinc-300 px-4 py-2">
-              <p class="m-auto">{{item.name}}<span v-if="item.desc" class="text-sm ml-0.5 text-zinc-500">[?]</span></p>
+            <div class="text-zinc-300 px-3 py-2">
+              <p class="m-auto">
+                {{item.name}}
+                <span
+                  v-if="item.name === '技能'"
+                  class="text-sm"
+                  :class="state.playerState && state.playerState?.skillPoint > 0 ? 'text-yellow-600' : 'text-zinc-500'"
+                > | 技能点 {{ state.playerState?.skillPoint }}</span>
+                <span v-if="item.desc" class="text-sm ml-0.5 text-zinc-500">[?]</span>
+              </p>
             </div>
           </div>
         </div>
