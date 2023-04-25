@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { inject, onMounted, provide, reactive, ref, watch } from 'vue'
+import { inject, nextTick, onMounted, provide, reactive, ref, watch } from 'vue'
 import Card from '../components/Card.vue'
 import Semo from './Semo.vue'
 import ItemBag from './ItemBag.vue'
 import { test, command } from '../utils/api'
+import { transitionHelper } from '../utils/tools'
 
 import type { GameState, ActionState } from '../types/interface'
 
@@ -24,6 +25,7 @@ onMounted(() => {
     { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
     { name: '治疗', action: () => rest('rest2'), desc: '进入治疗状态，随时间缓慢恢复生命' },
     { name: '队伍', action: () => team() },
+    { name: '商店', action: () => shop(), id: 'shop' },
     { name: '技能', action: () => skill() },
   ]
 })
@@ -39,6 +41,7 @@ watch(() => state.drawerType, type => {
       { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
       { name: '治疗', action: () => rest('rest2'), desc: '进入治疗状态，随时间缓慢恢复生命' },
       { name: '队伍', action: () => team() },
+      { name: '商店', action: () => shop(), id: 'shop' },
       { name: '技能', action: () => skill() },
     ]
   }
@@ -142,51 +145,60 @@ const rest = async (type: string) => {
 }
 // 队伍
 const team = () => {
-  state.drawerType = 'team'
+  transitionHelper({
+    updateDOM() {
+      state.drawerType = 'team'
+    }
+  })
 }
+// 技能
 const skill = () => {
-  if (state.drawerType !== 'skill') {
-    actionState.oldType = state.drawerType
-    actionState.action.map(action => {
-      action.name != '技能' && (action.active = false)
-    })
-    state.drawerType = 'skill'
-  } else {
-    state.drawerType = actionState.oldType
-  }
+  transitionHelper({
+    updateDOM() {
+      if (state.drawerType !== 'skill') {
+        actionState.oldType = state.drawerType
+        actionState.action.map(action => {
+          action.name != '技能' && (action.active = false)
+        })
+        state.drawerType = 'skill'
+      } else {
+        state.drawerType = actionState.oldType
+      }
+    }
+  })
 }
 // 商店
-const shop = () => {
-  if (state.drawerType != 'shop') {
-    state.showDrawer = false
-    setTimeout(() => {
-      state.showDrawer = true
-      state.drawerType = 'shop'
-      actionState.action.map(action => {
-        if (state.showDrawer) {
+const shop = async () => {
+  transitionHelper({
+    async updateDOM() {
+      if (state.drawerType !== 'shop') {
+        actionState.oldType = state.drawerType
+        actionState.action.map(action => {
           action.name != '商店' && (action.active = false)
-        } else {
-          action.active = true
-        }
-      })
-    }, 200)
-  } else {
-    state.showDrawer = !state.showDrawer
-    actionState.action.map(action => {
-      if (state.showDrawer) {
-        action.name != '商店' && (action.active = false)
+        })
+        let waitTimer = setTimeout(() => {
+          state.loading = true
+        }, 200)
+        await command({ mode: 'special', command: 'shop1' }).then(res => {
+          window.clearTimeout(waitTimer)
+          state.loading = false
+          const data = res as any
+          state.playerState = data.playerState
+          state.actionLog = data.actionLog
+          state.drawerType = 'shop'
+        })
       } else {
-        action.active = true
+        state.drawerType = actionState.oldType
       }
-    })
-  }
+    }
+  })
 }
 
 </script>
 <template>
-  <div class="fixed flex w-screen bottom-0">
+  <div class="actions fixed flex w-screen bottom-0">
     <div class="p-2 mb-4 mx-auto flex flex-col">
-      <TransitionGroup name="list" tag="div" class="flex m-auto items-center bg-zinc-700/90 ring-zinc-600 ring-1">
+      <TransitionGroup name="list" tag="div" class="flex m-auto items-center bg-zinc-700/70 ring-zinc-600 ring-1">
         <!-- 视野 -->
         <div v-if="state.drawerType === ''" class="group transition-opacity" key="semo">
           <Semo/>
@@ -204,8 +216,14 @@ const shop = () => {
               <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
               </div>
             </div>
-            <div class="text-zinc-500 px-3 py-2">
-              <p class="m-auto">{{item.name}}<span v-if="item.desc" class="text-sm ml-0.5 text-zinc-500">[?]</span></p>
+            <div
+              class="text-zinc-500 px-3 py-2"
+              :class="item.id && !state.playerState?.canAction[item.id as any] ? 'hidden' : ''"
+            >
+              <p class="m-auto">
+                {{item.name}}
+                <span v-if="item.desc" class="text-sm text-zinc-500">[?]</span>
+              </p>
             </div>
           </div>
           <!-- 非禁用项 -->
@@ -215,19 +233,25 @@ const shop = () => {
             @click="() => {item.action()}"
           >
             <!-- 悬浮 -->
-            <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
+            <div
+              v-if="item.desc"
+              class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)"
+            >
               <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
               </div>
             </div>
-            <div class="text-zinc-300 px-3 py-2">
+            <div
+              class="text-zinc-300 px-3 py-2"
+              :class="item.id && !state.playerState?.canAction[item.id as any] ? 'hidden' : ''"
+            >
               <p class="m-auto">
                 {{item.name}}
                 <span
                   v-if="item.name === '技能'"
                   class="text-sm"
-                  :class="state.playerState && state.playerState?.skillPoint > 0 ? 'text-yellow-600' : 'text-zinc-500'"
+                  :class="state.playerState && state.playerState?.skillPoint > 0 ? 'text-yellow-600' : 'text-zinc-400'"
                 > | 技能点 {{ state.playerState?.skillPoint }}</span>
-                <span v-if="item.desc" class="text-sm ml-0.5 text-zinc-500">[?]</span>
+                <span v-if="item.desc" class="text-sm text-zinc-500">[?]</span>
               </p>
             </div>
           </div>
@@ -264,5 +288,8 @@ const shop = () => {
 }
 .tippy-content {
   padding: 0em;
+}
+.actions {
+  view-transition-name: actions;
 }
 </style>

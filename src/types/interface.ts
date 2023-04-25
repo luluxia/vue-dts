@@ -242,6 +242,12 @@ export interface PlayerState {
   }[],
   /** 技能点 */
   skillPoint: number,
+  /** 商店 */
+  shop: any[],
+  /** 行动是否可行 */
+  canAction: {
+    [key: string]: boolean,
+  }[],
 }
 
 /** 搜寻状态 */
@@ -342,6 +348,7 @@ export interface Action {
   action: Function
   active?: boolean
   desc?: string
+  id?: string
 }
 
 /** 指令状态 */

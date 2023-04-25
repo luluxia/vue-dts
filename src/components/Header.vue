@@ -14,7 +14,7 @@ window.onscroll = function() {
 </script>
 <template>
   <header
-    class="fixed z-1 top-0 h-15 w-screen mb-2 border-b-2 border-zinc-600/20 bg-zinc-700/20 transition hover:(opacity-100 bg-zinc-800/90)"
+    class="no-view-trans fixed z-1 top-0 h-15 w-screen mb-2 border-b-2 border-zinc-600/20 bg-zinc-700/20 transition hover:(opacity-100 bg-zinc-800/90)"
     :class="!state.showHeader && 'opacity-0'"
   >
     <div class="max-w-screen-xl h-15 mx-auto flex items-center">

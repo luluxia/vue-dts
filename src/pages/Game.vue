@@ -217,7 +217,7 @@ onMounted(async () => {
     <Transition><Loading/></Transition>
     <!-- 游戏卡片 -->
     <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
-      <p class="w-18.5 w-37.5 w-56.5 w-75.5 hidden"></p>
+      <p class="w-19 w-38.5 w-58 w-77.5 hidden"></p>
       <div class="flex justify-between">
         <!-- 左侧 -->
         <div class="space-y-1">
@@ -227,7 +227,7 @@ onMounted(async () => {
               状态<span class="text-base -ml-1 opacity-10">STATUS</span>
             </h1>
             <!-- 状态 内容 -->
-            <div class="flex flex-wrap max-w-152">
+            <div class="flex flex-wrap max-w-156">
               <!-- 头像 -->
               <Card :title="state.playerState?.playerInfo.nick" :length="3">
                 <Player/>
@@ -308,7 +308,7 @@ onMounted(async () => {
               地点<span class="text-base -ml-1 opacity-10">AREA</span>
             </h1>
             <!-- 位置 内容 -->
-            <div class="flex flex-wrap max-w-152">
+            <div class="flex flex-wrap max-w-156">
               <!-- 当前地点 -->
               <Card title="当前地点" :length="2">
                 <NowArea/>
@@ -333,7 +333,7 @@ onMounted(async () => {
               负面效果<span class="text-base -ml-1 opacity-10">DEBUFF</span>
             </h1>
             <!-- 负面效果 内容 -->
-            <div class="flex flex-wrap max-w-152">
+            <div class="flex flex-wrap max-w-156">
               <!-- 负面效果 -->
               <Debuffs/>
             </div>
@@ -347,7 +347,7 @@ onMounted(async () => {
               装备<span class="text-base -ml-1 opacity-10">EQUIPMENT</span>
             </h1>
             <!-- 装备 内容 -->
-            <div v-if="state.playerState" class="flex flex-wrap max-w-152">
+            <div v-if="state.playerState" class="flex flex-wrap max-w-156">
               <Equipment/>
             </div>
           </div>
@@ -357,7 +357,7 @@ onMounted(async () => {
               包裹<span class="text-base -ml-1 opacity-10">PACKAGE</span>
             </h1>
             <!-- 包裹 内容 -->
-            <div v-if="state.playerState" class="flex flex-wrap max-w-152">
+            <div v-if="state.playerState" class="flex flex-wrap max-w-156">
               <Package/>
             </div>
           </div>

@@ -66,7 +66,7 @@ const memory = async (key: any) => {
           <div v-if="state.semo && Object.keys(state.semo).length === 0 || !state.semo" class="p-2">视野内空无一物</div>
         </div>
       </div>
-      <div class="text-zinc-300 px-4 py-2">
+      <div class="text-zinc-300 px-3 py-2">
         <p class="m-auto">视野</p>
       </div>
     </div>

@@ -11,6 +11,7 @@ import Arrange from './blocks/Arrange.vue'
 import Rest from './blocks/Rest.vue'
 import Team from './blocks/Team.vue'
 import Skill from './blocks/Skill.vue'
+import Shop from './blocks/Shop.vue'
 
 import Card from './Card.vue'
 import gameData from '../utils/data'
@@ -98,18 +99,12 @@ watch(() => state.drawerType, (val) => {
     </div>
   </div>
   <div
-    class="fixed bottom-0 w-screen flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition transform duration-300"
+    class="drawer fixed bottom-0 w-screen flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2"
     ref="hoverDom"
   >
-    <div class="m-auto flex flex-col items-center pb-16">      <!-- 显示log -->
-      <!-- 禁区 -->
-      <template v-if="state.drawerType == 'forbidden-area'">
-        <div v-if="state.playerState" class="text-zinc-400 text-center mt-2">
-          <p>{{ gameData.map[state.playerState.area.nowArea].name }}是禁区，还是赶快逃跑吧！</p>
-        </div>
-      </template>
+    <div class="m-auto flex flex-col items-center pb-16">
       <!-- 发现物品 -->
-      <FindItem v-else-if="state.drawerType == 'find-item'" />
+      <FindItem v-if="state.drawerType == 'find-item'" />
       <!-- 敌人相关 -->
       <FindEnemy v-else-if="state.drawerType == 'find-enemy'" />
       <!-- 发现队伍 -->
@@ -129,52 +124,8 @@ watch(() => state.drawerType, (val) => {
       <!-- 技能 -->
       <Skill v-else-if="state.drawerType == 'skill'"/>
       <!-- 商店 -->
-      <template v-else-if="state.drawerType == 'shop'">
-        <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">商店</h1>
-        <div class="flex">
-          <div class="text-zinc-300 justify-center flex-wrap">
-            <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 text-center">分类</p>
-            <div class="h-60 overflow-y-auto overflow-x-hidden overscroll-contain snap snap-y">
-              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">补给品</p>
-              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">药剂</p>
-              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">埃克法轻工特供商品</p>
-              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
-              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
-              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
-              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
-              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
-              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
-              <p class=" px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">分类</p>
-            </div>
-          </div>
-          <div class="text-zinc-300 w-150 justify-center flex-wrap">
-            <div class="flex bg-zinc-700/50 px-2.5 py-1 rounded m-0.5">
-              <p class="flex-1 text-center">物品名</p>
-              <p class="w-20 text-center">库存</p>
-              <p class="w-20 text-center mr-2.5">价格</p>
-            </div>
-            <div class="h-60 overflow-y-auto overflow-x-hidden overscroll-contain snap snap-y">
-              <div class="flex px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">
-                <p class="flex-1">物品名</p>
-                <p class="w-20 text-center">20</p>
-                <p class="w-20 text-center">50</p>
-              </div>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-              <p class="px-2.5 py-1 rounded m-0.5 snap-center hover:bg-zinc-700/50">物品名</p>
-            </div>
-          </div>
-        </div>
-      </template>
+      <Shop v-else-if="state.drawerType == 'shop'"/>
+      <!-- 默认 -->
       <template v-else>
         <div class="text-zinc-400 mt-2">
           <p v-html="state.actionLog"></p>
@@ -202,5 +153,8 @@ watch(() => state.drawerType, (val) => {
 }
 .gold {
   @apply text-yellow-600 font-bold;
+}
+.drawer {
+  view-transition-name: drawer;
 }
 </style>

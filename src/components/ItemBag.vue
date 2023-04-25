@@ -64,7 +64,7 @@ const takeItem = async (key: any) => {
           <div v-if="state.itemBag.num == 0" class="p-2">背包内空无一物</div>
         </div>
       </div>
-      <div class="text-zinc-300 px-4 py-2">
+      <div class="text-zinc-300 px-3 py-2">
         <p class="m-auto">背包<span class="text-sm text-zinc-400"> | {{ state.itemBag.num }}/{{ state.itemBag.limit }}</span></p>
       </div>
     </div>

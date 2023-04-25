@@ -81,5 +81,4 @@ const useSkill = async (skill: any) => {
 .skill-desc span[tooltip]::after {
   @apply !hidden;
 }
-
 </style>
