@@ -49,7 +49,7 @@ const encaseItem = async (key: any) => {
     v-for="(item, key) of state.playerState?.bag"
     @click="useItem(key)"
     :title="item?.name && item.type" :length="4"
-    :class="`${item?.name ? 'cursor-pointer group transition hover:(ring-zinc-500 ring-2)' : 'pointer-events-none border-2 border-dashed border-zinc-800 bg-transparent'}`"
+    :class="`${item?.name ? 'cursor-pointer group transition hover:(ring-zinc-500 ring-2)' : 'pointer-events-none border-2 border-dashed border-zinc-800 !bg-transparent'}`"
   >
     <Item v-if="item" :item='item'/>
     <div v-if="item" class="absolute right-1 bottom-1 space-y-1 text-center transition opacity-0 group-hover:(opacity-100)">

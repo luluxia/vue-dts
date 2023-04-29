@@ -76,33 +76,11 @@ watch(() => state.drawerType, (val) => {
 })
 </script>
 <template>
-  <div class="hidden">
-    <div class="flex" ref="tippyRef">
-      <div>
-        <p class="p-1 text-center">合成物品</p>
-        <Card :length="2" :title="'物品'">
-          <div class="p-1.5">
-            <p>物品名</p>
-          </div>
-        </Card>
-      </div>
-      <div>
-        <p class="p-1 text-center">需求材料</p>
-        <div class="bg-zinc-700/50 text-zinc-300 p-2 h-28 rounded m-0.5">
-          <p>材料1</p>
-          <p>材料22</p>
-          <p>材料333</p>
-          <p>材料4444</p>
-          <p>材料55555</p>
-        </div>
-      </div>
-    </div>
-  </div>
   <div
-    class="drawer fixed bottom-0 w-screen flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2"
+    class="drawer fixed bottom-0 w-screen flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 left-15 pattern-diagonal-lines-sm text-zinc-50/1"
     ref="hoverDom"
   >
-    <div class="m-auto flex flex-col items-center pb-16">
+    <div class="m-auto flex flex-col items-center pb-16 pr-30">
       <!-- 发现物品 -->
       <FindItem v-if="state.drawerType == 'find-item'" />
       <!-- 敌人相关 -->

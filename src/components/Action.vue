@@ -197,8 +197,8 @@ const shop = async () => {
 </script>
 <template>
   <div class="actions fixed flex w-screen bottom-0">
-    <div class="p-2 mb-4 mx-auto flex flex-col">
-      <TransitionGroup name="list" tag="div" class="flex m-auto items-center bg-zinc-700/70 ring-zinc-600 ring-1">
+    <div class="mb-4 mx-auto">
+      <TransitionGroup name="list" tag="div" class="flex rounded px-2 border-2 border-zinc-700 bg-zinc-700/50">
         <!-- 视野 -->
         <div v-if="state.drawerType === ''" class="group transition-opacity" key="semo">
           <Semo/>
@@ -213,12 +213,12 @@ const shop = async () => {
           <div v-if="item.active === false" class="relative flex justify-center cursor-default">
             <!-- 悬浮 -->
             <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
-              <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
+              <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-700 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
               </div>
             </div>
             <div
               class="text-zinc-500 px-3 py-2"
-              :class="item.id && !state.playerState?.canAction[item.id as any] ? 'hidden' : ''"
+              :class="item.id && !state.playerState?.canAction?.[item.id as any] ? 'hidden' : ''"
             >
               <p class="m-auto">
                 {{item.name}}
@@ -233,16 +233,13 @@ const shop = async () => {
             @click="() => {item.action()}"
           >
             <!-- 悬浮 -->
-            <div
-              v-if="item.desc"
-              class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)"
-            >
-              <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
+            <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
+              <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-700 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
               </div>
             </div>
             <div
               class="text-zinc-300 px-3 py-2"
-              :class="item.id && !state.playerState?.canAction[item.id as any] ? 'hidden' : ''"
+              :class="item.id && !state.playerState?.canAction?.[item.id as any] ? 'hidden' : ''"
             >
               <p class="m-auto">
                 {{item.name}}

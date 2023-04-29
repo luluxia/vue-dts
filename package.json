@@ -8,18 +8,23 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@unocss/reset": "^0.51.8",
     "axios": "^0.27.2",
-    "esbuild-windows-64": "^0.14.49",
+    "esbuild-windows-64": "^0.14.54",
     "tippy.js": "^6.3.7",
-    "vue": "^3.2.25",
-    "vue-router": "^4.0.16"
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.3",
-    "typescript": "^4.5.4",
-    "vite": "^2.9.9",
-    "vite-plugin-windicss": "^1.8.4",
-    "vue-tsc": "^0.34.7",
-    "windicss": "^3.5.4"
+    "@unocss/preset-uno": "^0.51.8",
+    "@unocss/transformer-directives": "^0.51.8",
+    "@unocss/transformer-variant-group": "^0.51.8",
+    "@vitejs/plugin-vue": "^2.3.4",
+    "typescript": "^4.9.5",
+    "unocss": "^0.51.8",
+    "vite": "^2.9.15",
+    "vite-plugin-windicss": "^1.8.10",
+    "vue-tsc": "^0.34.17",
+    "windicss": "^3.5.6"
   }
 }

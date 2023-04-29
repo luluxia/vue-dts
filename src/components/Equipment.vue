@@ -57,7 +57,7 @@ const specialWeapon = async () => {
     v-for="(item, key) of state.playerState?.equipment"
     :title="item.name && item.type" :length="4"
     :class="`
-    ${item.name ? 'group transition hover:(ring-zinc-500 ring-2)' : 'pointer-events-none border-2 border-dashed border-zinc-800 bg-transparent'} 
+    ${item.name ? 'group transition hover:(ring-zinc-500 ring-2)' : 'pointer-events-none border-2 border-dashed border-zinc-800 !bg-transparent'} 
     ${item.name && item.quality && 'cursor-pointer'}
     `"
     class="tooltip-down"

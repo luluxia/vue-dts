@@ -2,6 +2,7 @@
 import Card from '../components/Card.vue'
 import Action from '../components/Action.vue'
 import Drawer from '../components/Drawer.vue'
+import Sidebar from '../components/Sidebar.vue'
 import Loading from '../components/Loading.vue'
 
 import Player from '../components/cards/Player.vue'
@@ -216,14 +217,14 @@ onMounted(async () => {
   <div>
     <Transition><Loading/></Transition>
     <!-- 游戏卡片 -->
-    <div class="max-w-screen-xl mx-auto" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
+    <div class="max-w-screen-xl mx-auto pt-2" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
       <p class="w-19 w-38.5 w-58 w-77.5 hidden"></p>
       <div class="flex justify-between">
         <!-- 左侧 -->
         <div class="space-y-1">
           <!-- 状态 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
+            <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-800 border-b-2 border-dashed mb-1">
               状态<span class="text-base -ml-1 opacity-10">STATUS</span>
             </h1>
             <!-- 状态 内容 -->
@@ -304,7 +305,7 @@ onMounted(async () => {
           </div>
           <!-- 位置 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
+            <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-800 border-b-2 border-dashed mb-1">
               地点<span class="text-base -ml-1 opacity-10">AREA</span>
             </h1>
             <!-- 位置 内容 -->
@@ -329,7 +330,7 @@ onMounted(async () => {
           </div>
           <!-- 负面效果 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
+            <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-800 border-b-2 border-dashed mb-1">
               负面效果<span class="text-base -ml-1 opacity-10">DEBUFF</span>
             </h1>
             <!-- 负面效果 内容 -->
@@ -343,7 +344,7 @@ onMounted(async () => {
         <div class="space-y-1">
           <!-- 装备 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
+            <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-800 border-b-2 border-dashed mb-1">
               装备<span class="text-base -ml-1 opacity-10">EQUIPMENT</span>
             </h1>
             <!-- 装备 内容 -->
@@ -353,7 +354,7 @@ onMounted(async () => {
           </div>
           <!-- 包裹 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-xl font-bold border-b-zinc-800 border-b-2 border-dashed mb-1">
+            <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-800 border-b-2 border-dashed mb-1">
               包裹<span class="text-base -ml-1 opacity-10">PACKAGE</span>
             </h1>
             <!-- 包裹 内容 -->
@@ -364,6 +365,8 @@ onMounted(async () => {
         </div>
       </div>
     </div>
+    <!-- 侧边栏 -->
+    <Sidebar/>
     <!-- 游戏行动 -->
     <Drawer/>
     <Action/>
@@ -376,12 +379,12 @@ onMounted(async () => {
 }
 *::-webkit-scrollbar {
   width: 10px;
-  background-color: hsla(0,0%,100%,.025);
-  border-radius: 100px;
+  /* background-color: hsla(0,0%,100%,.025); */
+  /* border-radius: 100px; */
 }
 *::-webkit-scrollbar-thumb {
   background: hsla(0,0%,100%,.5);
-  border-radius: 100px;
+  /* border-radius: 100px; */
   background-clip: padding-box;
   border: 2px solid hsla(0,0%,100%,0);
   min-height: 10px;
@@ -439,5 +442,8 @@ span[tooltip]:hover::before {
 	100% {
 		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
 	}
+}
+.b {
+  border: none;
 }
 </style>
