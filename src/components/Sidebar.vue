@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { provide, ref } from 'vue'
 import Log from './Log.vue'
 const showSidebar = ref(false)
+const haveNewMessage = ref(true)
+provide('haveNewMessage', haveNewMessage)
 </script>
 <template>
   <div
@@ -15,8 +17,9 @@ const showSidebar = ref(false)
     <div @mouseover.stop="showSidebar = true" class="w-15 h-15 flex group transition hover:bg-zinc-700/50">
       <img class="p-3 transition opacity-30 group-hover:opacity-100" src="/img/history.svg" alt="">
     </div>
-    <div @mouseover.stop="showSidebar = true" class="w-15 h-15 flex group transition hover:bg-zinc-700/50">
-      <img class="p-3 transition opacity-30 group-hover:opacity-100" src="/img/chat.svg" alt="">
+    <div @mouseover.stop="showSidebar = true; haveNewMessage = false" class="w-15 h-15 flex group transition hover:bg-zinc-700/50">
+      <img :class="haveNewMessage ? 'opacity-30' : '!opacity-0'" class="p-3 transition absolute group-hover:opacity-100" src="/img/chat_notice.svg" alt="">
+      <img :class="haveNewMessage ? '!opacity-0' : 'opacity-30'" class="p-3 transition absolute group-hover:opacity-100" src="/img/chat.svg" alt="">
     </div>
   </div>
 </template>

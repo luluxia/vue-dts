@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, reactive } from 'vue'
+import { computed, inject, nextTick, onMounted, reactive, ref } from 'vue'
 import { command } from '../../utils/api'
 import tippy, { hideAll } from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
@@ -17,12 +17,14 @@ const state = computed(() => {
     })
     return {
       craftTips: gameState.playerState.craftTips,
+      craftDialog: gameState.playerState.craftDialog,
       bag: bag,
     }
   }
 })
-const craftingState = reactive<{list: Set<string | number>}>({
-  list: new Set()
+const craftingState = reactive<{ list: Set<string | number>, showDialog: boolean }>({
+  list: new Set(),
+  showDialog: false,
 })
 const itemClick = (key: string | number) => {
   if (craftingState.list.has(key)) {
@@ -82,11 +84,41 @@ const craft = async () => {
     }
   })
 }
+const itemIndex = ref('');
+(window as any).$ = (tag: string) => {
+  if (tag == 'itemindex') {
+    return itemIndex
+  }
+}
+(window as any).postCmd = async () => {
+  let waitTimer = setTimeout(() => {
+    gameState.loading = true
+  }, 200)
+  await command({ itemindex: itemIndex.value }).then(res => {
+    window.clearTimeout(waitTimer)
+    gameState.loading = false
+    const data = res as any
+    gameState.playerState = data.playerState
+    craftingState.showDialog = true
+    nextTick(() => {
+      tippy('.craft-dialog span[tooltip2]', {
+        interactive: true,
+        arrow: false,
+        content: (el) => {
+          const content = el.getAttribute('tooltip2') ? el.getAttribute('tooltip2') : '暂无说明'
+          return content as string
+        },
+        theme: 'crafting',
+        appendTo: () => document.body,
+      })
+    })
+  })
+}
 </script>
 <template v-else-if="state.drawerType == 'crafting'">
   <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">合成</h1>
   <p class="text-zinc-400 mb-2">合成笔记</p>
-  <div class="crafting text-zinc-300 bg-zinc-800/70 max-h-50 p-4 rounded overflow-y-scroll" v-html="state?.craftTips">
+  <div class="crafting text-zinc-300 bg-zinc-800/70 max-h-100 p-4 rounded overflow-y-scroll" v-html="state?.craftTips">
 
   </div>
   <div class="text-zinc-400 mt-2" v-html="gameState.actionLog">
@@ -103,16 +135,30 @@ const craft = async () => {
       <span>{{ item?.name }}</span>
     </p>
   </div>
+  <Teleport to="body">
+    <div
+      class="fixed w-screen h-screen top-0 bg-black/70 z-1 shadow flex transition opacity-0 pointer-events-none"
+      :class="craftingState.showDialog && '!opacity-100 !pointer-events-auto'"
+      @click="craftingState.showDialog = false"
+    >
+      <div class="crafting craft-dialog text-zinc-300 bg-zinc-900/95 border-2 border-zinc-700 h-max max-w-300 m-auto p-4 rounded overflow-y-scroll" v-html="state?.craftDialog">
+
+      </div>
+    </div>
+  </Teleport>
 </template>
 <style lang="postcss">
 .crafting br:last-child {
   @apply hidden;
 }
 .crafting ul {
-  @apply m-0 px-2 py-1;
+  @apply my-1 px-4 space-y-1;
+}
+.crafting ul:last-of-type {
+  @apply mb-0;
 }
 .crafting li {
-  @apply m-1 list-none;
+  @apply list-none;
 }
 .crafting .grey {
   @apply text-zinc-500;

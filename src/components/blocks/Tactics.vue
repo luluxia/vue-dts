@@ -58,7 +58,7 @@ const change = async (type: 'tac' | 'pose' | 'clubsel', id: string) => {
   </div>
   <!-- 内定称号 -->
   <template v-if="state?.gift.nowGiftId == '0'">
-    <div class="text-zinc-400 my-2">
+    <div class="text-zinc-400 mb-2">
       <p>内定称号</p>
     </div>
     <div class="text-zinc-300 flex w-200 justify-center flex-wrap mb-2">

@@ -50,7 +50,7 @@ const takeItem = async (key: any) => {
 
 <template>
   <template v-if="state">
-    <div :class="!state.itemBag.isEquip && 'hidden'" class="flex justify-center transform transition-all top-0 cursor-pointer relative group-hover:(-top-1) group tippy-bag">
+    <div :class="!state.itemBag.isEquip && '!hidden'" class="flex justify-center transform transition-all top-0 cursor-pointer relative group-hover:(-top-1) group tippy-bag">
       <!-- 视野悬浮窗 -->
       <div class="absolute bottom-0 pb-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100 pointer-events-auto)">
         <div class="bg-zinc-800 border-2 border-zinc-600 rounded w-max space-y-0.5 text-base text-zinc-300 p-0.5" ref="tippyRef">

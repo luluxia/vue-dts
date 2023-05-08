@@ -219,8 +219,10 @@ export interface PlayerState {
   }
   /** 合成提示 */
   craftTips: string,
+  /** 合成提示弹框 */
+  craftDialog: string,
   /** 消息 */
-  message: string,
+  // message: string,
   /** 休息状态 */
   rest: string,
   /** 技能 */

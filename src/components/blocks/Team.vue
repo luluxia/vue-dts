@@ -5,7 +5,7 @@ import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const actionState = inject<ActionState>('actionState') as ActionState
 onMounted(() => {
-  if (gameState.playerState?.team === '无') {
+  if (gameState.playerState?.team === '') {
     actionState.action = [
       { name: '组建队伍', action: () => create() },
       { name: '返回', action: () => back() },
@@ -54,7 +54,7 @@ const create = async () => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
-    if (gameState.playerState?.team !== '无') {
+    if (gameState.playerState?.team !== '') {
       gameState.drawerType = ''
     }
   })
@@ -74,7 +74,7 @@ const join = async () => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
-    if (gameState.playerState?.team !== '无') {
+    if (gameState.playerState?.team !== '') {
       gameState.drawerType = ''
     }
   })
@@ -101,7 +101,7 @@ const back = () => {
   <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog">
   </div>
   <p class="text-zinc-400">你想要做什么？</p>
-  <template v-if="gameState.playerState?.team === '无'">
+  <template v-if="gameState.playerState?.team === ''">
     <div class="text-zinc-300 flex justify-center flex-wrap mt-2">
       <p
         @click="changeType('create')"
@@ -127,7 +127,7 @@ const back = () => {
               absolute flex justify-start items-start
               flex-wrap w-136.5 bg-zinc-800 p-1 border-2
               border-zinc-500 rounded transition opacity-0 pointer-events-none"
-            :class="teamState.showAvatar && 'opacity-100 pointer-events-auto'"
+            :class="teamState.showAvatar && '!opacity-100 !pointer-events-auto'"
           >
             <img
               @click="teamState.showAvatar = false; teamState.chooseAvatar = i - 1"
