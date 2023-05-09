@@ -238,9 +238,13 @@ export interface PlayerState {
     /** 技能行动 */
     action: string,
     /** 是否解锁 */
-    unlockFlag: boolean,
+    unlockFlag: string,
     /** 解锁描述 */
     unlockDesc: string,
+    /** 特殊内容 */
+    specialData: {
+      [key: string]: any,
+    }
   }[],
   /** 技能点 */
   skillPoint: number,

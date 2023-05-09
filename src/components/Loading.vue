@@ -9,7 +9,7 @@ const state = inject('state', {
   <div v-if="state.loading" class="fixed w-screen h-screen flex top-0 z-9999 bg-black/10">
     <div class="m-auto text-center">
       <div class="loading"></div>
-      <p class="text-zinc-300 text-sm mt-3">少女祈祷中</p>
+      <p class="text-zinc-300 text-sm mt-3 text-shadow-lg">少女祈祷中</p>
     </div>
   </div>
 </template>

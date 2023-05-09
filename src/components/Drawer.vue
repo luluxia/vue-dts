@@ -120,6 +120,9 @@ watch(() => state.drawerType, (val) => {
 .red {
   @apply text-red-600 font-bold;
 }
+.redseed {
+  @apply text-rose-600 font-bold;
+}
 .purple {
   @apply text-purple-600 font-bold;
 }

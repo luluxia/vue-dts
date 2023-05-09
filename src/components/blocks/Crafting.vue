@@ -35,7 +35,7 @@ const itemClick = (key: string | number) => {
 }
 onMounted(() => {
   tippy('span[tooltip2]', {
-    interactive: true,
+    // interactive: true,
     arrow: false,
     content: (el) => {
       const content = el.getAttribute('tooltip2') ? el.getAttribute('tooltip2') : '暂无说明'
@@ -102,7 +102,7 @@ const itemIndex = ref('');
     craftingState.showDialog = true
     nextTick(() => {
       tippy('.craft-dialog span[tooltip2]', {
-        interactive: true,
+        // interactive: true,
         arrow: false,
         content: (el) => {
           const content = el.getAttribute('tooltip2') ? el.getAttribute('tooltip2') : '暂无说明'

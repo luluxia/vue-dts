@@ -215,6 +215,10 @@ onMounted(async () => {
 
 <template>
   <div>
+    <div class="fixed w-screen h-screen top-0">
+      <img v-if="state.playerState?.area.nowArea" class="w-full h-full object-cover opacity-10 grayscale" :src="`/old/img/location/${state.playerState?.area.nowArea}.jpg`" alt="">
+      <img v-else src="/img/bg.png"/>
+    </div>
     <Transition><Loading/></Transition>
     <!-- 游戏卡片 -->
     <div class="max-w-screen-xl mx-auto pt-2" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">

@@ -9,6 +9,6 @@ import HeaderVue from './components/Header.vue'
 
 <style>
 body {
-  background-image: url(/img/bg.png);
+  /* background-image: url(/img/bg.png); */
 }
 </style>
