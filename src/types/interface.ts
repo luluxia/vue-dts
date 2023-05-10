@@ -254,6 +254,10 @@ export interface PlayerState {
   canAction: {
     [key: string]: boolean,
   }[],
+  /** 安全箱物品 */
+  depotItems: {
+    [key: string]: string,
+  }[]
 }
 
 /** 搜寻状态 */

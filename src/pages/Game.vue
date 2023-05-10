@@ -178,9 +178,13 @@ const initState: GameState = {
     },
     semo: {},
     craftTips: '',
-    message: '',
+    craftDialog: '',
     rest: '',
     skill: [],
+    skillPoint: 0,
+    shop: [],
+    canAction: [],
+    depotItems: [],
   },
   log: []
 }
@@ -391,6 +395,8 @@ onMounted(async () => {
   /* border-radius: 100px; */
   background-clip: padding-box;
   border: 2px solid hsla(0,0%,100%,0);
+  border-top: none;
+  border-bottom: none;
   min-height: 10px;
 }
 .avatar {

@@ -12,6 +12,7 @@ import Rest from './blocks/Rest.vue'
 import Team from './blocks/Team.vue'
 import Skill from './blocks/Skill.vue'
 import Shop from './blocks/Shop.vue'
+import Depot from './blocks/Depot.vue'
 
 import Card from './Card.vue'
 import gameData from '../utils/data'
@@ -103,6 +104,8 @@ watch(() => state.drawerType, (val) => {
       <Skill v-else-if="state.drawerType == 'skill'"/>
       <!-- 商店 -->
       <Shop v-else-if="state.drawerType == 'shop'"/>
+      <!-- 安全箱 -->
+      <Depot v-else-if="state.drawerType == 'depot'"/>
       <!-- 默认 -->
       <template v-else>
         <div class="text-zinc-400 mt-2">

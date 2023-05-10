@@ -97,28 +97,28 @@ const buy = async (itemId: string) => {
 <template>
   <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">商店</h1>
   <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog"></div>
-  <div class="shop flex mb-2">
+  <div class="shop flex mb-2 rounded overflow-hidden bg-zinc-800/40 shadow">
     <div class="text-zinc-300 justify-center flex-wrap">
-      <p class="bg-zinc-700/50 px-2.5 py-1 rounded m-0.5 text-center">分类</p>
-      <div class="h-100 overflow-y-auto overflow-x-hidden overscroll-contain snap snap-y">
+      <p class="bg-zinc-700/50 px-2.5 py-1 text-center mb-0.5">分类</p>
+      <div class="h-102 space-y-0.5 overflow-y-auto overflow-x-hidden overscroll-contain snap snap-y">
         <p
           v-for="item in shopTypes"
-          class="px-2.5 py-1 rounded m-0.5 snap-center cursor-pointer transition-colors hover:bg-zinc-700/50"
+          class="px-2.5 py-1 snap-start cursor-pointer transition-colors hover:bg-zinc-700/50"
           :class="shopType === item.id && '!bg-zinc-700'"
           @click="changeShopType(item.id)"
         >{{ item.name }}</p>
       </div>
     </div>
     <div class="text-zinc-300 w-190 justify-center flex-wrap">
-      <div class="flex bg-zinc-700/50 px-2.5 py-1 rounded m-0.5">
+      <div class="flex bg-zinc-700/50 px-2.5 py-1 mb-0.5">
         <p class="flex-1 text-center">物品名</p>
         <p class="w-15 text-center">效果</p>
         <p class="w-15 text-center">耐久</p>
         <p class="w-15 text-center">库存</p>
         <p class="w-15 text-center mr-27.5">价格</p>
       </div>
-      <div class="h-100 overflow-y-scroll overflow-x-hidden overscroll-contain snap snap-y">
-        <div v-for="item in shopItems" class="flex px-2.5 py-1 rounded m-0.5 snap-center group hover:bg-zinc-700/50">
+      <div class="h-102 space-y-0.5 overflow-y-scroll overflow-x-hidden overscroll-contain snap snap-y">
+        <div v-for="item in shopItems" class="flex px-2.5 py-1 snap-start group hover:bg-zinc-700/50">
           <p class="flex-1">
             <span class="text-zinc-400 mr-1">[<span v-html="item.itmk_words"></span>]</span>
             <span v-html="item.item_words"></span>

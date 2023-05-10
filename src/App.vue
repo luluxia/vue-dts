@@ -8,7 +8,7 @@ import HeaderVue from './components/Header.vue'
 </template>
 
 <style>
-body {
-  /* background-image: url(/img/bg.png); */
-}
+/* body {
+  background-image: url(/img/bg.png);
+} */
 </style>

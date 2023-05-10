@@ -24,7 +24,9 @@ onMounted(() => {
     { name: '整理', action: () => arrange(), desc: '交换道具位置，或合并可堆叠道具' },
     { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
     { name: '治疗', action: () => rest('rest2'), desc: '进入治疗状态，随时间缓慢恢复生命' },
+    { name: '静养', action: () => rest('rest3'), desc: '进入静养状态，随时间缓慢恢复生命与体力，同时可以积攒怒气', id: 'rest3' },
     { name: '队伍', action: () => team() },
+    { name: '安全箱', action: () => depot(), desc: '向安全箱中存入或取出道具', id: 'depot' },
     { name: '商店', action: () => shop(), id: 'shop' },
     { name: '技能', action: () => skill() },
   ]
@@ -40,7 +42,9 @@ watch(() => state.drawerType, type => {
       { name: '整理', action: () => arrange(), desc: '交换道具位置，或合并可堆叠道具' },
       { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
       { name: '治疗', action: () => rest('rest2'), desc: '进入治疗状态，随时间缓慢恢复生命' },
+      { name: '静养', action: () => rest('rest3'), desc: '进入静养状态，随时间缓慢恢复生命与体力，同时可以积攒怒气', id: 'rest3' },
       { name: '队伍', action: () => team() },
+      { name: '安全箱', action: () => depot(), desc: '向安全箱中存入或取出道具', id: 'depot' },
       { name: '商店', action: () => shop(), id: 'shop' },
       { name: '技能', action: () => skill() },
     ]
@@ -191,6 +195,20 @@ const shop = async () => {
         state.drawerType = actionState.oldType
       }
     }
+  })
+}
+// 安全箱
+const depot = async () => {
+  let waitTimer = setTimeout(() => {
+    state.loading = true
+  }, 200)
+  await command({ mode: 'command', command: 'special', sp_cmd: 'sp_depot' }).then(res => {
+    window.clearTimeout(waitTimer)
+    state.loading = false
+    const data = res as any
+    state.playerState = data.playerState
+    state.actionLog = data.actionLog
+    state.drawerType = 'depot'
   })
 }
 
