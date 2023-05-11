@@ -44,7 +44,8 @@ onMounted(() => {
 const useSkill = async (skill: any) => {
   let commandSend: any = { mode: 'revskpts', command: 'upgskill_' + skill.id }
   if (skill.num) {
-    commandSend['upgskill_' + skill.id] = skillNums[skill.id]
+    // commandSend['upgskill_' + skill.id] = skillNums[skill.id]
+    commandSend['upgskill_' + skill.id + '_nums'] = skillNums[skill.id]
   }
   let waitTimer = setTimeout(() => {
     gameState.loading = true
