@@ -13,73 +13,41 @@ import Team from './blocks/Team.vue'
 import Skill from './blocks/Skill.vue'
 import Shop from './blocks/Shop.vue'
 import Depot from './blocks/Depot.vue'
+import Customize from './blocks/Customize.vue'
+import CheckPoison from './blocks/CheckPoison.vue'
 
-import Card from './Card.vue'
-import gameData from '../utils/data'
-import tippy, { createSingleton } from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
-import 'tippy.js/animations/shift-away-subtle.css'
 import type { GameState } from '../types/interface'
 const state = inject<GameState>('state', {
-  showDrawer: false,
+  hideDrawer: false,
   drawerType: '',
   drawerHeight: 0,
 })
-const hoverDom = ref()
-const tippyRef = ref()
-let tippys = tippy('.tippy-tip', {
-  content: '123',
-  allowHTML: true,
-})
-const singleton = createSingleton(tippys, {
-  interactive: true,
-  arrow: false,
-  moveTransition: 'transform 0.2s ease-out',
-  animation: 'shift-away-subtle',
-})
-watch(() => state.showDrawer, (val) => {
-  if (val) {
-    nextTick(() => {
-      state.drawerHeight = hoverDom.value.getClientRects()[0].height
-      console.log(state.drawerHeight)
-      tippys.forEach(item => item.destroy())
-      tippys = tippy('.tippy-tip', {
-        content: () => tippyRef.value.cloneNode(true),
-        allowHTML: true,
-      })
-      console.log(tippys)
-      singleton.setInstances(tippys)
-    })
-  } else {
-    state.drawerHeight = 0
-  }
-})
-watch(() => state.playerState, (val) => {
+const drawerDom = ref()
+watch(() => state.playerState, () => {
   nextTick(() => {
-    state.drawerHeight = hoverDom.value.getClientRects()[0].height
-    // const timerDom = document.querySelector('#timer') as HTMLElement
-    // if (val && timerDom) {
-    //   let num = 1
-    //   const countdown = setInterval(function() {
-    //     num -= 0.01
-    //     timerDom.innerHTML = Math.abs(num).toFixed(2)
-    //     if (num < 0) {
-    //       clearInterval(countdown)
-    //     }
-    //   }, 10)
-    // }
+    state.drawerHeight = drawerDom.value.getClientRects()[0].height
   })
 })
-watch(() => state.drawerType, (val) => {
+watch(() => state.drawerType, () => {
   nextTick(() => {
-    state.drawerHeight = hoverDom.value.getClientRects()[0].height
+    state.drawerHeight = drawerDom.value.getClientRects()[0].height
   })
 })
 </script>
 <template>
+  <div class="hide fixed w-screen h-20 bottom-0 z-2 pointer-events-none">
+    <div
+      @mouseenter="state.hideDrawer = true"
+      @mouseleave="state.hideDrawer = false"
+      class="absolute bottom-4 right-4 h-11 w-11 flex rounded border-2 border-zinc-700 bg-zinc-700/50 pointer-events-auto"
+    >
+      <img class="w-6 m-auto" src="img/hide.svg" alt=""/>
+    </div>
+  </div>
   <div
-    class="drawer fixed bottom-0 w-screen flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 left-15 pattern-diagonal-lines-sm text-zinc-50/1"
-    ref="hoverDom"
+    class="drawer fixed w-screen bottom-0 left-15 flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition pattern-diagonal-lines-sm text-zinc-50/1"
+    :class="state.hideDrawer && 'opacity-0'"
+    ref="drawerDom"
   >
     <div class="m-auto flex flex-col items-center pb-16 pr-30">
       <!-- 发现物品 -->
@@ -106,6 +74,10 @@ watch(() => state.drawerType, (val) => {
       <Shop v-else-if="state.drawerType == 'shop'"/>
       <!-- 安全箱 -->
       <Depot v-else-if="state.drawerType == 'depot'"/>
+      <!-- 带电/淬毒 -->
+      <Customize v-else-if="state.drawerType == 'customize'"/>
+      <!-- 检查毒物 -->
+      <CheckPoison v-else-if="state.drawerType == 'check-poison'"/>
       <!-- 默认 -->
       <template v-else>
         <div class="text-zinc-400 mt-2">
@@ -140,5 +112,8 @@ watch(() => state.drawerType, (val) => {
 }
 .drawer {
   view-transition-name: drawer;
+}
+.hide {
+  view-transition-name: hide;
 }
 </style>

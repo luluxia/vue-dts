@@ -26,19 +26,14 @@ import Weather from '../components/cards/Weather.vue'
 
 import Debuffs from '../components/cards/Debuffs.vue'
 
-import Item from '../components/cards/Item.vue'
-
-import Log from '../components/Log.vue'
-
 import Equipment from '../components/Equipment.vue'
 import Package from '../components/Package.vue'
 
 import { onMounted, provide, reactive } from 'vue'
 import type { GameState, ActionState } from '../types/interface'
-import { command } from '../utils/api'
 import axios from 'axios'
 const initState: GameState = {
-  showDrawer: false,
+  hideDrawer: false,
   drawerType: '',
   drawerHeight: 0,
   loading: false,
@@ -185,6 +180,7 @@ const initState: GameState = {
     shop: [],
     canAction: [],
     depotItems: [],
+    rp: null,
   },
   log: []
 }
@@ -232,9 +228,12 @@ onMounted(async () => {
         <div class="space-y-1">
           <!-- 状态 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-800 border-b-2 border-dashed mb-1">
-              状态<span class="text-base -ml-1 opacity-10">STATUS</span>
-            </h1>
+            <div class="border-b-zinc-800 border-b-2 border-dashed flex items-center justify-between mb-1">
+              <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider">
+                状态<span class="text-base -ml-1 opacity-10">STATUS</span>
+              </h1>
+              <p v-if="state.playerState?.rp" class="text-zinc-400"><span class="font-bold">报应点数</span> {{ state.playerState?.rp }}</p>
+            </div>
             <!-- 状态 内容 -->
             <div class="flex flex-wrap max-w-156">
               <!-- 头像 -->
@@ -362,9 +361,12 @@ onMounted(async () => {
           </div>
           <!-- 包裹 -->
           <div class="relative">
-            <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-800 border-b-2 border-dashed mb-1">
-              包裹<span class="text-base -ml-1 opacity-10">PACKAGE</span>
-            </h1>
+            <div class="border-b-zinc-800 border-b-2 border-dashed flex items-center justify-between mb-1">
+              <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider">
+                包裹<span class="text-base -ml-1 opacity-10">PACKAGE</span>
+              </h1>
+              <p class="text-zinc-400"><span class="font-bold">金钱</span> {{ state.playerState?.money }} 元</p>
+            </div>
             <!-- 包裹 内容 -->
             <div v-if="state.playerState" class="flex flex-wrap max-w-156">
               <Package/>

@@ -1,7 +1,7 @@
 /** 游戏状态 */
 export interface GameState {
-  /** 是否显示抽屉 */
-  showDrawer?: boolean
+  /** 是否隐藏抽屉 */
+  hideDrawer?: boolean
   /** 抽屉类别 */
   drawerType?: string
   /** 抽屉高度 */
@@ -25,6 +25,8 @@ export interface GameState {
 
 /** 物品 */
 export interface Item {
+  /** 类型ID */
+  typeID?: string,
   /** 类型 */
   type: string,
   /** 名称 */
@@ -257,7 +259,9 @@ export interface PlayerState {
   /** 安全箱物品 */
   depotItems: {
     [key: string]: string,
-  }[]
+  }[],
+  /** 报应点数 */
+  rp: number | null,
 }
 
 /** 搜寻状态 */

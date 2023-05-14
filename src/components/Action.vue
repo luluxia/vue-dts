@@ -1,15 +1,13 @@
 <script lang="ts" setup>
-import { inject, nextTick, onMounted, provide, reactive, ref, watch } from 'vue'
-import Card from '../components/Card.vue'
+import { inject, onMounted, watch } from 'vue'
 import Semo from './Semo.vue'
 import ItemBag from './ItemBag.vue'
-import { test, command } from '../utils/api'
+import { command } from '../utils/api'
 import { transitionHelper } from '../utils/tools'
 
 import type { GameState, ActionState } from '../types/interface'
 
 const state = inject<GameState>('state', {
-  showDrawer: false,
   drawerType: '',
   loading: false,
 })
@@ -22,12 +20,16 @@ onMounted(() => {
     { name: '战术', action: () => tactics() },
     { name: '合成', action: () => crafting() },
     { name: '整理', action: () => arrange(), desc: '交换道具位置，或合并可堆叠道具' },
+    { name: '歌唱', action: () => song(), desc: 'x', id: 'song' },
     { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
     { name: '治疗', action: () => rest('rest2'), desc: '进入治疗状态，随时间缓慢恢复生命' },
     { name: '静养', action: () => rest('rest3'), desc: '进入静养状态，随时间缓慢恢复生命与体力，同时可以积攒怒气', id: 'rest3' },
     { name: '队伍', action: () => team() },
     { name: '安全箱', action: () => depot(), desc: '向安全箱中存入或取出道具', id: 'depot' },
     { name: '商店', action: () => shop(), id: 'shop' },
+    { name: '带电', action: () => customize(), desc: '消耗一枚电池，为武器或陷阱附加电击属性', id: 'electric' },
+    { name: '淬毒', action: () => customize(), desc: '消耗一份毒药，为武器或陷阱附加带毒属性', id: 'poison' },
+    { name: '检查毒物', action: () => checkPoison(), desc: '选择一份背包中的补给品，检查其是否带毒', id: 'poison' },
     { name: '技能', action: () => skill() },
   ]
 })
@@ -40,12 +42,16 @@ watch(() => state.drawerType, type => {
       { name: '战术', action: () => tactics() },
       { name: '合成', action: () => crafting() },
       { name: '整理', action: () => arrange(), desc: '交换道具位置，或合并可堆叠道具' },
+      { name: '歌唱', action: () => song(), desc: 'x', id: 'song' },
       { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
       { name: '治疗', action: () => rest('rest2'), desc: '进入治疗状态，随时间缓慢恢复生命' },
       { name: '静养', action: () => rest('rest3'), desc: '进入静养状态，随时间缓慢恢复生命与体力，同时可以积攒怒气', id: 'rest3' },
       { name: '队伍', action: () => team() },
       { name: '安全箱', action: () => depot(), desc: '向安全箱中存入或取出道具', id: 'depot' },
       { name: '商店', action: () => shop(), id: 'shop' },
+      { name: '带电', action: () => customize(), desc: '消耗一枚电池，为武器或陷阱附加电击属性', id: 'electric' },
+      { name: '淬毒', action: () => customize(), desc: '消耗一份毒药，为武器或陷阱附加带毒属性', id: 'poison' },
+      { name: '检查毒物', action: () => checkPoison(), desc: '选择一份背包中的补给品，检查其是否带毒', id: 'poison' },
       { name: '技能', action: () => skill() },
     ]
   }
@@ -93,13 +99,6 @@ const map = () => {
   } else {
     state.drawerType = actionState.oldType
   }
-  // actionState.action.map(action => {
-  //   if (state.showDrawer) {
-  //     action.name != '地图' && (action.active = false)
-  //   } else {
-  //     action.active = true
-  //   }
-  // })
 }
 // 战术
 const tactics = () => {
@@ -211,6 +210,27 @@ const depot = async () => {
     state.drawerType = 'depot'
   })
 }
+// 歌唱
+const song = async () => {
+  let waitTimer = setTimeout(() => {
+    state.loading = true
+  }, 200)
+  await command({ mode: 'command', command: 'song' }).then(res => {
+    window.clearTimeout(waitTimer)
+    state.loading = false
+    const data = res as any
+    state.playerState = data.playerState
+    state.actionLog = data.actionLog
+  })
+}
+// 改造（带电/淬毒）
+const customize = () => {
+  state.drawerType = 'customize'
+}
+// 检查毒物
+const checkPoison = () => {
+  state.drawerType = 'check-poison'
+}
 
 </script>
 <template>
@@ -231,7 +251,13 @@ const depot = async () => {
           <div v-if="item.active === false" class="relative flex justify-center cursor-default">
             <!-- 悬浮 -->
             <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
-              <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-700 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
+              <div class="bg-zinc-800 border-2 border-zinc-700 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
+                <template v-if="item.id === 'song'">
+                  {{ `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` }}
+                </template>
+                <template v-else>
+                  {{ item.desc }}
+                </template>
               </div>
             </div>
             <div
@@ -252,7 +278,13 @@ const depot = async () => {
           >
             <!-- 悬浮 -->
             <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
-              <div v-html="item.desc" class="bg-zinc-800 border-2 border-zinc-700 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
+              <div class="bg-zinc-800 border-2 border-zinc-700 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
+                <template v-if="item.id === 'song'">
+                  {{ `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` }}
+                </template>
+                <template v-else>
+                  {{ item.desc }}
+                </template>
               </div>
             </div>
             <div

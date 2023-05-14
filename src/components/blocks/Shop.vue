@@ -91,6 +91,12 @@ const buy = async (itemId: string) => {
     gameState.playerState = data.playerState
     gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
+    command({ mode: 'special', command: 'shop' + shopType.value }).then(res => {
+      const data = res as any
+      if (data.playerState.shop) {
+        shopItems.value = data.playerState.shop
+      }
+    })
   })
 }
 </script>
