@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, reactive, ref } from 'vue'
+import { computed, inject, nextTick, onMounted, reactive, ref } from 'vue'
 import { command } from '../../utils/api'
 import tippy, { hideAll } from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
@@ -9,18 +9,10 @@ const gameState = inject<GameState>('state') as GameState
 const actionState = inject<ActionState>('actionState') as ActionState
 const skillNums = reactive<{ [key: string]: number }>({})
 const skillSpecialData = reactive<{ [key: string]: any }>({})
+const tippyInstance = ref<any>(null)
 onMounted(() => {
   // 初始化 tooltip
-  tippy('.skill-desc span[tooltip], .skill-desc span[tooltip2]', {
-    // interactive: true,
-    arrow: false,
-    content: (el) => {
-      const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || ''
-      return content as string
-    },
-    theme: 'crafting',
-    appendTo: () => document.body,
-  })
+  refreshTippy()
   // 初始化技能升级次数与特殊数据
   gameState.playerState?.skill.forEach(skill => {
     if (!skill.unlockFlag && skill.num) {
@@ -40,6 +32,22 @@ onMounted(() => {
     }
   })
 })
+const refreshTippy = () => {
+  tippyInstance.value && tippyInstance.value.forEach((instance: any) => {
+    instance.destroy()
+  })
+  tippyInstance.value = tippy('.skill-desc span[tooltip], .skill-desc span[tooltip2]', {
+    // interactive: true,
+    arrow: false,
+    content: (el) => {
+      const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || ''
+      return content as string
+    },
+    theme: 'crafting',
+    appendTo: () => document.body,
+  })
+  console.log(tippyInstance.value)
+}
 // 使用技能
 const useSkill = async (skill: any) => {
   let commandSend: any = { mode: 'revskpts', command: 'upgskill_' + skill.id }
@@ -56,6 +64,9 @@ const useSkill = async (skill: any) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
+    nextTick(() => {
+      refreshTippy()
+    })
   })
 }
 // 激活技能
@@ -69,6 +80,9 @@ const activeSkill = async (id: string) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
+    nextTick(() => {
+      refreshTippy()
+    })
   })
 }
 // 使用百战
@@ -83,6 +97,9 @@ const use_c1_veteran = async (id: string) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
+    nextTick(() => {
+      refreshTippy()
+    })
   })
 }
 // 使用专注
@@ -96,6 +113,9 @@ const use_c5_focus = async (id: any) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
+    nextTick(() => {
+      refreshTippy()
+    })
   })
 }
 // 使用灵感
@@ -110,6 +130,7 @@ const use_c10_inspire = async (id: any) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
+    refreshTippy()
   })
 }
 </script>

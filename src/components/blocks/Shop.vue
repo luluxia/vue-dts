@@ -31,18 +31,20 @@ const buyNum = ref(1)
 const shopType = ref<number>(1)
 onMounted(() => {
   shopItems.value = gameState?.playerState?.shop || []
-  createSingleton(tippy('.shop span[tooltip]', {
-    interactive: true,
-    content: (el) => {
-      const content = el.getAttribute('tooltip') ? el.getAttribute('tooltip') : '暂无说明'
-      return content as string
-    },
-    appendTo: () => document.body,
-  }), {
-    arrow: false,
-    delay: 0,
-    theme: 'crafting',
-    moveTransition: 'transform 0.2s ease-out',
+  nextTick(() => {
+    createSingleton(tippy('.shop span[tooltip]', {
+      interactive: true,
+      content: (el) => {
+        const content = el.getAttribute('tooltip') ? el.getAttribute('tooltip') : '暂无说明'
+        return content as string
+      },
+      appendTo: () => document.body,
+    }), {
+      arrow: false,
+      delay: 0,
+      theme: 'crafting',
+      moveTransition: 'transform 0.2s ease-out',
+    })
   })
 })
 const changeShopType = async (id: number) => {

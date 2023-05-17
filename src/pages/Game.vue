@@ -181,6 +181,10 @@ const initState: GameState = {
     canAction: [],
     depotItems: [],
     rp: null,
+    mercenary: {
+      moveList: [],
+      mercList: [],
+    },
   },
   log: []
 }
@@ -402,7 +406,7 @@ onMounted(async () => {
   min-height: 10px;
 }
 .avatar {
-  clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+  clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
 }
 .v-enter-active,
 .v-leave-active {
@@ -418,8 +422,11 @@ span[tooltip] {
   @apply relative flex justify-center items-center w-max;
 }
 span[tooltip]::after {
-  content: '[?]';
-  @apply text-sm opacity-50 ml-0.5;
+  content: '?';
+  @apply text-xs opacity-50 ml-0.5 w-0;
+}
+.inline-flex span[tooltip]::after {
+  @apply w-2;
 }
 span[tooltip]::before {
   content: attr(tooltip);

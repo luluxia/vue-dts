@@ -31,6 +31,7 @@ onMounted(() => {
     { name: '淬毒', action: () => customize(), desc: '消耗一份毒药，为武器或陷阱附加带毒属性', id: 'poison' },
     { name: '检查毒物', action: () => checkPoison(), desc: '选择一份背包中的补给品，检查其是否带毒', id: 'poison' },
     { name: '技能', action: () => skill() },
+    { name: '佣兵', action: () => mercenary() },
   ]
 })
 // 恢复选项
@@ -53,6 +54,7 @@ watch(() => state.drawerType, type => {
       { name: '淬毒', action: () => customize(), desc: '消耗一份毒药，为武器或陷阱附加带毒属性', id: 'poison' },
       { name: '检查毒物', action: () => checkPoison(), desc: '选择一份背包中的补给品，检查其是否带毒', id: 'poison' },
       { name: '技能', action: () => skill() },
+      { name: '佣兵', action: () => mercenary() },
     ]
   }
 })
@@ -231,6 +233,22 @@ const customize = () => {
 const checkPoison = () => {
   state.drawerType = 'check-poison'
 }
+// 佣兵
+const mercenary = () => {
+  transitionHelper({
+    updateDOM() {
+      if (state.drawerType !== 'mercenary') {
+        actionState.oldType = state.drawerType
+        actionState.action.map(action => {
+          action.name != '佣兵' && (action.active = false)
+        })
+        state.drawerType = 'mercenary'
+      } else {
+        state.drawerType = actionState.oldType
+      }
+    }
+  })
+}
 
 </script>
 <template>
@@ -246,7 +264,7 @@ const checkPoison = () => {
           <ItemBag/>
         </div>
         <!-- 行动 -->
-        <div v-for="item in actionState.action" class="group transition-opacity" :key="item.name">
+        <div v-for="(item, index) in actionState.action" class="group transition-opacity" :key="item.name + index">
           <!-- 禁用项 -->
           <div v-if="item.active === false" class="relative flex justify-center cursor-default">
             <!-- 悬浮 -->
@@ -255,9 +273,8 @@ const checkPoison = () => {
                 <template v-if="item.id === 'song'">
                   {{ `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` }}
                 </template>
-                <template v-else>
-                  {{ item.desc }}
-                </template>
+                <div v-html="item.desc" v-else>
+                </div>
               </div>
             </div>
             <div
@@ -266,7 +283,7 @@ const checkPoison = () => {
             >
               <p class="m-auto">
                 {{item.name}}
-                <span v-if="item.desc" class="text-sm text-zinc-500">[?]</span>
+                <!-- <span v-if="item.desc" class="text-sm text-zinc-500">[?]</span> -->
               </p>
             </div>
           </div>
@@ -282,9 +299,8 @@ const checkPoison = () => {
                 <template v-if="item.id === 'song'">
                   {{ `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` }}
                 </template>
-                <template v-else>
-                  {{ item.desc }}
-                </template>
+                <div v-html="item.desc" v-else>
+                </div>
               </div>
             </div>
             <div
@@ -298,7 +314,7 @@ const checkPoison = () => {
                   class="text-sm"
                   :class="state.playerState && state.playerState?.skillPoint > 0 ? 'text-yellow-600' : 'text-zinc-400'"
                 > | 技能点 {{ state.playerState?.skillPoint }}</span>
-                <span v-if="item.desc" class="text-sm text-zinc-500">[?]</span>
+                <!-- <span v-if="item.desc" class="text-sm text-zinc-500">[?]</span> -->
               </p>
             </div>
           </div>

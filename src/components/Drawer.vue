@@ -15,6 +15,7 @@ import Shop from './blocks/Shop.vue'
 import Depot from './blocks/Depot.vue'
 import Customize from './blocks/Customize.vue'
 import CheckPoison from './blocks/CheckPoison.vue'
+import Mercenary from './blocks/Mercenary.vue'
 
 import type { GameState } from '../types/interface'
 const state = inject<GameState>('state', {
@@ -78,6 +79,8 @@ watch(() => state.drawerType, () => {
       <Customize v-else-if="state.drawerType == 'customize'"/>
       <!-- 检查毒物 -->
       <CheckPoison v-else-if="state.drawerType == 'check-poison'"/>
+      <!-- 佣兵 -->
+      <Mercenary v-else-if="state.drawerType == 'mercenary'"/>
       <!-- 默认 -->
       <template v-else>
         <div class="text-zinc-400 mt-2">

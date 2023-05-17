@@ -36,14 +36,14 @@ onMounted(() => {
     }
     // 润了
     actionState.action.push({ name: '逃跑', action: () => back('revcombat') })
-  } else if (state.value?.battleState === '遭遇突袭') {
+  } else if (state.value?.battleState === '遭遇突袭' || state.value?.battleState === '战斗发生') {
     actionState.action = [
       { name: '确定', action: () => back('command') },
     ]
   } else {
     // 发现尸体
     const actionList: any = []
-    state.value?.enemy?.actionList.forEach((item: any) => {
+    state.value?.enemy?.actionList?.forEach((item: any) => {
       actionList.push({ name: item.title, action: () => corpseAction(item.key) })
     })
     actionState.action = actionList
@@ -152,12 +152,11 @@ const changeWeapon = async () => {
 const selectItemKey = ref('')
 const selectItem = (item: any) => {
   selectItemKey.value = item.key
-  // actionState.action[0] = { name: '拾取 ' + item.title, action: () => pickUpItem(item.key) }
   if (actionState.action[0].name.includes('拾取')) {
-    actionState.action[0].name = '拾取 ' + item.title
+    actionState.action[0].name = '拾取 ' + item.name
     actionState.action[0].action = () => corpseAction(item.key)
   } else {
-    actionState.action.unshift({ name: '拾取 ' + item.title, action: () => corpseAction(item.key) })
+    actionState.action.unshift({ name: '拾取 ' + item.name, action: () => corpseAction(item.key) })
   }
 }
 const corpseAction = async (key: string) => {
@@ -279,14 +278,26 @@ const action = async (title: string) => {
   <!-- 掉落物品信息 -->
   <template v-if="state?.battleState === '发现尸体'">
     <p class="text-zinc-400 mt-2">想要从尸体上拾取什么？</p>
-    <div class="text-zinc-300 flex justify-center flex-wrap mt-2">
+    <div class="text-zinc-300 flex justify-center flex-wrap mt-1 -mb-1 max-w-200">
       <p
         v-for="(item, key) in state?.enemy?.items"
         @click="selectItem(item)"
         :class="selectItemKey == item.key && 'ring-2 ring-zinc-500'"
-        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-zinc-700/80 px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
-        <span>{{ item?.title }}</span>
+        <span>
+          <span class="text-zinc-400" v-if="item.type">
+            [<span class="inline-flex" v-html="item.type"></span>]
+          </span>
+          {{ item.name }}
+          <template v-if="item.type">
+            / {{ item.quality }}
+            / {{ item.durability }}
+          </template>
+          <template v-if="item.props">
+            / <span class="inline-flex" v-html="item.props"></span>
+          </template>
+        </span>
       </p>
     </div>
   </template>

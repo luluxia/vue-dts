@@ -262,6 +262,13 @@ export interface PlayerState {
   }[],
   /** 报应点数 */
   rp: number | null,
+  /** 佣兵 */
+  mercenary: {
+    moveList: number[],
+    mercList: {
+      [key: string]: string,
+    }[],
+  },
 }
 
 /** 搜寻状态 */
@@ -308,8 +315,7 @@ export interface SearchState {
     actionList: string[],
     /** 物品 */
     items: {
-      key: string,
-      title: string,
+      [key: string]: string,
     }[],
     /** 可用技能 */
     battleSkills: {
