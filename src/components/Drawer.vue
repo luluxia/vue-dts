@@ -15,7 +15,9 @@ import Shop from './blocks/Shop.vue'
 import Depot from './blocks/Depot.vue'
 import Customize from './blocks/Customize.vue'
 import CheckPoison from './blocks/CheckPoison.vue'
+import UsePoison from './blocks/UsePoison.vue'
 import Mercenary from './blocks/Mercenary.vue'
+import Radar from './blocks/Radar.vue'
 
 import type { GameState } from '../types/interface'
 const state = inject<GameState>('state', {
@@ -40,17 +42,20 @@ watch(() => state.drawerType, () => {
     <div
       @mouseenter="state.hideDrawer = true"
       @mouseleave="state.hideDrawer = false"
-      class="absolute bottom-4 right-4 h-11 w-11 flex rounded border-2 border-zinc-700 bg-zinc-700/50 pointer-events-auto"
+      class="absolute bottom-4 right-4 h-11 w-11 flex rounded border-2 border-zinc-700 bg-zinc-700/50 pointer-events-auto <sm:bottom-28"
     >
       <img class="w-6 m-auto" src="img/hide.svg" alt=""/>
     </div>
   </div>
   <div
-    class="drawer fixed w-screen bottom-0 left-15 flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition pattern-diagonal-lines-sm text-zinc-50/1"
+    class="
+      drawer fixed w-screen bottom-0 left-15 flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition pattern-diagonal-lines-sm text-zinc-50/1
+      <sm:left-0 <sm:pb-12
+    "
     :class="state.hideDrawer && 'opacity-0'"
     ref="drawerDom"
   >
-    <div class="m-auto flex flex-col items-center pb-16 pr-30">
+    <div class="m-auto flex flex-col items-center pb-16 pr-30 <sm:pr-0">
       <!-- 发现物品 -->
       <FindItem v-if="state.drawerType == 'find-item'" />
       <!-- 敌人相关 -->
@@ -79,8 +84,12 @@ watch(() => state.drawerType, () => {
       <Customize v-else-if="state.drawerType == 'customize'"/>
       <!-- 检查毒物 -->
       <CheckPoison v-else-if="state.drawerType == 'check-poison'"/>
+      <!-- 下毒 -->
+      <UsePoison v-else-if="state.drawerType == 'use-poison'"/>
       <!-- 佣兵 -->
       <Mercenary v-else-if="state.drawerType == 'mercenary'"/>
+      <!-- 雷达 -->
+      <Radar v-else-if="state.drawerType == 'radar'"/>
       <!-- 默认 -->
       <template v-else>
         <div class="text-zinc-400 mt-2">

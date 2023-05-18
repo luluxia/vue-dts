@@ -31,7 +31,7 @@ onMounted(() => {
     { name: '淬毒', action: () => customize(), desc: '消耗一份毒药，为武器或陷阱附加带毒属性', id: 'poison' },
     { name: '检查毒物', action: () => checkPoison(), desc: '选择一份背包中的补给品，检查其是否带毒', id: 'poison' },
     { name: '技能', action: () => skill() },
-    { name: '佣兵', action: () => mercenary() },
+    { name: '佣兵', action: () => mercenary(), id: 'mercenary' },
   ]
 })
 // 恢复选项
@@ -54,7 +54,7 @@ watch(() => state.drawerType, type => {
       { name: '淬毒', action: () => customize(), desc: '消耗一份毒药，为武器或陷阱附加带毒属性', id: 'poison' },
       { name: '检查毒物', action: () => checkPoison(), desc: '选择一份背包中的补给品，检查其是否带毒', id: 'poison' },
       { name: '技能', action: () => skill() },
-      { name: '佣兵', action: () => mercenary() },
+      { name: '佣兵', action: () => mercenary(), id: 'mercenary' },
     ]
   }
 })
@@ -254,7 +254,7 @@ const mercenary = () => {
 <template>
   <div class="actions fixed flex w-screen bottom-0">
     <div class="mb-4 mx-auto">
-      <TransitionGroup name="list" tag="div" class="flex rounded px-2 border-2 border-zinc-700 bg-zinc-700/50">
+      <TransitionGroup name="list" tag="div" class="flex flex-wrap justify-center rounded mx-4 px-2 border-2 border-zinc-700 bg-zinc-700/50">
         <!-- 视野 -->
         <div v-if="state.drawerType === ''" class="group transition-opacity" key="semo">
           <Semo/>

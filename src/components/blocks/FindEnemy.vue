@@ -184,7 +184,7 @@ const action = async (title: string) => {
     {{ state?.enemy?.battleState }}
   </h1>
   <div class="text-zinc-400 mb-2">
-    <p v-html="state?.actionLog"></p>
+    <p class="max-h-80 overflow-y-auto overscroll-contain" v-html="state?.actionLog"></p>
   </div>
   <!-- 敌人信息 -->
   <div v-if="state?.enemy" class="flex">

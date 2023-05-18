@@ -21,6 +21,8 @@ export interface GameState {
   searchState?: SearchState
   /** 行动日志 */
   actionLog?: string
+  /** 使用的物品序号 */
+  useItemKey?: string
 }
 
 /** 物品 */
@@ -269,6 +271,8 @@ export interface PlayerState {
       [key: string]: string,
     }[],
   },
+  /** 雷达 */
+  radar: string,
 }
 
 /** 搜寻状态 */

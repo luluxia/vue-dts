@@ -5,7 +5,12 @@ import Item from './cards/Item.vue'
 import { command } from '../utils/api'
 import type { GameState } from '../types/interface'
 const state = inject<GameState>('state') as GameState
-const useItem = async (key: any) => {
+const useItem = async (item: any, key: any) => {
+  if (item.name === '毒药') {
+    state.drawerType = 'use-poison'
+    state.useItemKey = key
+    return
+  }
   let waitTimer = setTimeout(() => {
     state.loading = true
   }, 200)
@@ -15,7 +20,11 @@ const useItem = async (key: any) => {
     const data = res as any
     state.playerState = data.playerState
     state.actionLog = data.actionLog
-    state.drawerType = ''
+    if (data.playerState.radar) {
+      state.drawerType = 'radar'
+    } else {
+      state.drawerType = ''
+    }
   })
 }
 const dropItem = async (key: any) => {
@@ -47,7 +56,7 @@ const encaseItem = async (key: any) => {
 <template>
   <Card
     v-for="(item, key) of state.playerState?.bag"
-    @click="useItem(key)"
+    @click="useItem(item, key)"
     :title="item?.name && item.type" :length="4"
     :class="`${item?.name ? 'cursor-pointer group transition hover:(ring-zinc-500 ring-2)' : 'pointer-events-none border-2 border-dashed border-zinc-800 !bg-transparent'}`"
   >

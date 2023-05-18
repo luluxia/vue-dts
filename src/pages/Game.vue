@@ -185,6 +185,7 @@ const initState: GameState = {
       moveList: [],
       mercList: [],
     },
+    radar: '',
   },
   log: []
 }
@@ -430,7 +431,7 @@ span[tooltip]::after {
 }
 span[tooltip]::before {
   content: attr(tooltip);
-  @apply bg-zinc-800/95 text-sm font-normal text-left p-2 absolute bottom-8 w-max max-w-70 border-2 text-zinc-200 border-zinc-600 z-2 whitespace-pre-line shadow opacity-0 pointer-events-none transition transition-opacity;
+  @apply bg-zinc-800/95 text-sm font-normal text-left p-2 absolute bottom-8 w-max max-w-70 border-2 text-zinc-200 border-zinc-600 z-2 whitespace-pre-line shadow text-shadow-none opacity-0 pointer-events-none transition transition-opacity;
 }
 span[tooltip]:hover::before {
   opacity: 1;
@@ -438,6 +439,10 @@ span[tooltip]:hover::before {
 .tooltip-down span[tooltip]::before {
   @apply top-8 bottom-auto;
 }
+.neonblue { animation: blueflicker 1.5s infinite alternate; }
+.neonred { animation: redflicker 1.5s infinite alternate; }
+.neonyellow { animation: yellowflicker 1.5s infinite alternate; }
+.neonorange { animation: orangeflicker 1.5s infinite alternate; }
 .rainbow {
 	text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
 	animation: rainbowshimmer 2s ease-in-out infinite;
@@ -461,6 +466,70 @@ span[tooltip]:hover::before {
 	100% {
 		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
 	}
+}
+@keyframes blueflicker {
+	0%, 18%, 22%, 25%, 53%, 57%, 100% {
+	  text-shadow:
+		0 0 4px #fff,
+		0 0 7px #fff,
+		0 0 10px #fff,
+		0 0 15px #00ffff,
+		0 0 22px #00ffff,
+		0 0 35px #00ffff,
+		0 0 40px #0060ff,
+		0 0 50px #0060ff;
+	}
+	20%, 24%, 55% {       
+	  text-shadow: none;
+	}
+  }
+
+  @keyframes redflicker {
+	0%, 18%, 22%, 25%, 53%, 57%, 100% {
+	  text-shadow:
+		0 0 4px #fff,
+		0 0 7px #fff,
+		0 0 10px #fff,
+		0 0 15px #FCE7E7,
+		0 0 22px #FDB5B5,
+		0 0 35px #FF7979,
+		0 0 40px #FF6161,
+		0 0 50px #FF0000;
+	}
+	20%, 24%, 55% {       
+	  text-shadow: none;
+	}
+  }
+
+@keyframes yellowflicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow:
+      0 0 4px rgba(255, 255, 255, 0.2),
+      0 0 7px rgba(255, 255, 255, 0.2),
+      0 0 10px rgba(255, 255, 255, 0.2),
+      0 0 15px rgba(248, 252, 218, 0.2),
+      0 0 22px rgba(246, 253, 181, 0.2),
+      0 0 35px rgba(242, 255, 121, 0.2),
+      0 0 40px rgba(252, 255, 97, 0.2),
+      0 0 50px rgba(255, 251, 0, 0.2);
+  }
+  20%, 24%, 55% {       
+    text-shadow: none;
+  }
+}
+@keyframes orangeflicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow:
+      0 0 4px rgba(255, 255, 255, 0.2),
+      0 0 7px rgba(255, 255, 255, 0.2),
+      0 0 10px rgba(255, 255, 255, 0.2),
+      0 0 15px rgba(252, 238, 218, 0.2),
+      0 0 22px rgba(253, 230, 181, 0.2),
+      0 0 35px rgba(255, 193, 121, 0.2),
+      0 0 40px rgba(255, 173, 97, 0.2),
+      0 0 50px rgba(255, 102, 0, 0.2);
+  }
+  20%, 24%, 55% { text-shadow: none; }
 }
 .b {
   border: none;
