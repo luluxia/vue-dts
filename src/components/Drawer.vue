@@ -18,6 +18,8 @@ import CheckPoison from './blocks/CheckPoison.vue'
 import UsePoison from './blocks/UsePoison.vue'
 import Mercenary from './blocks/Mercenary.vue'
 import Radar from './blocks/Radar.vue'
+import NameTag from './blocks/NameTag.vue'
+import Strengthen from './blocks/Strengthen.vue'
 
 import type { GameState } from '../types/interface'
 const state = inject<GameState>('state', {
@@ -90,6 +92,10 @@ watch(() => state.drawerType, () => {
       <Mercenary v-else-if="state.drawerType == 'mercenary'"/>
       <!-- 雷达 -->
       <Radar v-else-if="state.drawerType == 'radar'"/>
+      <!-- 命名 -->
+      <NameTag v-else-if="state.drawerType == 'name-tag'"/>
+      <!-- 强化 -->
+      <Strengthen v-else-if="state.drawerType == 'strengthen'"/>
       <!-- 默认 -->
       <template v-else>
         <div class="text-zinc-400 mt-2">

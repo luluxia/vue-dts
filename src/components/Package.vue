@@ -10,6 +10,14 @@ const useItem = async (item: any, key: any) => {
     state.drawerType = 'use-poison'
     state.useItemKey = key
     return
+  } else if (item.name === '残响兵器') {
+    state.drawerType = 'name-tag'
+    state.useItemKey = key
+    return
+  } else if (['『灵魂宝石』', '『祝福宝石』'].includes(item.name)) {
+    state.drawerType = 'strengthen'
+    state.useItemKey = key
+    return
   }
   let waitTimer = setTimeout(() => {
     state.loading = true

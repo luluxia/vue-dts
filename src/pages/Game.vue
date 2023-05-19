@@ -93,6 +93,7 @@ const initState: GameState = {
       blast: 0,
       spirit: 0,
     },
+    killNum: '',
     debuff: [''],
     equipment: {
       weapon: {
@@ -237,7 +238,10 @@ onMounted(async () => {
               <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider">
                 状态<span class="text-base -ml-1 opacity-10">STATUS</span>
               </h1>
-              <p v-if="state.playerState?.rp" class="text-zinc-400"><span class="font-bold">报应点数</span> {{ state.playerState?.rp }}</p>
+              <div class="flex space-x-5">
+                <p class="text-zinc-400"><span class="font-bold">击杀数</span> {{ state.playerState?.killNum }}</p>
+                <p v-if="state.playerState?.rp" class="text-zinc-400"><span class="font-bold">报应点数</span> {{ state.playerState?.rp }}</p>
+              </div>
             </div>
             <!-- 状态 内容 -->
             <div class="flex flex-wrap max-w-156">

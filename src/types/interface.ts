@@ -33,6 +33,8 @@ export interface Item {
   type: string,
   /** 名称 */
   name: string,
+  /** 属性ID */
+  propsID?: string,
   /** 属性 */
   props: string,
   /** 品质 */
@@ -151,6 +153,8 @@ export interface PlayerState {
     /** 灵熟 */
     spirit: number,
   },
+  /** 击杀数 */
+  killNum: string,
   /** 负面状态 */
   debuff: string[],
   /** 装备 */
@@ -313,12 +317,18 @@ export interface SearchState {
     tactic: string,
     /** 敌方受伤部位 */
     hurt: string,
+    /** 报应点数 */
+    rp: string | null,
     /** 战斗状态 */
     battleState: string,
     /** 发现尸体后的操作列表 */
     actionList: string[],
     /** 物品 */
     items: {
+      [key: string]: string,
+    }[],
+    /** 对方技能列表 */
+    skill: {
       [key: string]: string,
     }[],
     /** 可用技能 */

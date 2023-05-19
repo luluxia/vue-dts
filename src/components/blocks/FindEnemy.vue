@@ -2,6 +2,9 @@
 import { computed, inject, onMounted, ref } from 'vue'
 import Card from '../Card.vue'
 import { command } from '../../utils/api'
+import tippy from 'tippy.js'
+import 'tippy.js/dist/tippy.css'
+import 'tippy.js/animations/shift-away-subtle.css'
 import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const actionState = inject<ActionState>('actionState') as ActionState
@@ -15,6 +18,7 @@ const state = computed(() => {
   }
 })
 const message = ref('')
+const showDialog = ref(false)
 onMounted(() => {
   if (state.value?.battleState === '发现敌人') {
     const attackType = gameState?.playerState?.attackType
@@ -34,12 +38,19 @@ onMounted(() => {
         actionState.action.push({ name: item.title, action: () => useSkill(item.key), active: item.unlock, desc: item.desc })
       })
     }
+    // 查看敌方技能
+    if (state.value?.enemy?.skill) {
+      actionState.action.push({ name: '查看敌方技能', action: () => enemySkill() })
+    }
     // 润了
     actionState.action.push({ name: '逃跑', action: () => back('revcombat') })
   } else if (state.value?.battleState === '遭遇突袭' || state.value?.battleState === '战斗发生') {
-    actionState.action = [
-      { name: '确定', action: () => back('command') },
-    ]
+    actionState.action = []
+    // 查看敌方技能
+    if (state.value?.enemy?.skill) {
+      actionState.action.push({ name: '查看敌方技能', action: () => enemySkill() })
+    }
+    actionState.action.push({ name: '确定', action: () => back('command') })
   } else {
     // 发现尸体
     const actionList: any = []
@@ -144,6 +155,10 @@ const changeWeapon = async () => {
         actionState.action.push({ name: item.title, action: () => useSkill(item.key), active: item.unlock, desc: item.desc })
       })
     }
+    // 查看敌方技能
+    if (state.value?.enemy?.skill) {
+      actionState.action.push({ name: '查看敌方技能', action: () => enemySkill() })
+    }
     // 润了
     actionState.action.push({ name: '逃跑', action: () => back('revcombat') })
   })
@@ -173,10 +188,24 @@ const corpseAction = async (key: string) => {
     gameState.drawerType = ''
   })
 }
-const action = async (title: string) => {
-  if (title === '返回') {
-    back('corpse')
-  }
+
+// 查看敌方技能
+const tippyInstance = ref<any>(null)
+const enemySkill = () => {
+  showDialog.value = true
+  tippyInstance.value && tippyInstance.value.forEach((instance: any) => {
+    instance.destroy()
+  })
+  tippyInstance.value = tippy('.skill-desc span[tooltip], .skill-desc span[tooltip2]', {
+    // interactive: true,
+    arrow: false,
+    content: (el) => {
+      const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || ''
+      return content as string
+    },
+    theme: 'crafting',
+    appendTo: () => document.body,
+  })
 }
 </script>
 <template>
@@ -208,6 +237,7 @@ const action = async (title: string) => {
               <div class="m-auto">
                 <p class="font-bold">{{ state.enemy.name }}</p>
                 <p class="text-xs mt-1">{{ state.enemy.title }}</p>
+                <p v-if="state.enemy.rp" class="text-xs mt-1">报应点数 {{ state.enemy.rp }}</p>
               </div>
             </div>
           </div>
@@ -309,4 +339,29 @@ const action = async (title: string) => {
   <div class="text-zinc-400 mt-2">
     <p>现在想要做什么？</p>
   </div>
+  <Teleport to="body">
+    <div
+      v-if="state?.enemy?.skill"
+      class="fixed w-screen h-screen top-0 bg-black/70 z-1 shadow flex transition opacity-0 pointer-events-none"
+      :class="showDialog && '!opacity-100 !pointer-events-auto'"
+      @click="showDialog = false"
+    >
+      <div class="crafting craft-dialog text-zinc-300 bg-zinc-900/95 border-2 border-zinc-700 h-max max-w-300 m-auto p-2 rounded">
+        <div class="p-2">
+          <p>以下是<span class="yellow">{{ state.enemy.name }}</span>的技能列表。</p>
+          <p>请注意描述文字中的<span class="yellow">“你”</span>指代的是这个对象。</p>
+        </div>
+        <div class="text-zinc-400 max-h-150 overflow-y-auto overscroll-contain">
+          <div class="bg-zinc-800 m-1 rounded-sm" v-for="item in state?.enemy?.skill">
+            <div class="bg-zinc-700/80 text-zinc-300 px-2 py-1 flex justify-between items-center">
+              <span>{{ item.name }}</span>
+            </div>
+            <div class="relative group">
+              <div v-if="item.desc" class="skill-desc p-2" v-html="item.desc"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Teleport>
 </template>

@@ -40,6 +40,7 @@ onMounted(() => {
   actionState.oldAction = actionState.action
   actionState.action = [
     { name: '拾取', action: () => getItem() },
+    { name: '使用', action: () => useItem() },
     { name: '丢弃', action: () => dropItem() },
   ]
 })
@@ -75,6 +76,24 @@ const getItem = async () => {
     gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
     gameState.drawerType = ''
+  })
+}
+// 使用物品
+const useItem = async () => {
+  // 搜索指令
+  let waitTimer = setTimeout(() => {
+    gameState.loading = true
+  }, 200)
+  await command({ mode: 'command', command: 'itm0' }).then(res => {
+    window.clearTimeout(waitTimer)
+    gameState.loading = false
+    const data = res as any
+    gameState.playerState = data.playerState
+    gameState.searchState = data.searchState
+    gameState.actionLog = data.actionLog
+    if (!data.searchState.findItem) {
+      gameState.drawerType = ''
+    }
   })
 }
 // 丢弃物品

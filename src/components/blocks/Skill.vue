@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { computed, inject, nextTick, onMounted, reactive, ref } from 'vue'
+import { inject, nextTick, onMounted, reactive, ref } from 'vue'
 import { command } from '../../utils/api'
-import tippy, { hideAll } from 'tippy.js'
+import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away-subtle.css'
-import type { GameState, ActionState } from '../../types/interface'
+import type { GameState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
-const actionState = inject<ActionState>('actionState') as ActionState
 const skillNums = reactive<{ [key: string]: number }>({})
 const skillSpecialData = reactive<{ [key: string]: any }>({})
 const tippyInstance = ref<any>(null)
@@ -46,7 +45,6 @@ const refreshTippy = () => {
     theme: 'crafting',
     appendTo: () => document.body,
   })
-  console.log(tippyInstance.value)
 }
 // 使用技能
 const useSkill = async (skill: any) => {
