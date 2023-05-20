@@ -452,24 +452,12 @@ span[tooltip]:hover::before {
 	animation: rainbowshimmer 2s ease-in-out infinite;
 }
 @keyframes rainbowshimmer {
-	0% {
-		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
-	}
-	20% {
-		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #00ff00, 0 0 40px #00ff00, 0 0 50px #00ff00, 0 0 60px #00ff00, 0 0 70px #00ff00;
-	}
-	40% {
-		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ffff00, 0 0 40px #ffff00, 0 0 50px #ffff00, 0 0 60px #ffff00, 0 0 70px #ffff00;
-	}
-	60% {
-		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0000ff, 0 0 40px #0000ff, 0 0 50px #0000ff, 0 0 60px #0000ff, 0 0 70px #0000ff;
-	}
-	80% {
-		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff;
-	}
-	100% {
-		text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
-	}
+  0% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(230, 0, 115, 0.2), 0 0 40px rgba(230, 0, 115, 0.2), 0 0 50px rgba(230, 0, 115, 0.2), 0 0 60px rgba(230, 0, 115, 0.2), 0 0 70px rgba(230, 0, 115, 0.2); }
+  20% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(0, 255, 0, 0.2), 0 0 40px rgba(0, 255, 0, 0.2), 0 0 50px rgba(0, 255, 0, 0.2), 0 0 60px rgba(0, 255, 0, 0.2), 0 0 70px rgba(0, 255, 0, 0.2); }
+  40% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(255, 255, 0, 0.2), 0 0 40px rgba(255, 255, 0, 0.2), 0 0 50px rgba(255, 255, 0, 0.2), 0 0 60px rgba(255, 255, 0, 0.2), 0 0 70px rgba(255, 255, 0, 0.2); }
+  60% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(0, 0, 255, 0.2), 0 0 40px rgba(0, 0, 255, 0.2), 0 0 50px rgba(0, 0, 255, 0.2), 0 0 60px rgba(0, 0, 255, 0.2), 0 0 70px rgba(0, 0, 255, 0.2); }
+  80% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(255, 0, 255, 0.2), 0 0 40px rgba(255, 0, 255, 0.2), 0 0 50px rgba(255, 0, 255, 0.2), 0 0 60px rgba(255, 0, 255, 0.2), 0 0 70px rgba(255, 0, 255, 0.2); }
+  100% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(230, 0, 115, 0.2), 0 0 40px rgba(230, 0, 115, 0.2), 0 0 50px rgba(230, 0, 115, 0.2), 0 0 60px rgba(230, 0, 115, 0.2), 0 0 70px rgba(230, 0, 115, 0.2); }
 }
 @keyframes blueflicker {
 	0%, 18%, 22%, 25%, 53%, 57%, 100% {

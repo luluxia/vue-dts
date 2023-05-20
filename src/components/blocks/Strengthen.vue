@@ -46,8 +46,11 @@ const back = async () => {
     gameState.loading = false
     const data = res as any
     gameState.playerState = data.playerState
+    gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
-    gameState.drawerType = ''
+    if (!data.searchState.findItem) {
+      gameState.drawerType = ''
+    }
   })
 }
 const strengthen = async () => {
@@ -64,8 +67,11 @@ const strengthen = async () => {
     gameState.loading = false
     const data = res as any
     gameState.playerState = data.playerState
+    gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
-    gameState.drawerType = ''
+    if (!data.searchState.findItem) {
+      gameState.drawerType = ''
+    }
   })
 }
 </script>

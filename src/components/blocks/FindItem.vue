@@ -80,6 +80,17 @@ const getItem = async () => {
 }
 // 使用物品
 const useItem = async () => {
+  gameState.useItemKey = '0'
+  if (state.value?.findItem?.name === '毒药') {
+    gameState.drawerType = 'use-poison'
+    return
+  } else if (state.value?.findItem?.name === '残响兵器') {
+    gameState.drawerType = 'name-tag'
+    return
+  } else if (state.value?.findItem?.name && ['『灵魂宝石』', '『祝福宝石』'].includes(state.value.findItem.name)) {
+    gameState.drawerType = 'strengthen'
+    return
+  }
   // 搜索指令
   let waitTimer = setTimeout(() => {
     gameState.loading = true

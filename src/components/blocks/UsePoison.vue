@@ -9,7 +9,7 @@ const state = computed(() => {
     let items: any[] = []
     Object.keys(gameState.playerState.bag).forEach((key, index) => {
       const item = gameState.playerState?.bag[key]
-      if (item && (item.typeID?.includes('H') || item.typeID?.includes('P'))) {
+      if (item && (item.typeID?.indexOf('H') === 0 || item.typeID?.indexOf('P') === 0)) {
         items.push({
           key,
           item: gameState.playerState?.bag[key],
@@ -45,8 +45,11 @@ const back = async () => {
     gameState.loading = false
     const data = res as any
     gameState.playerState = data.playerState
+    gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
-    gameState.drawerType = ''
+    if (!data.searchState.findItem) {
+      gameState.drawerType = ''
+    }
   })
 }
 const usePoison = async () => {
@@ -63,8 +66,11 @@ const usePoison = async () => {
     gameState.loading = false
     const data = res as any
     gameState.playerState = data.playerState
+    gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
-    gameState.drawerType = ''
+    if (!data.searchState.findItem) {
+      gameState.drawerType = ''
+    }
   })
 }
 </script>
