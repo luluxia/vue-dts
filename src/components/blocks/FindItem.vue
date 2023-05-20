@@ -100,8 +100,12 @@ const useItem = async () => {
     gameState.loading = false
     const data = res as any
     gameState.playerState = data.playerState
-    gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
+    if (data.playerState.radar) {
+      gameState.drawerType = 'radar'
+      return
+    }
+    gameState.searchState = data.searchState
     if (!data.searchState.findItem) {
       gameState.drawerType = ''
     }
