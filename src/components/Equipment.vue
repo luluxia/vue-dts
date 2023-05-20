@@ -53,12 +53,12 @@ const specialWeapon = async () => {
 </script>
 <template>
   <Card
-    @click="item.name && item.quality && offItem(key)"
+    @click="item.name && item.quality != 0 && offItem(key)"
     v-for="(item, key) of state.playerState?.equipment"
     :title="item.name && item.type" :length="4"
     :class="`
     ${item.name ? 'group transition hover:(ring-zinc-500 ring-2)' : 'pointer-events-none border-2 border-dashed border-zinc-800 !bg-transparent'} 
-    ${item.name && item.quality && 'cursor-pointer'}
+    ${item.name && item.quality != 0 && 'cursor-pointer'}
     `"
     class="tooltip-down"
   >
