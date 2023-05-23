@@ -18,7 +18,8 @@ onMounted(() => {
     { name: '探索', action: () => search() },
     { name: '地图', action: () => map() },
     { name: '战术', action: () => tactics() },
-    { name: '合成', action: () => crafting() },
+    { name: '合成', action: () => crafting(), id: 'crafting' },
+    { name: '元素口袋', action: () => element(), id: 'element' },
     { name: '整理', action: () => arrange(), desc: '交换道具位置，或合并可堆叠道具' },
     { name: '歌唱', action: () => song(), desc: 'x', id: 'song' },
     { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
@@ -41,7 +42,8 @@ watch(() => state.drawerType, type => {
       { name: '探索', action: () => search() },
       { name: '地图', action: () => map() },
       { name: '战术', action: () => tactics() },
-      { name: '合成', action: () => crafting() },
+      { name: '合成', action: () => crafting(), id: 'crafting' },
+      { name: '元素口袋', action: () => element(), id: 'element' },
       { name: '整理', action: () => arrange(), desc: '交换道具位置，或合并可堆叠道具' },
       { name: '歌唱', action: () => song(), desc: 'x', id: 'song' },
       { name: '睡眠', action: () => rest('rest1'), desc: '进入睡眠状态，随时间缓慢恢复体力' },
@@ -246,6 +248,14 @@ const mercenary = () => {
       } else {
         state.drawerType = actionState.oldType
       }
+    }
+  })
+}
+// 元素口袋
+const element = () => {
+  transitionHelper({
+    updateDOM() {
+      state.drawerType = 'element'
     }
   })
 }

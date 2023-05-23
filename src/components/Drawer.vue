@@ -20,6 +20,7 @@ import Mercenary from './blocks/Mercenary.vue'
 import Radar from './blocks/Radar.vue'
 import NameTag from './blocks/NameTag.vue'
 import Strengthen from './blocks/Strengthen.vue'
+import Element from './blocks/Element.vue'
 
 import type { GameState } from '../types/interface'
 const state = inject<GameState>('state', {
@@ -96,6 +97,8 @@ watch(() => state.drawerType, () => {
       <NameTag v-else-if="state.drawerType == 'name-tag'"/>
       <!-- 强化 -->
       <Strengthen v-else-if="state.drawerType == 'strengthen'"/>
+      <!-- 元素口袋 -->
+      <Element v-else-if="state.drawerType == 'element'"/>
       <!-- 默认 -->
       <template v-else>
         <div class="text-zinc-400 mt-2">
@@ -127,6 +130,15 @@ watch(() => state.drawerType, () => {
 }
 .gold {
   @apply text-yellow-600 font-bold;
+}
+.grey {
+  @apply text-gray-500;
+}
+.green {
+  @apply text-green-600 font-bold;
+}
+.blueseed {
+  @apply text-sky-600 font-bold;
 }
 .drawer {
   view-transition-name: drawer;

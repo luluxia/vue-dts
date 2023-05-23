@@ -41,6 +41,7 @@ onMounted(() => {
   actionState.action = [
     { name: '拾取', action: () => getItem() },
     { name: '使用', action: () => useItem() },
+    { name: '提炼', action: () => splitItem(), id: 'element' },
     { name: '丢弃', action: () => dropItem() },
   ]
 })
@@ -109,6 +110,21 @@ const useItem = async () => {
     if (!data.searchState.findItem) {
       gameState.drawerType = ''
     }
+  })
+}
+// 提炼物品
+const splitItem = async () => {
+  let waitTimer = setTimeout(() => {
+    gameState.loading = true
+  }, 200)
+  await command({ mode: 'itemmain', command: 'split_itm0' }).then(res => {
+    window.clearTimeout(waitTimer)
+    gameState.loading = false
+    const data = res as any
+    gameState.playerState = data.playerState
+    gameState.searchState = data.searchState
+    gameState.actionLog = data.actionLog
+    gameState.drawerType = ''
   })
 }
 // 丢弃物品

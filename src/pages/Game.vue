@@ -179,7 +179,7 @@ const initState: GameState = {
     skill: [],
     skillPoint: 0,
     shop: [],
-    canAction: [],
+    canAction: {},
     depotItems: [],
     rp: null,
     mercenary: {
@@ -187,6 +187,11 @@ const initState: GameState = {
       mercList: [],
     },
     radar: '',
+    element: {
+      elements: [],
+      hint: '',
+      max: 0,
+    },
   },
   log: []
 }
@@ -443,10 +448,68 @@ span[tooltip]:hover::before {
 .tooltip-down span[tooltip]::before {
   @apply top-8 bottom-auto;
 }
+input[type="range"] {
+  @apply appearance-none bg-zinc-600 rounded;
+}
 .neonblue { animation: blueflicker 1.5s infinite alternate; }
 .neonred { animation: redflicker 1.5s infinite alternate; }
 .neonyellow { animation: yellowflicker 1.5s infinite alternate; }
 .neonorange { animation: orangeflicker 1.5s infinite alternate; }
+.sparkle {
+	animation: sparklefade 2s ease-in-out infinite;
+}
+@keyframes sparklefade {
+	0% {
+		filter: sepia(100%) brightness(88%) blur(0.3px);
+	}
+	50% {
+		filter: sepia(100%) brightness(133%) blur(0px);
+	}
+	100% {	
+		filter: sepia(100%) brightness(88%) blur(0.3px);
+	}
+}
+.mtgcolorless {
+  color: #eee;
+	text-shadow: 0px 0px 2px rgba(137, 137, 137, 0.706), 0px 0px 3px #f5f5f586, 0px 0px 4px rgb(255, 255, 255);
+	animation: fadeInOut 2s ease-in-out infinite;
+}
+.mtgred {
+  color: #eee;
+	text-shadow: 0px 0px 2px #F43F5E, 0px 0px 3px #F43F5E, 0px 0px 4px #F43F5E;
+	animation: fadeInOut 2s ease-in-out infinite;
+}
+.mtgblue {
+  color: #eee;
+	text-shadow: 0px 0px 2px #378bc6, 0px 0px 3px #0da0a0, 0px 0px 4px #0a4fd0;
+	animation: fadeInOut 2s ease-in-out infinite;
+}
+.mtggreen {
+  color: #eee;
+	text-shadow: 0px 0px 2px #10B981, 0px 0px 3px #10B981, 0px 0px 4px #10B981;
+	animation: fadeInOut 2s ease-in-out infinite;
+}
+.mtgwhite {
+  color: #eee;
+	text-shadow: 0px 0px 2px #ffffdd, 0px 0px 3px #ededc4, 0px 0px 4px #cfcf9f;
+	animation: fadeInOut 2s ease-in-out infinite;
+}
+.mtgblack {
+  color: #eee;
+	text-shadow: 0px 0px 2px #8B5CF6, 0px 0px 3px #8B5CF6, 0px 0px 4px #8B5CF6;
+	animation: fadeInOut 2s ease-in-out infinite;
+}
+@keyframes fadeInOut {
+	0% {
+		filter: brightness(89%) blur(0.3px);
+	}
+	50% {
+		filter: brightness(122%) blur(0px);
+	}
+	100% {	
+		filter: brightness(89%) blur(0.3px);
+	}
+}
 .rainbow {
 	text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
 	animation: rainbowshimmer 2s ease-in-out infinite;

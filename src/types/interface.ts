@@ -261,7 +261,7 @@ export interface PlayerState {
   /** 行动是否可行 */
   canAction: {
     [key: string]: boolean,
-  }[],
+  },
   /** 安全箱物品 */
   depotItems: {
     [key: string]: string,
@@ -277,6 +277,14 @@ export interface PlayerState {
   },
   /** 雷达 */
   radar: string,
+  /** 元素口袋 */
+  element: {
+    elements: {
+      [key: string]: string,
+    }[],
+    hint: string,
+    max: number,
+  }
 }
 
 /** 搜寻状态 */
