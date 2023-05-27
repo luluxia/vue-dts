@@ -36,7 +36,7 @@ const login = async () => {
 const logout = async () => {
   const sendData = new FormData()
   sendData.append('mode', 'quit')
-  await axios.post('/old/login.php?php=1', sendData).then(res => {
+  await axios.post('/old/login.php?is_new=1', sendData).then(res => {
     window.location.reload()
   })
 }
