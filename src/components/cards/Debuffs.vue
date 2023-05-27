@@ -50,7 +50,7 @@ const action = async (i: string) => {
     >
       {{ infInfo[item].name }}
     </span>
-    <span v-else-if="infInfo[item]?.name" class="!font-normal">
+    <span v-else-if="infInfo[item]?.name" class="!font-normal" :class="infInfo[item]?.color">
       {{ infInfo[item].name }}
     </span>
     <span v-else class="!font-normal">无</span>

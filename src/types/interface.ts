@@ -1,5 +1,7 @@
 /** 游戏状态 */
 export interface GameState {
+  /** 当前页面 */
+  page?: string
   /** 是否隐藏抽屉 */
   hideDrawer?: boolean
   /** 抽屉类别 */
@@ -23,6 +25,8 @@ export interface GameState {
   actionLog?: string
   /** 使用的物品序号 */
   useItemKey?: string
+  /** 展示死亡信息 */
+  showDeadInfo?: boolean
 }
 
 /** 物品 */
@@ -284,6 +288,13 @@ export interface PlayerState {
     }[],
     hint: string,
     max: number,
+  },
+  /** 死亡信息 */
+  death: {
+    title: string,
+    content: string,
+    time: string,
+    name: string,
   }
 }
 
@@ -396,9 +407,5 @@ export interface Action {
 /** 指令状态 */
 export interface ActionState {
   action: Array<Action>
-  oldAction: Array<Action>
   oldType: string | undefined
-  showDetail: boolean // 是否显示详情
-  firstCheck: boolean // 初始检测
-  height: number // 高度
 }

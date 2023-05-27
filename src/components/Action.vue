@@ -266,11 +266,17 @@ const element = () => {
     <div class="mb-4 mx-auto">
       <TransitionGroup name="list" tag="div" class="flex flex-wrap justify-center rounded mx-4 px-2 border-2 border-zinc-700 bg-zinc-700/50">
         <!-- 视野 -->
-        <div v-if="state.drawerType === ''" class="group transition-opacity" key="semo">
+        <div
+          v-if="state.drawerType === '' && state.playerState?.hp?.nowHp && state.playerState.hp.nowHp > 0"
+          class="group transition-opacity" key="semo"
+        >
           <Semo/>
         </div>
         <!-- 背包 -->
-        <div v-if="state.drawerType === ''" class="group transition-opacity" key="itemBag">
+        <div
+          v-if="state.drawerType === '' && state.playerState?.hp?.nowHp && state.playerState.hp.nowHp > 0"
+          class="group transition-opacity" key="itemBag"
+        >
           <ItemBag/>
         </div>
         <!-- 行动 -->
@@ -356,8 +362,8 @@ const element = () => {
   border: 2px solid rgb(255 255 255 / 20%);
   box-shadow: 0 0 2px 2px rgb(0 0 0 / 20%);
   max-width: max-content !important;
-  padding: 0.125em;
-  background-color: #252528;
+  /* padding: 0.125em; */
+  /* background-color: #252528; */
 }
 .tippy-content {
   padding: 0em;

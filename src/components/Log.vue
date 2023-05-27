@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted, reactive } from 'vue'
+import { computed, onMounted, onUnmounted, reactive } from 'vue'
 import { inject } from 'vue'
 import axios from 'axios'
 import type { GameState } from '../types/interface'
@@ -72,11 +72,15 @@ const sendMessage = () => {
     }
   })
 }
+let timer: any
 onMounted(() => {
   getMessage()
-  setInterval(() => {
+  timer = setInterval(() => {
     getMessage()
   }, 15000)
+})
+onUnmounted(() => {
+  clearInterval(timer)
 })
 </script>
 <template>

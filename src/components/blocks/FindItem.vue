@@ -25,7 +25,9 @@ const state = computed(() => {
         isBagFull = false
       }
     })
-    actionState.action[0].active = !isBagFull
+    if (actionState.action[0].name == '拾取') {
+      actionState.action[0].active = !isBagFull
+    }
     return {
       findItem: findItem,
       isBagFull: isBagFull,
