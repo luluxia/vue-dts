@@ -1,6 +1,5 @@
 // uno.config.ts
 import { defineConfig } from 'unocss'
-// import presetUno from '@unocss/preset-uno'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 import transformerDirectives from '@unocss/transformer-directives'
 function range(size: number, startAt = 1) {
@@ -11,9 +10,6 @@ export default defineConfig({
     ...range(10).map(i => `row-start-${i}`),
     ...range(10).map(i => `col-start-${i}`)
   ],
-  // presets: [
-  //   presetUno(),
-  // ],
   transformers: [
     transformerVariantGroup(),
     transformerDirectives(),

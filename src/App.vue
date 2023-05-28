@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { provide, reactive } from 'vue'
 import HeaderVue from './components/Header.vue'
-const headerState = reactive({
-  username: '',
-})
-provide('headerState', headerState)
+import './assets/pattern.min.css'
 </script>
 
 <template>
