@@ -37,7 +37,7 @@ onMounted(() => {
       const content = el.getAttribute('tooltip') ? el.getAttribute('tooltip') : '暂无说明'
       return content as string
     },
-    theme: 'crafting',
+    theme: 'tooltip',
     appendTo: () => document.body,
   })
 })

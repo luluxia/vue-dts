@@ -14,17 +14,6 @@ const state = computed(() => {
     }
   }
 })
-// 物品悬浮框
-// const tippyRef = ref()
-// onMounted(() => {
-//   tippy('.tippy-semo', {
-//     interactive: true,
-//     arrow: false,
-//     content: () => tippyRef.value,
-//     allowHTML: true,
-//     appendTo: () => document.body,
-//   })
-// })
 const memory = async (key: any) => {
   hideAll()
   let waitTimer = setTimeout(() => {

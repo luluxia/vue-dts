@@ -42,7 +42,7 @@ onMounted(() => {
     }), {
       arrow: false,
       delay: 0,
-      theme: 'crafting',
+      theme: 'tooltip',
       moveTransition: 'transform 0.2s ease-out',
     })
   })
@@ -75,7 +75,7 @@ const changeShopType = async (id: number) => {
       }), {
         arrow: false,
         delay: 0,
-        theme: 'crafting',
+        theme: 'tooltip',
         moveTransition: 'transform 0.2s ease-out',
       })
     })

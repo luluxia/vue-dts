@@ -197,13 +197,12 @@ const enemySkill = () => {
     instance.destroy()
   })
   tippyInstance.value = tippy('.skill-desc span[tooltip], .skill-desc span[tooltip2]', {
-    // interactive: true,
     arrow: false,
     content: (el) => {
       const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || ''
       return content as string
     },
-    theme: 'crafting',
+    theme: 'tooltip',
     appendTo: () => document.body,
   })
 }

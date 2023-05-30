@@ -35,13 +35,12 @@ const itemClick = (key: string | number) => {
 }
 onMounted(() => {
   tippy('span[tooltip2]', {
-    // interactive: true,
     arrow: false,
     content: (el) => {
       const content = el.getAttribute('tooltip2') ? el.getAttribute('tooltip2') : '暂无说明'
       return content as string
     },
-    theme: 'crafting',
+    theme: 'tooltip',
     appendTo: () => document.body,
   })
   actionState.action = [
@@ -102,13 +101,12 @@ const itemIndex = ref('');
     craftingState.showDialog = true
     nextTick(() => {
       tippy('.craft-dialog span[tooltip2]', {
-        // interactive: true,
         arrow: false,
         content: (el) => {
           const content = el.getAttribute('tooltip2') ? el.getAttribute('tooltip2') : '暂无说明'
           return content as string
         },
-        theme: 'crafting',
+        theme: 'tooltip',
         appendTo: () => document.body,
       })
     })
@@ -165,12 +163,6 @@ const itemIndex = ref('');
 }
 .crafting .blueseed {
   @apply text-sky-300 font-bold;
-}
-[data-theme="crafting"] {
-  @apply p-2 rounded-none shadow;
-}
-[data-theme="crafting"] .tippy-content {
-  @apply bg-zinc-800/95 text-sm text-left w-max max-w-70 text-zinc-200 whitespace-pre-line;
 }
 /* .crafting span[tooltip2] {
   @apply relative inline-flex justify-center items-center w-max;

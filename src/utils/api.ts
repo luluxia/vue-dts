@@ -1,13 +1,24 @@
 import axios from 'axios'
 
-export async function test() {
-  let promise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log('go')
-      resolve('resolved')
-    }, 1000)
+export async function get(url: string) {
+  let res = await axios.get(`/old/${url}?is_new=1`)
+  res = res.data
+  return new Promise((resolve, reject) => {
+    resolve(res)
   })
-  return promise
+}
+
+export async function post(url: string, cmd: {}) {
+  let data = cmd
+  let res = await axios.post(`/old/${url}?is_new=1`, transRequest(data), {
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+  })
+  res = res.data
+  return new Promise((resolve, reject) => {
+    resolve(res)
+  })
 }
 
 export async function command(cmd: {}) {
