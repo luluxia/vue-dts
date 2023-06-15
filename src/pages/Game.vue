@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, provide, reactive, ref } from 'vue'
+import { onMounted, provide, reactive, ref, watch } from 'vue'
 import Card from '../components/Card.vue'
 import Action from '../components/Action.vue'
 import Drawer from '../components/Drawer.vue'
@@ -31,6 +31,8 @@ import Equipment from '../components/Equipment.vue'
 import Package from '../components/Package.vue'
 // 死亡信息
 import Death from '../components/blocks/Death.vue'
+// 弹框
+import Dialog from '../components/blocks/Dialog.vue'
 // 入场手续
 import Valid from '../components/blocks/Valid.vue'
 import axios from 'axios'
@@ -67,7 +69,25 @@ onMounted(async () => {
     }
   })
 })
+watch(() => state.playerState?.isGameOver, async (isGameOver) => {
+  if (isGameOver) {
+    let waitTimer = setTimeout(() => {
+      state.loading = true
+    }, 200)
+    state.playerState = undefined
+    await axios.get('/old/game.php?is_new=1').then(res => {
+      window.clearTimeout(waitTimer)
+      state.loading = false
+      const data = res.data as any
+      state.page = data.page
+      if (state.page == 'end') {
+        endState.value = data
+      }
+    })
+  }
+})
 </script>
+
 <template>
   <div>
     <!-- 加载 -->
@@ -82,9 +102,10 @@ onMounted(async () => {
       <img v-else class="w-full h-full object-cover" src="/img/bg.png"/>
     </div>
     <!-- 游戏主界面 -->
-    <template v-if="state.playerState?.playerInfo.name">
+    <Transition>
+    <div v-if="state.playerState?.playerInfo.name">
       <!-- 游戏卡片 -->
-      <div class="max-w-screen-xl mx-auto pt-2" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
+      <div class="max-w-screen-xl mx-auto pt-16" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
         <p class="w-19 w-38.5 w-58 w-77.5 hidden"></p>
         <div class="flex justify-between">
           <!-- 左侧 -->
@@ -247,13 +268,17 @@ onMounted(async () => {
       <Drawer/>
       <Action/>
       <Death/>
-    </template>
-    <div v-else class="w-screen h-screen absolute top-0 flex">
-      <div class="m-auto w-full flex flex-col items-center">
-        <!-- 入场手续 -->
+      <Dialog/>
+    </div>
+    </Transition>
+    <div v-if="!state.playerState?.playerInfo.name" class="w-screen h-screen absolute top-0 flex">
+      <!-- 入场手续 -->
+      <Transition>
         <Valid :state="validState" v-if="state.page == 'valid'"/>
-        <!-- 游戏结束 -->
-        <template v-if="state.page == 'end'">
+      </Transition>
+      <!-- 游戏结束 -->
+      <Transition>
+        <div v-if="state.page == 'end'" class="m-auto w-full flex flex-col items-center">
           <p class="text-4xl font-bold text-zinc-300 tracking-widest">-{{ endState.title }}-</p>
           <div class="m-auto h-100 w-full border-zinc-600 bg-zinc-800/30 border-t-2 border-b-2 my-4 flex flex-col">
             <p class="text-xl border-t-2 bg-zinc-700/50 text-zinc-300 w-max pl-3.5 pr-3 py-1 -mt-0.5 m-auto tracking-widest">{{ endState.title }}</p>
@@ -261,10 +286,17 @@ onMounted(async () => {
               <p class="m-auto pb-5">巴拉巴拉</p>
             </div>
           </div>
-        </template>
-        <!-- 游戏错误 -->
-        <p class="text-zinc-300 pb-4 text-xl">{{ error }}</p>
-      </div>
+        </div>
+      </Transition>
+      <!-- 游戏错误 -->
+      <Transition>
+        <div v-if="error" class="m-auto w-full flex flex-col items-center">
+          <p class="text-zinc-300 pb-4 text-xl">{{ error }}</p>
+          <router-link to="/" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer">
+            <p class="text-xl bg-zinc-300 pl-3.5 pr-3 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">返回首页</p>
+          </router-link>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -278,12 +310,9 @@ onMounted(async () => {
 }
 *::-webkit-scrollbar {
   width: 10px;
-  /* background-color: hsla(0,0%,100%,.025); */
-  /* border-radius: 100px; */
 }
 *::-webkit-scrollbar-thumb {
   background: hsla(0,0%,100%,.5);
-  /* border-radius: 100px; */
   background-clip: padding-box;
   border: 2px solid hsla(0,0%,100%,0);
   border-top: none;
@@ -292,15 +321,6 @@ onMounted(async () => {
 }
 .avatar {
   clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
-}
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.2s;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
 }
 
 span[tooltip] {

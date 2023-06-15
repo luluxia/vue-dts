@@ -32,7 +32,9 @@ const close = () => {
       <p>死亡时间：{{ deathInfo?.time }}</p>
       <p v-if="deathInfo?.name">凶手：{{ deathInfo?.name }}</p>
       <p class="red">你死了。</p>
-      <p @click="close()" class="w-max m-auto mt-2 px-3 py-1 rounded cursor-pointer transition transition-colors bg-slate-700 hover:bg-slate-500">我靠！</p>
+      <p @click="close()" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max m-auto">
+        <p class="text-xl bg-zinc-300 pl-3.5 pr-3 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">我靠！</p>
+      </p>
     </div>
   </div>
 </template>

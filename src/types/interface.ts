@@ -295,7 +295,13 @@ export interface PlayerState {
     content: string,
     time: string,
     name: string,
-  }
+  },
+  /** 剧情弹框 */
+  dialog: string,
+  /** 不可跳过剧情弹框 */
+  noSkipDialog: string,
+  /** 游戏是否结束 */
+  isGameOver: boolean,
 }
 
 /** 搜寻状态 */

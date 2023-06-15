@@ -140,6 +140,15 @@ watch(() => state.drawerType, () => {
 .blueseed {
   @apply text-sky-600 font-bold;
 }
+.evergreen {
+  @apply text-green-500 font-bold;
+}
+.ltcrimson {
+  @apply text-rose-500;
+}
+.seagreen {
+  @apply text-teal-500;
+}
 .drawer {
   view-transition-name: drawer;
 }

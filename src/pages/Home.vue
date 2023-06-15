@@ -54,7 +54,7 @@ const roomAction = async (action: string) => {
 }
 </script>
 <template>
-  <div class="h-[calc(100vh-4rem)] pt-2 flex">
+  <div class="min-h-screen flex pt-16">
     <!-- 背景 -->
     <div class="fixed w-screen h-screen top-0 pointer-events-none">
       <img class="w-full h-full object-cover" src="/img/bg.png"/>
@@ -185,6 +185,11 @@ const roomAction = async (action: string) => {
                     v-else-if="item == '解散'"
                     @click="roomAction('close')"
                     tooltip2="不能解散正在进行游戏且尚有其他玩家存活的房间。"
+                    class="cursor-pointer"
+                  >{{ item }}</span>
+                  <span
+                    v-else-if="item == '加入'"
+                    @click="roomAction('join' + room.id)"
                     class="cursor-pointer"
                   >{{ item }}</span>
                   <span v-else>{{ item }}</span>
