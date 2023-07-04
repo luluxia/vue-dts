@@ -2,7 +2,7 @@
 import { computed, inject, onMounted, reactive } from 'vue'
 import { command } from '../../utils/api'
 import Card from '../Card.vue'
-import gameData from '../../utils/data'
+import { mapData } from '../../utils/data'
 import type { GameState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const mercenaryList = computed(() => gameState.playerState?.mercenary.mercList)
@@ -98,7 +98,7 @@ const fire = async (id: string) => {
                   class="px-2.5 py-1 min-w-full w-max transition cursor-pointer hover:(bg-zinc-700 ring-2 ring-zinc-500)"
                   @click="move(item.id, id); mercenaryState.showMoveList = false"
                 >
-                  {{ gameData.map[id].name.replace('<br>', '') }}
+                  {{ mapData[id].name.replace('<br>', '') }}
                 </p>
               </div>
               <div

@@ -6,17 +6,22 @@ const gameState = inject<GameState>('state') as GameState
 const state = computed(() => {
   if (gameState.playerState) {
     let passage = ''
-    const nowArea = Number(gameState.playerState.area.nowArea)
-    const areaNum = gameState.playerState.area.areaNum
-    const areaAdd = gameState.playerState.area.areaAdd
-    const nowAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum + 1).map(item => Number(item))
-    const nextAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum + areaAdd + 1).map(item => Number(item))
-    if (nowAreaList.includes(nowArea) || nowArea == 0) {
-      passage = '禁区'
-    } else if (nextAreaList.includes(nowArea)) {
-      passage = '即将成为禁区'
-    } else {
+    const areaInfo = gameState.playerState.area
+    if (areaInfo.isHack == '1') {
       passage = '正常通行'
+    } else {
+      const nowArea = Number(areaInfo.nowArea)
+      const areaNum = areaInfo.areaNum
+      const areaAdd = areaInfo.areaAdd
+      const nowAreaList = areaInfo.areaList.slice().splice(0, +areaNum + 1).map(item => Number(item))
+      const nextAreaList = areaInfo.areaList.slice().splice(0, +areaNum + areaAdd + 1).map(item => Number(item))
+      if (nowAreaList.includes(nowArea) || nowArea == 0) {
+        passage = '禁区'
+      } else if (nextAreaList.includes(nowArea)) {
+        passage = '即将成为禁区'
+      } else {
+        passage = '正常通行'
+      }
     }
     return {
       passage: passage,

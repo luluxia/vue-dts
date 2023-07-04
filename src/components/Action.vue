@@ -33,6 +33,7 @@ onMounted(() => {
     { name: '检查毒物', action: () => checkPoison(), desc: '选择一份背包中的补给品，检查其是否带毒', id: 'poison' },
     { name: '技能', action: () => skill() },
     { name: '佣兵', action: () => mercenary(), id: 'mercenary' },
+    { name: '控制面板', action: () => controlPanel(), id: 'control' },
   ]
 })
 // 恢复选项
@@ -57,6 +58,7 @@ watch(() => state.drawerType, type => {
       { name: '检查毒物', action: () => checkPoison(), desc: '选择一份背包中的补给品，检查其是否带毒', id: 'poison' },
       { name: '技能', action: () => skill() },
       { name: '佣兵', action: () => mercenary(), id: 'mercenary' },
+      { name: '控制面板', action: () => controlPanel(), id: 'control' },
     ]
   }
 })
@@ -259,12 +261,20 @@ const element = () => {
     }
   })
 }
+// 控制面板
+const controlPanel = () => {
+  transitionHelper({
+    updateDOM() {
+      state.drawerType = 'control-panel'
+    }
+  })
+}
 
 </script>
 <template>
   <div class="actions fixed flex w-screen bottom-0">
     <div class="mb-4 mx-auto">
-      <TransitionGroup name="list" tag="div" class="flex flex-wrap justify-center rounded mx-4 px-2 border-2 border-zinc-700 bg-zinc-700/50">
+      <TransitionGroup name="list" tag="div" class="flex flex-wrap justify-center rounded mx-4 px-2 border-2 border-zinc-700 bg-zinc-800/95">
         <!-- 视野 -->
         <div
           v-if="state.drawerType === '' && state.playerState?.hp?.nowHp && state.playerState.hp.nowHp > 0"

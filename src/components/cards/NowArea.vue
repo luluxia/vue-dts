@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { inject } from 'vue'
-import gameData from '../../utils/data'
+import { mapData } from '../../utils/data'
 import type { GameState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const state = computed(() => {
   if (gameState.playerState) {
     return {
-      nowArea: gameData.map[gameState.playerState.area.nowArea].name,
+      nowArea: mapData[gameState.playerState.area.nowArea].name,
     }
   }
 })

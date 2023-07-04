@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import { inject, computed } from 'vue'
-import gameData from '../../utils/data'
+import { mapData } from '../../utils/data'
 import { command } from '../../utils/api'
 import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const actionState = inject<ActionState>('actionState') as ActionState
 const state = computed(() => {
   if (gameState.playerState) {
-    const areaNum = gameState.playerState.area.areaNum
-    const areaAdd = gameState.playerState.area.areaAdd
-    const nowAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum + 1).map(item => Number(item))
-    const nextAreaList = gameState.playerState.area.areaList.slice().splice(0, +areaNum + areaAdd + 1).map(item => Number(item))
-    return {
-      nowAreaList, nextAreaList
+    const areaInfo = gameState.playerState.area
+    if (areaInfo.isHack == '1') {
+      return {
+        nowAreaList: [],
+        nextAreaList: [],
+      }
+    } else {
+      const areaNum = areaInfo.areaNum
+      const areaAdd = areaInfo.areaAdd
+      const nowAreaList = areaInfo.areaList.slice().splice(0, +areaNum + 1).map(item => Number(item))
+      const nextAreaList = areaInfo.areaList.slice().splice(0, +areaNum + areaAdd + 1).map(item => Number(item))
+      return {
+        nowAreaList, nextAreaList
+      }
     }
   }
 })
@@ -41,8 +49,11 @@ const moveTo = async (index: number) => {
     <p
       @click="moveTo(index)"
       class="flex justify-center items-center py-1 cursor-pointer" 
-      :class="[`row-start-${item.x} col-start-${item.y}`, state.nowAreaList.includes(Number(index)) || !index ? 'text-red-500' : state.nextAreaList.includes(index) ? 'text-yellow-500' : 'text-green-500']"
-      v-for="(item, index) of gameData.map"
+      :class="[
+        `row-start-${item.x} col-start-${item.y}`,
+        state.nowAreaList.includes(Number(index)) || (!index && !gameState.playerState?.area.isHack) ? 'text-red-500' : state.nextAreaList.includes(index) ? 'text-yellow-500' : 'text-green-500'
+      ]"
+      v-for="(item, index) of mapData"
       v-html="item.name"
     ></p>
   </div>

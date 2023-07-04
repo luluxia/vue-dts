@@ -124,7 +124,7 @@ watch(() => state.playerState?.isGameOver, async (isGameOver) => {
               <!-- 状态 内容 -->
               <div class="flex flex-wrap max-w-156">
                 <!-- 头像 -->
-                <Card :title="state.playerState?.playerInfo.nick" :length="3">
+                <Card :title="state.playerState?.playerInfo.nick" :length="3" class="tooltip-down">
                   <Player/>
                 </Card>
                 <!-- 等级 -->
@@ -318,6 +318,12 @@ watch(() => state.playerState?.isGameOver, async (isGameOver) => {
   border-top: none;
   border-bottom: none;
   min-height: 10px;
+}
+.tippy-content > div::-webkit-scrollbar, .box-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.tippy-content > div::-webkit-scrollbar-thumb, .box-scrollbar::-webkit-scrollbar-thumb {
+  border: none;
 }
 .avatar {
   clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);

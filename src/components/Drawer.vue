@@ -21,6 +21,8 @@ import Radar from './blocks/Radar.vue'
 import NameTag from './blocks/NameTag.vue'
 import Strengthen from './blocks/Strengthen.vue'
 import Element from './blocks/Element.vue'
+import ControlPanel from './blocks/ControlPanel.vue'
+import Search from './blocks/Search.vue'
 
 import type { GameState } from '../types/interface'
 const state = inject<GameState>('state', {
@@ -52,7 +54,7 @@ watch(() => state.drawerType, () => {
   </div>
   <div
     class="
-      drawer fixed w-screen bottom-0 left-15 flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition pattern-diagonal-lines-sm text-zinc-50/1
+      drawer fixed w-screen max-h-[80vh] bottom-0 left-15 flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition pattern-diagonal-lines-sm text-zinc-50/1
       <sm:left-0 <sm:pb-12
     "
     :class="state.hideDrawer && 'opacity-0'"
@@ -99,6 +101,10 @@ watch(() => state.drawerType, () => {
       <Strengthen v-else-if="state.drawerType == 'strengthen'"/>
       <!-- 元素口袋 -->
       <Element v-else-if="state.drawerType == 'element'"/>
+      <!-- 控制面板 -->
+      <ControlPanel v-else-if="state.drawerType == 'control-panel'"/>
+      <!-- 搜索 -->
+      <Search v-else-if="state.drawerType == 'search'"/>
       <!-- 默认 -->
       <template v-else>
         <div class="text-zinc-400 mt-2">

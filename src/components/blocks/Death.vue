@@ -11,6 +11,14 @@ watch(() => gameState.playerState?.hp.nowHp, (hp) => {
     ]
   }
 }, { deep: true })
+onMounted(() => {
+  if (gameState.playerState && gameState.playerState.hp.nowHp <= 0) {
+    gameState.showDeadInfo = true
+    actionState.action = [
+      { name: '查看死亡信息', action: () => gameState.showDeadInfo = true },
+    ]
+  }
+})
 const deathInfo = computed(() => gameState.playerState?.death)
 const close = () => {
   gameState.showDeadInfo = false
@@ -26,7 +34,7 @@ const close = () => {
     @click="close()"
   >
     <div @click.stop="" class="m-auto text-zinc-300 bg-zinc-900/95 border-2 border-zinc-700 p-4 rounded flex flex-col relative">
-      <img class="absolute right-0 bottom-0 opacity-50 pointer-events-none" src="old/img/rbfireseed.png" alt="">
+      <!-- <img class="absolute right-0 bottom-0 opacity-50 pointer-events-none" src="old/img/rbfireseed.png" alt=""> -->
       <p class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow pb-4 text-center">{{ deathInfo?.title }}</p>
       <div class="text-zinc-300 pb-6 relative" v-html="deathInfo?.content"></div>
       <p>死亡时间：{{ deathInfo?.time }}</p>

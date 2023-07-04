@@ -122,12 +122,12 @@ const close = async () => {
               一个沉稳而自信的女声直接传入了你的脑海。<br>
               声音的主人，一名全身红装的女性，此刻两手撑着“大舞台”上的讲台，表情十分轻松。<br>
               她的位置远在会场的另一端，然而她的服饰和表情依然一览无遗，就像近在咫尺。<br>
-              这大概就是“虚拟幻境”搞的鬼吧。<br>
+              这大概就是“虚拟幻境”搞的鬼吧。<br><br>
               <span class="ltcrimson">“我叫<span class="ltcrimson b" style="font-size:14pt"><ruby>红 暮<rt style="font-size:9px">Crimson</rt></ruby></span>，受林无月的委托，主持本次‘大逃杀’。<br>
               这个生存挑战唯二的要素，就是‘逃’与‘杀’。<br>
               你们的目标就是成为最后的幸存者，为此你们必须彼此厮杀，不惜使用各种手段。<br>
               胜利者，将得到我们提供的丰厚奖励。失败者，请下局再接再厉。<br>
-              不过，根据协议，我们不保证参与者的精神体验安全……”</span><br>
+              不过，根据协议，我们不保证参与者的精神体验安全……”</span><br><br>
               你身旁有人不耐烦地喊道：“早知道了，快开始吧！”<br>
               红暮有点不悦地咳嗽了两声。<span class="ltcrimson">“那么……”</span>
             </p>
@@ -158,7 +158,7 @@ const close = async () => {
               <span class="lime !font-normal">“四季花之主 风见 幽香。”</span><br>
               <span class="yellow !font-normal"> “金龙通讯社执行官三人组，特此前来维护会场秩序！”</span><br>
               <br>
-              <img src="/old/img/story/story_n4.jpg" class="m-auto"><br>
+              <img src="/old/img/story/story_n4.jpg" class="m-auto">
               <br>
               三人自报了姓名之后，摆开架势将林苍月围在中间。<br>
               <span class="seagreen">“你们金龙通讯社的兴趣还挺重口味的。”</span>林苍月皱着眉头。
@@ -194,7 +194,7 @@ const close = async () => {
               <span class="ltcrimson">“我想要截住的……”</span>红暮扭头望向这里，对上了你的目光。<br>
               你感到一丝惶恐。难道，潜伏的我们也已经被发现了？<br>
               <br>
-              <img src="/old/img/story/story_n7.jpg" class="m-auto"><br>
+              <img src="/old/img/story/story_n7.jpg" class="m-auto">
               <br>
               <span class="ltcrimson">“是你们。”</span>红暮伸手一握，你的视野被传送光圈吞没了。
             </p>

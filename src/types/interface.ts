@@ -213,6 +213,8 @@ export interface PlayerState {
     areaNum: number,
     /** 每次禁区增加数 */
     areaAdd: number,
+    /** 是否解除禁区 */
+    isHack: string,
   },
   /** 攻击方式 */
   attackType: {
@@ -302,6 +304,15 @@ export interface PlayerState {
   noSkipDialog: string,
   /** 游戏是否结束 */
   isGameOver: boolean,
+  /** 控制面板 */
+  controlPanel: {
+    /** 可用信道 */
+    channel: string,
+    /** 总信道 */
+    channelAll: string,
+    /** 按钮 */
+    noButton: boolean,
+  }
 }
 
 /** 搜寻状态 */
