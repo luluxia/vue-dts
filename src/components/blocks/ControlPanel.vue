@@ -22,6 +22,7 @@ onMounted(() => {
     allowHTML: true,
     arrow: false,
     placement: 'bottom',
+    appendTo: () => document.body,
   })
 })
 // 天气控制

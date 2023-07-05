@@ -80,6 +80,7 @@ const enter = async () => {
     const data = res.data as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
+    gameState.page = 'game'
   })
 }
 </script>

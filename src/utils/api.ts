@@ -22,15 +22,14 @@ export async function post(url: string, cmd: {}) {
 }
 
 export async function command(cmd: {}) {
-  let data = cmd
-  let res = await axios.post('/old/command.php', transRequest(data), {
+  const res = await axios.post('/old/command.php', transRequest(cmd), {
     headers: {
       'content-type': 'application/x-www-form-urlencoded'
     },
   })
-  res = res.data
+  const data = res.data
   return new Promise((resolve, reject) => {
-    resolve(res)
+    resolve(data)
   })
 }
 

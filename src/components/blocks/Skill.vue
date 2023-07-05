@@ -137,7 +137,7 @@ const use_c10_inspire = async (id: any) => {
   <div v-if="gameState.playerState?.skill.length === 0" class="text-zinc-400">
     你目前没有任何技能，先选择一个内定称号吧！
   </div>
-  <div v-else class="text-zinc-400 mb-2 max-h-150 overflow-y-scroll overscroll-y-contain">
+  <div v-else class="text-zinc-400 mb-2">
     <div class="bg-zinc-800 m-1 rounded-sm" v-for="item in gameState.playerState?.skill">
       <div class="bg-zinc-700/80 text-zinc-300 px-2 py-1 flex justify-between items-center">
         <span class="">{{ item.name }}</span>

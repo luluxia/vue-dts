@@ -49,6 +49,7 @@ onMounted(() => {
     allowHTML: true,
     arrow: false,
     placement: 'bottom',
+    appendTo: () => document.body,
   })
 })
 const search = async () => {
@@ -119,12 +120,16 @@ const search = async () => {
       </div>
     </div>
     <input v-model="searchState.input" @input="checkInput()" class="p-1 bg-zinc-700 text-zinc-300 rounded text-center w-max" type="text">
-    <div v-if="searchState.showList && searchList?.length" class="absolute bottom-10 rounded border-2 border-zinc-500 bg-zinc-800">
-      <div class="box-scrollbar max-h-100 overflow-x-hidden overflow-y-auto overscroll-contain border-zinc-500 text-zinc-200 text-center p-0.5">
-        <p v-for="id in searchList" @click="chooseItem(id)" class="px-2.5 py-1 min-w-full w-max transition cursor-pointer hover:(bg-zinc-700 ring-2 ring-zinc-500)">
-          {{ itemData[id] }}
-        </p>
+    <Teleport to="body">
+      <div class="absolute w-full bottom-28">
+        <div v-if="searchState.showList && searchList?.length" class="mx-auto w-max rounded border-2 border-zinc-500 bg-zinc-800">
+          <div class="box-scrollbar max-h-100 overflow-x-hidden overflow-y-auto overscroll-contain border-zinc-500 text-zinc-200 text-center p-0.5">
+            <p v-for="id in searchList" @click="chooseItem(id)" class="px-2.5 py-1 min-w-full w-max transition cursor-pointer hover:(bg-zinc-700 ring-2 ring-zinc-500)">
+              {{ itemData[id] }}
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>

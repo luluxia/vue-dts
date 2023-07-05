@@ -54,7 +54,7 @@ watch(() => state.drawerType, () => {
   </div>
   <div
     class="
-      drawer fixed w-screen max-h-[80vh] bottom-0 left-15 flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition pattern-diagonal-lines-sm text-zinc-50/1
+      drawer fixed w-screen max-h-[calc(100%-15rem)] overflow-y-auto overscroll-contain bottom-0 left-15 flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition pattern-diagonal-lines-sm text-zinc-50/1
       <sm:left-0 <sm:pb-12
     "
     :class="state.hideDrawer && 'opacity-0'"

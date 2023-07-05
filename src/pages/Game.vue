@@ -86,6 +86,11 @@ watch(() => state.playerState?.isGameOver, async (isGameOver) => {
     })
   }
 })
+watch(() => state.playerState, (playerState) => {
+  if (playerState == null) {
+    location.reload()
+  }
+})
 </script>
 
 <template>
