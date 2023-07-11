@@ -191,7 +191,7 @@ onMounted(async () => {
 </script>
 <template>
   <!-- <p class="<sm:(w-[calc(25%-0.125rem)]) <sm:(w-[calc(50%-0.125rem)]) <sm:(w-[calc(75%-0.125rem)]) <sm:(w-[calc(100%-0.125rem)]) hidden"></p> -->
-  <div>
+  <div class="mt-16">
     <div class="text-zinc-400 bg-zinc-800 px-4 py-2 -mt-1 sticky top-0 flex space-x-4">
       <p class="font-bold text-zinc-300">状态</p>
       <p>地点</p>

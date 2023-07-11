@@ -48,6 +48,6 @@ const close = () => {
 </template>
 <style lang="postcss">
 .seedhint {
-  @apply text-shadow-lg;
+  @apply text-shadow-md text-sm max-w-150 my-2;
 }
 </style>

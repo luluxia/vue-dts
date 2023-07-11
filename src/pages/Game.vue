@@ -35,6 +35,8 @@ import Death from '../components/blocks/Death.vue'
 import Dialog from '../components/blocks/Dialog.vue'
 // 入场手续
 import Valid from '../components/blocks/Valid.vue'
+// 结局
+import End from '../components/blocks/End.vue'
 import axios from 'axios'
 import type { GameState, ActionState } from '../types/interface'
 // 游戏状态
@@ -283,15 +285,7 @@ watch(() => state.playerState, (playerState) => {
       </Transition>
       <!-- 游戏结束 -->
       <Transition>
-        <div v-if="state.page == 'end'" class="m-auto w-full flex flex-col items-center">
-          <p class="text-4xl font-bold text-zinc-300 tracking-widest">-{{ endState.title }}-</p>
-          <div class="m-auto h-100 w-full border-zinc-600 bg-zinc-800/30 border-t-2 border-b-2 my-4 flex flex-col">
-            <p class="text-xl border-t-2 bg-zinc-700/50 text-zinc-300 w-max pl-3.5 pr-3 py-1 -mt-0.5 m-auto tracking-widest">{{ endState.title }}</p>
-            <div class="text-zinc-300 text-center flex flex-1">
-              <p class="m-auto pb-5">巴拉巴拉</p>
-            </div>
-          </div>
-        </div>
+        <End :state="endState" v-if="state.page == 'end'"/>
       </Transition>
       <!-- 游戏错误 -->
       <Transition>
