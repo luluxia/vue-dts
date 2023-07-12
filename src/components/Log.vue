@@ -84,7 +84,7 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <div v-if="gameState" class="text-zinc-300 h-full">
+  <div v-if="gameState" class="text-zinc-300 absolute w-full h-full">
     <h1 class="m-4 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-700 border-b-2 border-dashed mb-1">
       消息<span class="text-base -ml-1 opacity-30">MESSAGE</span>
     </h1>
