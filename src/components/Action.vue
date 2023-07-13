@@ -35,6 +35,13 @@ onMounted(() => {
     { name: '佣兵', action: () => mercenary(), id: 'mercenary' },
     { name: '控制面板', action: () => controlPanel(), id: 'control' },
   ]
+  if (state.searchState && state.searchState.findEnemy) {
+    state.drawerType = 'find-enemy'
+  } else if (state.searchState && state.searchState.findItem) {
+    state.drawerType = 'find-item'
+  } else if (state.searchState && state.searchState.findTeam) {
+    state.drawerType = 'find-team'
+  }
 })
 // 恢复选项
 watch(() => state.drawerType, type => {
@@ -316,7 +323,8 @@ const controlPanel = () => {
           <!-- 非禁用项 -->
           <div
             v-else
-            class="relative flex justify-center cursor-pointer top-0 transform transition-all group-hover:(-top-1)"
+            class="relative flex justify-center cursor-pointer top-0 select-none transform transition-all group-hover:(-top-1)"
+            :class="state.loading && 'opacity-50 pointer-events-none'"
             @click="() => {item.action()}"
           >
             <!-- 悬浮 -->

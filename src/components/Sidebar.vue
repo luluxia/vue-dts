@@ -10,7 +10,8 @@ provide('haveNewMessage', haveNewMessage)
 provide('haveNewNews', haveNewNews)
 </script>
 <template>
-<div @mouseleave="showSidebar = false">
+<div>
+  <div @mouseenter="showSidebar = false" v-if="showSidebar" class="fixed w-full h-full top-0 z-1"></div>
   <div
     class="w-150 fixed left-0 top-0 bottom-0 border-r-2 border-zinc-700/20 bg-zinc-900/95 z-1 transition transform -translate-x-150"
     :class="showSidebar && '!translate-x-15'"

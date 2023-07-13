@@ -72,16 +72,17 @@ const attack = async (type: string | null) => {
     gameState.playerState = data.playerState
     gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
+    actionState.action = []
+    // 查看敌方技能
+    if (state.value?.enemy?.skill) {
+      actionState.action.push({ name: '查看敌方技能', action: () => enemySkill() })
+    }
     if (state.value?.enemy?.actionList) {
-      const actionList: any = []
       state.value?.enemy?.actionList.forEach((item: any) => {
-        actionList.push({ name: item.title, action: () => corpseAction(item.key) })
+        actionState.action.push({ name: item.title, action: () => corpseAction(item.key) })
       })
-      actionState.action = actionList
     } else {
-      actionState.action = [
-        { name: '确定', action: () => back('command') },
-      ]
+      actionState.action.push({ name: '确定', action: () => back('command') })
     }
   })
 }
@@ -97,16 +98,17 @@ const useSkill = async (key: string) => {
     gameState.playerState = data.playerState
     gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
+    actionState.action = []
+    // 查看敌方技能
+    if (state.value?.enemy?.skill) {
+      actionState.action.push({ name: '查看敌方技能', action: () => enemySkill() })
+    }
     if (state.value?.enemy?.actionList) {
-      const actionList: any = []
       state.value?.enemy?.actionList.forEach((item: any) => {
-        actionList.push({ name: item.title, action: () => corpseAction(item.key) })
+        actionState.action.push({ name: item.title, action: () => corpseAction(item.key) })
       })
-      actionState.action = actionList
     } else {
-      actionState.action = [
-        { name: '确定', action: () => back('command') },
-      ]
+      actionState.action.push({ name: '确定', action: () => back('command') })
     }
   })
 }

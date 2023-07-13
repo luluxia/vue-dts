@@ -116,7 +116,7 @@ const itemIndex = ref('');
 <template v-else-if="state.drawerType == 'crafting'">
   <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">合成</h1>
   <p class="text-zinc-400 mb-2">合成笔记</p>
-  <div class="crafting text-zinc-300 bg-zinc-800/70 max-h-100 p-4 rounded overflow-y-scroll" v-html="state?.craftTips">
+  <div class="crafting text-zinc-300 bg-zinc-800/70 max-h-100 max-w-screen-lg p-4 rounded overflow-y-scroll" v-html="state?.craftTips">
 
   </div>
   <div class="text-zinc-400 mt-2" v-html="gameState.actionLog">

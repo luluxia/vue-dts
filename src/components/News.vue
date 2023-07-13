@@ -34,8 +34,8 @@ onUnmounted(() => {
     <h1 class="m-4 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-700 border-b-2 border-dashed mb-1">
       进行状况<span class="text-base -ml-1 opacity-30">NEWS</span>
     </h1>
-    <div class="flex-1 overflow-auto mr-4">
-      <div class="news tooltip-down message flex items-end px-3.5" v-html="news"></div>
+    <div class="flex-1 overflow-y-auto mr-4 mb-1">
+      <div class="news text-sm tooltip-down message flex items-end px-3.5" v-html="news"></div>
     </div>
   </div>
 </template>

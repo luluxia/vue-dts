@@ -108,9 +108,9 @@ onUnmounted(() => {
             <span v-if="messageState.sendData.chattype === '1'">队伍</span>
           </div>
         </div>
-        <div class="flex space-x-2">
-          <p @click="getMessage()" class="px-2 py-0.5 rounded text-shadow cursor-pointer">刷新</p>
-          <div class="bg-slate-700 rounded text-shadow flex justify-center items-end cursor-pointer">
+        <div class="flex space-x-1.5">
+          <p @click="getMessage()" class="px-2 py-0.5 text-shadow cursor-pointer">刷新</p>
+          <div class="bg-slate-700 rounded-sm text-shadow flex justify-center items-end cursor-pointer">
             <div
               class="
                 absolute bottom-12 flex justify-start items-start
@@ -127,7 +127,7 @@ onUnmounted(() => {
             </div>
             <span class="px-3 py-0.5" @click="messageState.showEmoji = !messageState.showEmoji">表情</span>
           </div>
-          <p @click="sendMessage()" class="px-3 py-0.5 bg-slate-700 rounded text-shadow cursor-pointer">发送</p>
+          <p @click="sendMessage()" class="px-3 py-0.5 bg-slate-700 rounded-sm text-shadow cursor-pointer">发送</p>
         </div>
       </div>
     </div>
