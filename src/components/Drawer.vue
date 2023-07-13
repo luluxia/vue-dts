@@ -49,7 +49,7 @@ watch(() => state.drawerType, () => {
       @mouseleave="state.hideDrawer = false"
       class="absolute bottom-4 right-4 h-11 w-11 flex rounded border-2 border-zinc-700 bg-zinc-700/50 pointer-events-auto <sm:bottom-28"
     >
-      <img class="w-6 m-auto" src="img/hide.svg" alt=""/>
+      <img class="w-6 m-auto" src="/img/hide.svg" alt=""/>
     </div>
   </div>
   <div

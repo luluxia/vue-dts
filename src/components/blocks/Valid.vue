@@ -93,7 +93,7 @@ const enter = async () => {
         <template v-if="!enterState?.name">
           <!-- 入场手续 -->
           <div class="flex items-center bg-zinc-700/30 p-1 rounded">
-            <img class="w-26 h-26 rounded" src="old/img/story_0.gif" alt="">
+            <img class="w-26 h-26 rounded" :src="'/img/story/story_0.gif'" alt="">
             <div class="text-left pl-2 text-sm">
               <p>欢迎参加本次ACFUN动漫祭。</p>
               <p>我是本次ACFUN动漫祭的工作人员，你可以叫我「亮亮」。</p>
@@ -205,7 +205,7 @@ const enter = async () => {
         <template v-else>
           <div class="flex flex-col items-center space-y-2">
             <div class="flex items-center bg-zinc-700/30 p-1 rounded w-max">
-              <img class="w-26 h-26 rounded" src="old/img/story_0.gif" alt="">
+              <img class="w-26 h-26 rounded" src="/img/story/story_0.gif" alt="">
               <div class="text-left pl-2 text-sm">
                 <p>{{ enterState.name }}，对吧？正在为您创建虚拟身份……</p>
                 <p>创建完成！您可以凭这个身份参加我们的特别活动了。</p>
