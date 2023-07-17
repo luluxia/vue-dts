@@ -192,21 +192,8 @@ const corpseAction = async (key: string) => {
 }
 
 // 查看敌方技能
-const tippyInstance = ref<any>(null)
 const enemySkill = () => {
   showDialog.value = true
-  tippyInstance.value && tippyInstance.value.forEach((instance: any) => {
-    instance.destroy()
-  })
-  tippyInstance.value = tippy('.skill-desc span[tooltip], .skill-desc span[tooltip2]', {
-    arrow: false,
-    content: (el) => {
-      const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || ''
-      return content as string
-    },
-    theme: 'tooltip',
-    appendTo: () => document.body,
-  })
 }
 </script>
 <template>

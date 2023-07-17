@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, provide, reactive, ref, watch } from 'vue'
+import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue'
 import Card from '../components/Card.vue'
 import Action from '../components/Action.vue'
 import Drawer from '../components/Drawer.vue'
@@ -38,6 +38,7 @@ import Valid from '../components/blocks/Valid.vue'
 // 结局
 import End from '../components/blocks/End.vue'
 import axios from 'axios'
+import tippy from 'tippy.js'
 import type { GameState, ActionState } from '../types/interface'
 // 游戏状态
 const state = reactive<GameState>({ drawerType: '' })
@@ -93,6 +94,31 @@ watch(() => state.playerState, (playerState) => {
     location.reload()
   }
 })
+watch(() => {
+  return {
+    playerState: state.playerState,
+    drawerType: state.drawerType,
+  }
+ }, () => {
+  nextTick(() => {
+    const tooltips = document.querySelectorAll('span[tooltip], span[tooltip2]')
+    tooltips.forEach((el: any) => {
+      if (el._tippy) {
+        el._tippy.setContent(el.getAttribute('tooltip') || el.getAttribute('tooltip2') || '')
+      } else {
+        tippy(el, {
+          arrow: false,
+          content: (el) => {
+            const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || ''
+            return content as string
+          },
+          theme: 'tooltip',
+          appendTo: () => document.body,
+        })
+      }
+    })
+  })
+})
 </script>
 
 <template>
@@ -131,7 +157,7 @@ watch(() => state.playerState, (playerState) => {
               <!-- 状态 内容 -->
               <div class="flex flex-wrap max-w-156">
                 <!-- 头像 -->
-                <Card :title="state.playerState?.playerInfo.nick" :length="3" class="tooltip-down">
+                <Card :title="state.playerState?.playerInfo.nick" :length="3">
                   <Player/>
                 </Card>
                 <!-- 等级 -->
@@ -337,16 +363,6 @@ span[tooltip]::after {
 }
 .inline-flex span[tooltip]::after {
   @apply w-2;
-}
-span[tooltip]::before {
-  content: attr(tooltip);
-  @apply bg-zinc-800/95 text-sm font-normal text-left p-2 absolute bottom-8 w-max max-w-70 border-2 text-zinc-200 border-zinc-600 z-2 whitespace-pre-line shadow text-shadow-none opacity-0 pointer-events-none transition transition-opacity;
-}
-span[tooltip]:hover::before {
-  opacity: 1;
-}
-.tooltip-down span[tooltip]::before {
-  @apply top-8 bottom-auto;
 }
 input[type="range"] {
   @apply appearance-none bg-zinc-600 rounded;

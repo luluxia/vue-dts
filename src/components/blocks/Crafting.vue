@@ -34,15 +34,6 @@ const itemClick = (key: string | number) => {
   }
 }
 onMounted(() => {
-  tippy('span[tooltip2]', {
-    arrow: false,
-    content: (el) => {
-      const content = el.getAttribute('tooltip2') ? el.getAttribute('tooltip2') : '暂无说明'
-      return content as string
-    },
-    theme: 'tooltip',
-    appendTo: () => document.body,
-  })
   actionState.action = [
     { name: '提交', action: () => craft() },
     { name: '放弃', action: () => back() },
@@ -99,25 +90,15 @@ const itemIndex = ref('');
     const data = res as any
     gameState.playerState = data.playerState
     craftingState.showDialog = true
-    nextTick(() => {
-      tippy('.craft-dialog span[tooltip2]', {
-        arrow: false,
-        content: (el) => {
-          const content = el.getAttribute('tooltip2') ? el.getAttribute('tooltip2') : '暂无说明'
-          return content as string
-        },
-        theme: 'tooltip',
-        appendTo: () => document.body,
-      })
-    })
   })
 }
 </script>
 <template v-else-if="state.drawerType == 'crafting'">
   <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">合成</h1>
   <p class="text-zinc-400 mb-2">合成笔记</p>
-  <div class="crafting text-zinc-300 bg-zinc-800/70 max-h-100 max-w-screen-lg p-4 rounded overflow-y-scroll" v-html="state?.craftTips">
-
+  <div class="crafting text-zinc-300 bg-zinc-800/70 max-h-100 max-w-screen-lg p-4 rounded overflow-y-auto">
+    <div v-if="state?.craftTips != '<br>'" v-html="state?.craftTips"></div>
+    <span v-else>现在没有可以合成的物品</span>
   </div>
   <div class="text-zinc-400 mt-2" v-html="gameState.actionLog">
 
@@ -130,7 +111,7 @@ const itemIndex = ref('');
       :class="craftingState.list.has(key) && 'ring-2 ring-zinc-500'"
       class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
-      <span>{{ item?.name }}</span>
+      <span v-html="item?.name"></span>
     </p>
   </div>
   <Teleport to="body">
@@ -164,18 +145,4 @@ const itemIndex = ref('');
 .crafting .blueseed {
   @apply text-sky-300 font-bold;
 }
-/* .crafting span[tooltip2] {
-  @apply relative inline-flex justify-center items-center w-max;
-}
-.crafting span[tooltip2]::after {
-  content: '[?]';
-  @apply text-sm opacity-50;
-}
-.crafting span[tooltip2]::before {
-  content: attr(tooltip2);
-  @apply bg-zinc-800/95 text-sm text-left p-2 fixed w-max max-w-70 border-2 text-zinc-200 border-zinc-600 z-1 whitespace-pre-line shadow opacity-0 pointer-events-none transition transition-opacity;
-}
-.crafting span[tooltip2]:hover::before {
-  opacity: 1;
-} */
 </style>

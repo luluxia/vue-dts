@@ -10,8 +10,6 @@ const skillNums = reactive<{ [key: string]: number }>({})
 const skillSpecialData = reactive<{ [key: string]: any }>({})
 const tippyInstance = ref<any>(null)
 onMounted(() => {
-  // 初始化 tooltip
-  refreshTippy()
   // 初始化技能升级次数与特殊数据
   gameState.playerState?.skill.forEach(skill => {
     if (!skill.unlockFlag && skill.num) {
@@ -31,20 +29,6 @@ onMounted(() => {
     }
   })
 })
-const refreshTippy = () => {
-  tippyInstance.value && tippyInstance.value.forEach((instance: any) => {
-    instance.destroy()
-  })
-  tippyInstance.value = tippy('.skill-desc span[tooltip], .skill-desc span[tooltip2]', {
-    arrow: false,
-    content: (el) => {
-      const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || ''
-      return content as string
-    },
-    theme: 'tooltip',
-    appendTo: () => document.body,
-  })
-}
 // 使用技能
 const useSkill = async (skill: any) => {
   let commandSend: any = { mode: 'revskpts', command: 'upgskill_' + skill.id }
@@ -61,9 +45,6 @@ const useSkill = async (skill: any) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
-    nextTick(() => {
-      refreshTippy()
-    })
   })
 }
 // 激活技能
@@ -77,9 +58,6 @@ const activeSkill = async (id: string) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
-    nextTick(() => {
-      refreshTippy()
-    })
   })
 }
 // 使用百战
@@ -94,9 +72,6 @@ const use_c1_veteran = async (id: string) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
-    nextTick(() => {
-      refreshTippy()
-    })
   })
 }
 // 使用专注
@@ -110,9 +85,6 @@ const use_c5_focus = async (id: any) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
-    nextTick(() => {
-      refreshTippy()
-    })
   })
 }
 // 使用灵感
@@ -127,7 +99,6 @@ const use_c10_inspire = async (id: any) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
-    refreshTippy()
   })
 }
 </script>

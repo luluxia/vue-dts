@@ -3,9 +3,6 @@
 import { computed, inject, nextTick, onMounted, reactive } from 'vue'
 import { command } from '../../utils/api'
 import Card from '../Card.vue'
-import tippy from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
-import 'tippy.js/animations/shift-away-subtle.css'
 import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const actionState = inject<ActionState>('actionState') as ActionState
@@ -30,15 +27,6 @@ onMounted(() => {
   state.haveNum = elements.value?.map((item) => Number(item.num)) || [0, 0, 0, 0, 0, 0]
   nextTick(() => {
     state.selectNum = elements.value?.map((item) => Number(item.num)) || [0, 0, 0, 0, 0, 0]
-  })
-  tippy('span[tooltip]', {
-    arrow: false,
-    content: (el) => {
-      const content = el.getAttribute('tooltip') ? el.getAttribute('tooltip') : '暂无说明'
-      return content as string
-    },
-    theme: 'tooltip',
-    appendTo: () => document.body,
   })
 })
 const push = (index: number) => {

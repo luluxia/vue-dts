@@ -37,7 +37,7 @@ const change = async (type: 'tac' | 'pose' | 'clubsel', id: string) => {
       v-for="id in state?.pose.idList"
       @click="change('pose', id)"
       :class="state?.pose.nowPoseId == id && 'ring-2 ring-zinc-500'"
-      class="tooltip-down bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
+      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
     >
       <span :tooltip="state?.pose.tips[Number(id)]">{{ state?.pose.type[Number(id)] }}</span>
     </p>

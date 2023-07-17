@@ -193,7 +193,7 @@ const swapItem = async (index: string) => {
         :class="dropKey == key && 'ring-2 ring-zinc-500'"
         class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
-        <span>{{ item?.name }}</span>
+        <span v-html="item?.name"></span>
       </p>
     </div>
   </template>
@@ -206,7 +206,7 @@ const swapItem = async (index: string) => {
         :class="mergeKey == key && 'ring-2 ring-zinc-500'"
         class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
-        <span>{{ item?.name }}</span>
+        <span v-html="item?.name"></span>
       </p>
     </div>
   </template>

@@ -31,21 +31,6 @@ const buyNum = ref(1)
 const shopType = ref<number>(1)
 onMounted(() => {
   shopItems.value = gameState?.playerState?.shop || []
-  nextTick(() => {
-    createSingleton(tippy('.shop span[tooltip]', {
-      interactive: true,
-      content: (el) => {
-        const content = el.getAttribute('tooltip') ? el.getAttribute('tooltip') : '暂无说明'
-        return content as string
-      },
-      appendTo: () => document.body,
-    }), {
-      arrow: false,
-      delay: 0,
-      theme: 'tooltip',
-      moveTransition: 'transform 0.2s ease-out',
-    })
-  })
 })
 const changeShopType = async (id: number) => {
   if (shopType.value === id) {
@@ -64,21 +49,6 @@ const changeShopType = async (id: number) => {
     if (data.playerState.shop) {
       shopItems.value = data.playerState.shop
     }
-    nextTick(() => {
-      createSingleton(tippy('.shop span[tooltip]', {
-        interactive: true,
-        content: (el) => {
-          const content = el.getAttribute('tooltip') ? el.getAttribute('tooltip') : '暂无说明'
-          return content as string
-        },
-        appendTo: () => document.body,
-      }), {
-        arrow: false,
-        delay: 0,
-        theme: 'tooltip',
-        moveTransition: 'transform 0.2s ease-out',
-      })
-    })
   })
 }
 const buy = async (itemId: string) => {
@@ -162,7 +132,4 @@ const buy = async (itemId: string) => {
 .shop span[tooltip]::before {
   @apply !hidden;
 }
-/* .shop span[tooltip]::after {
-  @apply !hidden;
-} */
 </style>

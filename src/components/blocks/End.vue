@@ -38,6 +38,8 @@ const nowStoryType = computed(() => {
     } else {
       storyType = '幻境解离（非解离者）'
     }
+  } else if (state.title === '最后幸存') {
+    storyType = '最后幸存'
   } else {
     storyType = ''
   }
@@ -62,12 +64,23 @@ const nowStoryType = computed(() => {
         <!-- 最后幸存 -->
         <div v-else-if="props.state?.title === '最后幸存'" class="m-auto">
           <div v-if="nowPage == 0">
-            <span class="font-bold">“抱歉，但我必须活着出去。”</span><br>
-            尽管有些波折，但这些参与者都不是你的对手。<br>
-            你能确定，你击杀的这些“挑战者”大部分都只是数据的残片而已。<br>
-            其中究竟有几个，是你本该拯救的人们呢？，<br>
-            你轻轻摇了摇头，把这个念头赶出了脑海。毕竟，你还有更重要的事要做。<br>
-            虽然不情愿，但危机关头，让自己活下去才是第一要务。<br>
+            <template v-if="props.state?.flag.killNum > 0">
+              <span class="font-bold">“抱歉，但我必须活着出去。”</span><br>
+              尽管有些波折，但这些参与者都不是你的对手。<br>
+              你能确定，你击杀的这些“挑战者”大部分都只是数据的残片而已。<br>
+              其中究竟有几个，是你本该拯救的人们呢？，<br>
+              你轻轻摇了摇头，把这个念头赶出了脑海。毕竟，你还有更重要的事要做。<br>
+              虽然不情愿，但危机关头，让自己活下去才是第一要务。<br>
+            </template>
+            <template v-else>
+              <span class="font-bold">“呼，都太弱了。”</span><br>
+              其他参与者明显不是你的对手。<br>
+              你怀疑，他们并不是真人，而都只是数据的残片。<br>
+              算了，这样也好，至少你用不着去伤害那些无辜者了。<br>
+              <span class="font-bold">“这个挑战，我完成了！”</span><br>
+              你朝着天空喊出了这句话，你知道红暮一定能听见，<br>
+              <span class="font-bold">“你打算旁观到什么时候？”</span>
+            </template>
           </div>
           <div v-if="nowPage == 1">
             <span class="ltcrimson"> “祝贺你，最后的幸存者。”</span><br>
@@ -140,7 +153,7 @@ const nowStoryType = computed(() => {
             <br>
             踌躇良久，你伸出颤抖的手。<br>
             <br>
-            <span class="yellow b">“挑战者{$sNo}号，{$winner}。<br>
+            <span class="yellow b">“挑战者{{ props.state?.flag.number }}号，{{ props.state?.flag.winner }}。<br>
               “我……”</span><br>
             <br>
             ……<br>

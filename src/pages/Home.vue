@@ -15,7 +15,17 @@ onMounted(async () => {
       updateTime(homeState.value.timing, false)
     }
   })
-  tippy('.room-action span[tooltip2]', {
+  tippy('span[tooltip]', {
+    arrow: false,
+    content: (el) => {
+      const content = el.getAttribute('tooltip') ? el.getAttribute('tooltip') : '暂无说明'
+      return content as string
+    },
+    allowHTML: true,
+    theme: 'tooltip',
+    appendTo: () => document.body,
+  })
+  tippy('span[tooltip2]', {
     arrow: false,
     content: (el) => {
       const content = el.getAttribute('tooltip2') ? el.getAttribute('tooltip2') : '暂无说明'

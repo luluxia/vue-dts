@@ -60,7 +60,6 @@ const specialWeapon = async () => {
     ${item.name ? 'group transition hover:(ring-zinc-500 ring-2)' : 'pointer-events-none border-2 border-dashed border-zinc-800 !bg-transparent'} 
     ${item.name && item.quality != 0 && 'cursor-pointer'}
     `"
-    class="tooltip-down"
   >
     <Item :item='item'/>
     <div v-if="key === 'weapon'" class="absolute right-1 bottom-1 space-y-1 cursor-pointer">
