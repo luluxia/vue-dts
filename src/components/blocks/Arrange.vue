@@ -158,7 +158,7 @@ const move = async () => {
       :class="arrangeState.mergeList.has(item.key) && 'ring-2 ring-zinc-500'"
       class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
-      <span>{{ item.item?.name }}</span>
+      <span v-html="item.item?.name"></span>
     </p>
   </div>
   <p class="text-zinc-300 font-bold">移动道具</p>
@@ -173,7 +173,7 @@ const move = async () => {
       "
       class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
-      <span>{{ item.item?.name }}</span>
+    <span v-html="item.item?.name"></span>
     </p>
   </div>
 </template>

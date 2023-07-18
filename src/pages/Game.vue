@@ -180,10 +180,6 @@ watch(() => {
                 <Card title="歌魂">
                   <SongSoul/>
                 </Card>
-                <!-- 内定称号 -->
-                <Card title="内定称号" :length="2">
-                  <Gift/>
-                </Card>
                 <!-- 基础姿态 -->
                 <Card title="基础姿态" :length="2">
                   <Pose/>
@@ -193,40 +189,24 @@ watch(() => {
                   <Tactic/>
                 </Card>
                 <!-- 攻击力 -->
-                <Card title="攻击力">
+                <Card title="攻击力" :length="2">
                   <Attack/>
                 </Card>
                 <!-- 防御力 -->
-                <Card title="防御力">
+                <Card title="防御力" :length="2">
                   <Defense/>
+                </Card>
+                <!-- 内定称号 -->
+                <Card title="内定称号" :length="2">
+                  <Gift/>
                 </Card>
                 <!-- 队伍 -->
                 <Card title="队伍" :length="2">
                   <Team/>
                 </Card>
                 <!-- 殴熟 -->
-                <Card title="殴熟">
+                <Card title="熟练度" :length="4">
                   <Proficiency type="melee"/>
-                </Card>
-                <!-- 斩熟 -->
-                <Card title="斩熟">
-                  <Proficiency type="slash"/>
-                </Card>
-                <!-- 射熟 -->
-                <Card title="射熟">
-                  <Proficiency type="shoot"/>
-                </Card>
-                <!-- 投熟 -->
-                <Card title="投熟">
-                  <Proficiency type="throw"/>
-                </Card>
-                <!-- 爆熟 -->
-                <Card title="爆熟">
-                  <Proficiency type="blast"/>
-                </Card>
-                <!-- 灵熟 -->
-                <Card title="灵熟">
-                  <Proficiency type="spirit"/>
                 </Card>
               </div>
             </div>

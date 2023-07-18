@@ -144,6 +144,7 @@ export interface PlayerState {
   team: string,
   /** 熟练度 */
   proficiency: {
+    [key: string]: number,
     /** 殴熟 */
     melee: number,
     /** 斩熟 */
