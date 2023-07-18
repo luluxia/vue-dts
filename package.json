@@ -16,11 +16,11 @@
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@unocss/transformer-directives": "^0.51.8",
-    "@unocss/transformer-variant-group": "^0.51.8",
+    "@unocss/transformer-directives": "^0.53.5",
+    "@unocss/transformer-variant-group": "^0.53.5",
     "@vitejs/plugin-vue": "^2.3.4",
     "typescript": "^4.9.5",
-    "unocss": "^0.51.8",
+    "unocss": "^0.53.5",
     "vite": "^2.9.15",
     "vue-tsc": "^0.34.17",
     "windicss": "^3.5.6"

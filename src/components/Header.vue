@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { inject, nextTick, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import axios from 'axios'
-import tippy from 'tippy.js'
+import tippy, { hideAll } from 'tippy.js'
 const state = reactive({
   user: '',
   showHeader: true,
@@ -90,7 +90,7 @@ onMounted(() => {
             <input v-model="state.password" placeholder="密码" class="p-2 bg-zinc-700 text-zinc-300 rounded text-sm w-full my-1" type="password" required>
             <p v-if="state.error" class="text-sm text-rose-500 mt-1">{{ state.error }}</p>
             <div class="flex items-center justify-between mt-2">
-              <p class="text-sm text-zinc-400">还没有账号？前往注册！</p>
+              <router-link to="/register" @click="hideAll" class="text-sm text-zinc-400">还没有账号？前往注册！</router-link>
               <p
                 @click="login()"
                 class="px-4 py-2 w-max bg-sky-800 text-zinc-300 rounded text-sm cursor-pointer transition hover:bg-sky-700"
