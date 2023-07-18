@@ -215,7 +215,27 @@ const roomAction = async (action: string) => {
               新闻<span class="text-base -ml-1 opacity-10">NEWS</span>
             </h1>
           </div>
-          <div class="flex flex-wrap w-156 text-zinc-300 space-y-2" v-html="homeState.news">
+          <div class="w-156 text-zinc-300">
+            <div class="text-center my-5">
+              <p class="text-3xl font-bold">常磐大逃杀 alpha</p>
+              <p class="text-zinc-400">文字类多人在线 Roguelike</p>
+            </div>
+            <div class="my-5">
+              <p class="font-bold">快速指南：</p>
+              <p>常磐大逃杀是一个在线游戏，需要账号存储游戏数据，请注册或使用现有账号登录。</p>
+              <p>你可以直接进入已在进行中的游戏，或者创建一个新的游戏房间。</p>
+            </div>
+            <div class="my-5">
+              <p class="font-bold">相关链接：</p>
+              <a class="text-sky-500" target="_blank" href="https://dts.loli.camp/old/"> 旧版界面 </a>
+              <a class="text-sky-500" target="_blank" href="https://dts.loli.camp/old/help.php"> 游戏帮助 </a>
+              <a class="text-sky-500" target="_blank" href="https://bbs.brdts.online/"> 官方论坛 </a>
+              <a class="text-sky-500" target="_blank" href="https://amarillonmc.github.io/Settings/"> 游戏设定 </a>
+            </div>
+            <div class="my-5">
+              <p class="text-zinc-400">当前游戏版本仍在持续开发中，功能尚不完整，游戏数据将不定时更新。</p>
+            </div>
+            <div v-html="homeState.news"></div>
           </div>
         </div>
       </div>
