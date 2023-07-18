@@ -20,8 +20,10 @@ const type = {
 } as any
 const all = computed(() => {
   let sum = 0
-  for (const i in state.value?.proficiency) {
-    sum += +state.value.proficiency[i]
+  if (state.value) {
+    for (const i in state.value.proficiency) {
+      sum += +state.value.proficiency[i]
+    }
   }
   return sum
 })
