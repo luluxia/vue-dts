@@ -39,7 +39,6 @@ const state = computed(() => {
 const dropKey = ref<any>('')
 const mergeKey = ref<any>('')
 onMounted(() => {
-  actionState.oldAction = actionState.action
   actionState.action = [
     { name: '拾取', action: () => getItem() },
     { name: '使用', action: () => useItem() },
@@ -179,38 +178,38 @@ const swapItem = async (index: string) => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">发现物品</h1>
-  <div v-if="gameState?.actionLog" v-html="gameState?.actionLog" class="text-zinc-400 mb-2"></div>
-  <Card :length="4" :title="state?.findItem?.type" class="group transition hover:(ring-zinc-500 ring-2)">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">发现物品</h1>
+  <div v-if="gameState?.actionLog" v-html="gameState?.actionLog" class="mb-2"></div>
+  <Card :length="4" :title="state?.findItem?.type">
     <Item v-if="state?.findItem" :item="state.findItem"/>
   </Card>
   <template v-if="state?.isBagFull">
-    <p class="text-zinc-400 mt-2">你的包裹已经满了。想要替换哪个物品？</p>
-    <div class="text-zinc-300 flex justify-center flex-wrap mt-2">
+    <p class="mt-2">你的包裹已经满了。想要替换哪个物品？</p>
+    <div class="flex justify-center flex-wrap mt-2">
       <p
         v-for="(item, key) in state?.bag"
         @click="selectDropItem(key)"
-        :class="dropKey == key && 'ring-2 ring-zinc-500'"
-        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        :class="dropKey == key && 'ring-2 ring-outline'"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
         <span v-html="item?.name"></span>
       </p>
     </div>
   </template>
   <template v-if="state?.sameItems && Object.keys(state?.sameItems).length">
-    <p class="text-zinc-400 mt-2">发现了可以堆叠的物品。想要与哪个物品合并？</p>
-    <div class="text-zinc-300 flex justify-center flex-wrap mt-2">
+    <p class="mt-2">发现了可以堆叠的物品。想要与哪个物品合并？</p>
+    <div class="flex justify-center flex-wrap mt-2">
       <p
         v-for="(item, key) in state?.sameItems"
         @click="selectMergeItem(key)"
-        :class="mergeKey == key && 'ring-2 ring-zinc-500'"
-        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        :class="mergeKey == key && 'ring-2 ring-outline'"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
         <span v-html="item?.name"></span>
       </p>
     </div>
   </template>
-  <div class="text-zinc-400 mt-2">
+  <div class="mt-1">
     <p>现在想要做什么？</p>
   </div>
 </template>

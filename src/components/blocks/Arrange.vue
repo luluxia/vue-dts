@@ -145,33 +145,33 @@ const move = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">整理</h1>
-  <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">整理</h1>
+  <div v-if="gameState.actionLog" class="mb-1" v-html="gameState.actionLog">
 
   </div>
-  <p class="text-zinc-300 font-bold">合并道具</p>
-  <p class="text-zinc-400 mb-2">将两个可堆叠道具合并在一起</p>
-  <div class="text-zinc-300 flex justify-center flex-wrap mb-2">
+  <p class="font-bold">合并道具</p>
+  <p class="mb-1">将两个可堆叠道具合并在一起</p>
+  <div class="flex justify-center flex-wrap mb-1">
     <p
       v-for="item in state?.mergeBag"
       @click="mergeItemClick(item.key as string)"
-      :class="arrangeState.mergeList.has(item.key) && 'ring-2 ring-zinc-500'"
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      :class="arrangeState.mergeList.has(item.key) && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
       <span v-html="item.item?.name"></span>
     </p>
   </div>
-  <p class="text-zinc-300 font-bold">移动道具</p>
-  <p class="text-zinc-400 mb-2">移动道具在包裹内的位置</p>
-  <div class="text-zinc-300 flex justify-center flex-wrap mb-2">
+  <p class="font-bold">移动道具</p>
+  <p class="mb-1">移动道具在包裹内的位置</p>
+  <div class="flex justify-center flex-wrap mb-1">
     <p
       v-for="item in state?.moveBag"
       @click="moveItemClick(item)"
       :class="
-        arrangeState.moveList.has(item.key) && 'ring-2 ring-zinc-500',
+        arrangeState.moveList.has(item.key) && 'ring-2 ring-outline',
         !item.item?.type && !arrangeState.moveList.size && 'opacity-50 pointer-events-none'
       "
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
     <span v-html="item.item?.name"></span>
     </p>

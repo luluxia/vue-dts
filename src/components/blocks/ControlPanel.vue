@@ -100,7 +100,7 @@ const pushButton = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">控制面板</h1>
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">控制面板</h1>
   <p class="text-zinc-400 mb-2">
     可用信道 
     <span class="green">{{ gameState.playerState?.controlPanel.channel }} / {{ gameState.playerState?.controlPanel.channelAll }}</span>

@@ -15,6 +15,6 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="m-auto text-center">
-  <p class="text-xl">{{state.remain}}</p>
+  <p>{{state.remain}}</p>
 </div>
 </template>

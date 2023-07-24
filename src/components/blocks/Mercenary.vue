@@ -50,7 +50,7 @@ const fire = async (id: string) => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">佣兵管理</h1>
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">佣兵管理</h1>
   <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog"></div>
   <p class="text-zinc-400">
     <template v-if="mercenaryList?.length">

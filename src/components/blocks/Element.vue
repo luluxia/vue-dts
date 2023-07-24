@@ -96,7 +96,7 @@ const back = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">元素口袋</h1>
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">元素口袋</h1>
   <p class="text-zinc-400 mb-2">合成笔记</p>
   <div class="element-hint text-zinc-300 bg-zinc-800/70 max-h-60 p-4 rounded overflow-y-scroll mb-2" v-html="hint">
 

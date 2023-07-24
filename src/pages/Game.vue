@@ -8,6 +8,7 @@ import Loading from '../components/Loading.vue'
 // 玩家状态组件
 import Player from '../components/cards/Player.vue'
 import Level from '../components/cards/Level.vue'
+import Health from '../components/cards/Health.vue'
 import Hp from '../components/cards/Hp.vue'
 import Mp from '../components/cards/Mp.vue'
 import Rage from '../components/cards/Rage.vue'
@@ -29,6 +30,10 @@ import Debuffs from '../components/cards/Debuffs.vue'
 // 装备包裹
 import Equipment from '../components/Equipment.vue'
 import Package from '../components/Package.vue'
+
+import Chat from '../components/Chat.vue'
+import News from '../components/News.vue'
+
 // 死亡信息
 import Death from '../components/blocks/Death.vue'
 // 弹框
@@ -54,6 +59,8 @@ const endState = ref({
   title: '',
 })
 const validState = ref({})
+const switchType = ref('news')
+
 onMounted(async () => {
   await axios.get('/old/game.php?is_new=1').then(res => {
     const data = res.data as any
@@ -72,6 +79,7 @@ onMounted(async () => {
     }
   })
 })
+
 watch(() => state.playerState?.isGameOver, async (isGameOver) => {
   if (isGameOver) {
     let waitTimer = setTimeout(() => {
@@ -89,11 +97,14 @@ watch(() => state.playerState?.isGameOver, async (isGameOver) => {
     })
   }
 })
+
 watch(() => state.playerState, (playerState) => {
   if (playerState == null) {
     location.reload()
   }
 })
+
+// 刷新tooltip
 watch(() => {
   return {
     playerState: state.playerState,
@@ -126,10 +137,10 @@ watch(() => {
     <!-- 加载 -->
     <Transition><Loading/></Transition>
     <!-- 背景 -->
-    <div class="fixed w-screen h-screen top-0">
+    <div class="fixed w-screen h-screen top-0 pointer-events-none">
       <img
         v-if="state.playerState?.area.nowArea"
-        class="w-full h-full object-cover opacity-10 grayscale"
+        class="background w-full h-full object-cover grayscale"
         :src="`/old/img/location/${state.playerState?.area.nowArea}.jpg`" alt=""
       >
       <img v-else class="w-full h-full object-cover" src="/img/bg.png"/>
@@ -138,85 +149,104 @@ watch(() => {
     <Transition>
     <div v-if="state.playerState?.playerInfo.name">
       <!-- 游戏卡片 -->
-      <div class="max-w-screen-xl mx-auto pt-16" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
-        <p class="w-19 w-38.5 w-58 w-77.5 hidden"></p>
-        <div class="flex justify-between">
-          <!-- 左侧 -->
-          <div class="space-y-1">
+      <div class="w-screen mx-auto pt-16" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
+        <div class="flex justify-center mx-5 space-x-2">
+          <!-- 左 -->
+          <div class="max-w-128 flex-1">
+            <div class="w-full">
+              <div class="border-b-outlineVariant border-b-2 border-dashed flex items-center justify-between mb-1">
+                <h1 class="py-1 text-xl font-bold tracking-wider text-primary">
+                  <span v-if="switchType == 'news'">进行状况<span class="text-base -ml-1 opacity-10">NEWS</span></span>
+                  <span v-if="switchType == 'chat'">聊天讯息<span class="text-base -ml-1 opacity-10">CHAT</span></span>
+                </h1>
+                <p @click="switchType = switchType == 'news' ? 'chat' : 'news'" class="text-primary cursor-pointer">切换</p>
+              </div>
+              <News :class="switchType == 'news' ? 'block' : 'hidden'" />
+              <Chat :class="switchType == 'chat' ? 'block' : 'hidden'" />
+            </div>
+          </div>
+          <!-- 中 -->
+          <div class="space-y-1 w-128">
             <!-- 状态 -->
-            <div class="relative">
-              <div class="border-b-zinc-800 border-b-2 border-dashed flex items-center justify-between mb-1">
-                <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider">
+            <div class="relative w-128">
+              <div class="border-b-outlineVariant border-b-2 border-dashed flex items-center justify-between mb-1">
+                <h1 class="py-1 text-xl font-bold tracking-wider text-primary">
                   状态<span class="text-base -ml-1 opacity-10">STATUS</span>
                 </h1>
                 <div class="flex space-x-5">
-                  <p class="text-zinc-400"><span class="font-bold">击杀数</span> {{ state.playerState?.killNum }}</p>
-                  <p v-if="state.playerState?.rp" class="text-zinc-400"><span class="font-bold">报应点数</span> {{ state.playerState?.rp }}</p>
+                  <p class="text-primary"><span class="font-bold">击杀数</span> {{ state.playerState?.killNum }}</p>
+                  <p v-if="state.playerState?.rp" class="text-primary"><span class="font-bold">报应点数</span> {{ state.playerState?.rp }}</p>
                 </div>
               </div>
               <!-- 状态 内容 -->
-              <div class="flex flex-wrap max-w-156">
-                <!-- 头像 -->
-                <Card :title="state.playerState?.playerInfo.nick" :length="3">
-                  <Player/>
-                </Card>
-                <!-- 等级 -->
-                <Card class="overflow-hidden" title="等级">
-                  <Level/>
-                </Card>
-                <!-- 生命 -->
-                <Card class="overflow-hidden" title="生命">
-                  <Hp/>
-                </Card>
-                <!-- 体力 -->
-                <Card class="overflow-hidden" title="体力">
-                  <Mp/>
-                </Card>
-                <!-- 怒气 -->
-                <Card title="怒气">
-                  <Rage/>
-                </Card>
-                <!-- 歌魂 -->
-                <Card title="歌魂">
-                  <SongSoul/>
-                </Card>
-                <!-- 基础姿态 -->
-                <Card title="基础姿态" :length="2">
-                  <Pose/>
-                </Card>
-                <!-- 应战策略 -->
-                <Card title="应战策略" :length="2">
-                  <Tactic/>
-                </Card>
-                <!-- 攻击力 -->
-                <Card title="攻击力" :length="2">
-                  <Attack/>
-                </Card>
-                <!-- 防御力 -->
-                <Card title="防御力" :length="2">
-                  <Defense/>
-                </Card>
-                <!-- 内定称号 -->
-                <Card title="内定称号" :length="2">
-                  <Gift/>
-                </Card>
-                <!-- 队伍 -->
-                <Card title="队伍" :length="2">
-                  <Team/>
-                </Card>
-                <!-- 殴熟 -->
-                <Card title="熟练度" :length="4">
-                  <Proficiency type="melee"/>
-                </Card>
+              <div>
+                <div class="flex">
+                  <!-- 头像 -->
+                  <Card :title="state.playerState?.playerInfo.nick" :length="3">
+                    <Player/>
+                  </Card>
+                  <!-- 等级 -->
+                  <Card class="overflow-hidden" title="等级">
+                    <Level/>
+                  </Card>
+                  <!-- 体征 -->
+                  <Card class="overflow-hidden" :length="4" title="体征">
+                    <Health/>
+                  </Card>
+                </div>
+                <div class="flex">
+                  <!-- 基础姿态 -->
+                  <Card title="基础姿态" :length="2">
+                    <Pose/>
+                  </Card>
+                  <!-- 应战策略 -->
+                  <Card title="应战策略" :length="2">
+                    <Tactic/>
+                  </Card>
+                  <!-- 攻击力 -->
+                  <Card title="攻击力" :length="2">
+                    <Attack/>
+                  </Card>
+                  <!-- 防御力 -->
+                  <Card title="防御力" :length="2">
+                    <Defense/>
+                  </Card>
+                </div>
+                <div class="flex">
+                  <!-- 内定称号 -->
+                  <Card title="内定称号" :length="2">
+                    <Gift/>
+                  </Card>
+                  <!-- 队伍 -->
+                  <Card title="队伍" :length="2">
+                    <Team/>
+                  </Card>
+                  <!-- 殴熟 -->
+                  <Card title="熟练度" :length="4" class="overflow-hidden">
+                    <Proficiency type="melee"/>
+                  </Card>
+                </div>
+                <div class="flex">
+                  <!-- 怒气 -->
+                  <Card title="怒气" :length="2">
+                    <Rage/>
+                  </Card>
+                  <!-- 歌魂 -->
+                  <Card title="歌魂" :length="2">
+                    <SongSoul/>
+                  </Card>
+                </div>
               </div>
             </div>
             <!-- 位置 -->
-            <div class="relative">
-              <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-800 border-b-2 border-dashed mb-1">
-                地点<span class="text-base -ml-1 opacity-10">AREA</span>
-              </h1>
+            <div class="relative w-128">
+              <div class="border-b-outlineVariant border-b-2 border-dashed flex items-center justify-between mb-1">
+                <h1 class="py-1 text-xl font-bold tracking-wider text-primary">
+                  地点<span class="text-base -ml-1 opacity-10">AREA</span>
+                </h1>
+              </div>
               <!-- 位置 内容 -->
-              <div class="flex flex-wrap max-w-156">
+              <div class="flex flex-wrap">
                 <!-- 当前地点 -->
                 <Card title="当前地点" :length="2">
                   <NowArea/>
@@ -236,47 +266,51 @@ watch(() => {
               </div>
             </div>
             <!-- 负面效果 -->
-            <div class="relative">
-              <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-800 border-b-2 border-dashed mb-1">
-                负面效果<span class="text-base -ml-1 opacity-10">DEBUFF</span>
-              </h1>
+            <!-- <div class="relative w-128">
+              <div class="border-b-outlineVariant border-b-2 border-dashed flex items-center justify-between mb-1">
+                <h1 class="py-1 text-xl font-bold tracking-wider text-primary">
+                  负面效果<span class="text-base -ml-1 opacity-10">DEBUFF</span>
+                </h1>
+              </div> -->
               <!-- 负面效果 内容 -->
-              <div class="flex flex-wrap max-w-156">
+              <!-- <div class="flex flex-wrap"> -->
                 <!-- 负面效果 -->
-                <Debuffs/>
-              </div>
-            </div>
+                <!-- <Debuffs/> -->
+              <!-- </div> -->
+            <!-- </div> -->
           </div>
-          <!-- 右侧 -->
-          <div class="space-y-1">
-            <!-- 装备 -->
-            <div class="relative">
-              <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider border-b-zinc-800 border-b-2 border-dashed mb-1">
-                装备<span class="text-base -ml-1 opacity-10">EQUIPMENT</span>
-              </h1>
-              <!-- 装备 内容 -->
-              <div v-if="state.playerState" class="flex flex-wrap max-w-156">
-                <Equipment/>
-              </div>
-            </div>
+          <!-- 右 -->
+          <div class="space-y-1 w-128">
             <!-- 包裹 -->
-            <div class="relative">
-              <div class="border-b-zinc-800 border-b-2 border-dashed flex items-center justify-between mb-1">
-                <h1 class="p-1 text-zinc-400 text-xl font-bold tracking-wider">
+            <div class="relative w-128">
+              <div class="border-b-outlineVariant border-b-2 border-dashed flex items-center justify-between mb-1">
+                <h1 class="py-1 text-xl font-bold tracking-wider text-primary">
                   包裹<span class="text-base -ml-1 opacity-10">PACKAGE</span>
                 </h1>
-                <p class="text-zinc-400"><span class="font-bold">金钱</span> {{ state.playerState?.money }} 元</p>
+                <p class="text-primary"><span class="font-bold">金钱</span> {{ state.playerState?.money }} 元</p>
               </div>
               <!-- 包裹 内容 -->
-              <div v-if="state.playerState" class="flex flex-wrap max-w-156">
+              <div v-if="state.playerState" class="flex flex-wrap">
                 <Package/>
+              </div>
+            </div>
+            <!-- 装备 -->
+            <div class="relative w-128">
+              <div class="border-b-outlineVariant border-b-2 border-dashed flex items-center justify-between mb-1">
+                <h1 class="py-1 text-xl font-bold tracking-wider text-primary">
+                  装备<span class="text-base -ml-1 opacity-10">EQUIPMENT</span>
+                </h1>
+              </div>
+              <!-- 装备 内容 -->
+              <div v-if="state.playerState" class="flex flex-wrap">
+                <Equipment/>
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- 侧边栏 -->
-      <Sidebar/>
+      <!-- <Sidebar/> -->
       <!-- 游戏行动 -->
       <Drawer/>
       <Action/>
@@ -296,9 +330,9 @@ watch(() => {
       <!-- 游戏错误 -->
       <Transition>
         <div v-if="error" class="m-auto w-full flex flex-col items-center">
-          <p class="text-zinc-300 pb-4 text-xl">{{ error }}</p>
-          <router-link to="/" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer">
-            <p class="text-xl bg-zinc-300 pl-3.5 pr-3 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">返回首页</p>
+          <p class="text-onSurface pb-4 text-xl">{{ error }}</p>
+          <router-link to="/" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+            <p class="text-xl bg-primary pl-3.5 pr-3 py-1 text-onPrimary font-bold tracking-widest transition-colors hover:bg-transparent hover:text-primary">返回首页</p>
           </router-link>
         </div>
       </Transition>
@@ -307,21 +341,19 @@ watch(() => {
 </template>
 
 <style lang="postcss">
-:root {
+/* :root {
   scrollbar-gutter: stable;
-}
+} */
 ::selection {
   @apply text-white bg-zinc-600/80;
 }
 *::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
+  /* background: #000; */
+  @apply bg-surface;
 }
 *::-webkit-scrollbar-thumb {
-  background: hsla(0,0%,100%,.5);
-  background-clip: padding-box;
-  border: 2px solid hsla(0,0%,100%,0);
-  border-top: none;
-  border-bottom: none;
+  @apply bg-surfaceContainerHighest;
   min-height: 10px;
 }
 .tippy-content > div::-webkit-scrollbar, .box-scrollbar::-webkit-scrollbar {
@@ -484,5 +516,8 @@ input[type="range"] {
 }
 .b {
   border: none;
+}
+.background {
+  filter: brightness(5) grayscale(0.5) opacity(0.05);
 }
 </style>

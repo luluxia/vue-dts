@@ -1,15 +1,26 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, reactive } from 'vue'
+import { ref, inject, onMounted, reactive, nextTick } from 'vue'
+import tippy, { hideAll } from 'tippy.js'
 import { command } from '../../utils/api'
 import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const actionState = inject<ActionState>('actionState') as ActionState
+const avatar = ref()
+const avatarList = ref()
 onMounted(() => {
   if (gameState.playerState?.team === '') {
     actionState.action = [
       { name: '组建队伍', action: () => create() },
       { name: '返回', action: () => back() },
     ]
+    tippy(avatar.value, {
+      content: avatarList.value,
+      trigger: 'click',
+      interactive: true,
+      allowHTML: true,
+      arrow: false,
+      appendTo: document.body,
+    })
   } else {
     actionState.action = [
       { name: '脱离队伍', action: () => quit() },
@@ -31,6 +42,16 @@ const changeType = (type: string) => {
       { name: '组建队伍', action: () => create() },
       { name: '返回', action: () => back() },
     ]
+    nextTick(() => {
+      tippy(avatar.value, {
+        content: avatarList.value,
+        trigger: 'click',
+        interactive: true,
+        allowHTML: true,
+        arrow: false,
+        appendTo: document.body,
+      })
+    })
   } else {
     actionState.action = [
       { name: '加入队伍', action: () => join() },
@@ -97,59 +118,59 @@ const back = () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">队伍</h1>
-  <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">队伍</h1>
+  <div v-if="gameState.actionLog" class="mb-1" v-html="gameState.actionLog">
   </div>
-  <p class="text-zinc-400">你想要做什么？</p>
+  <p>你想要做什么？</p>
   <template v-if="gameState.playerState?.team === ''">
-    <div class="text-zinc-300 flex justify-center flex-wrap mt-2">
+    <div class="flex justify-center flex-wrap mt-1">
       <p
         @click="changeType('create')"
-        :class="teamState.type === 'create' && 'ring-2 ring-zinc-500'"
-        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        :class="teamState.type === 'create' && 'ring-2 ring-outline'"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
         <span tooltip="消耗200点体力，组建一只队伍">组建队伍</span>
       </p>
       <p
         @click="changeType('join')"
-        :class="teamState.type === 'join' && 'ring-2 ring-zinc-500'"
-        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        :class="teamState.type === 'join' && 'ring-2 ring-outline'"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
         <span tooltip="消耗100点体力，加入一只队伍">加入队伍</span>
       </p>
     </div>
     <div class="text-center">
       <template v-if="teamState.type === 'create'">
-        <p class="text-zinc-400 m-2">队伍头像</p>
+        <p class="m-1">队伍头像</p>
         <div class="flex justify-center items-center">
           <div
+            ref="avatarList"
             class="
-              absolute flex justify-start items-start
-              flex-wrap w-136.5 bg-zinc-800 p-1 border-2
-              border-zinc-500 rounded transition opacity-0 pointer-events-none"
-            :class="teamState.showAvatar && '!opacity-100 !pointer-events-auto'"
+              flex justify-start items-start
+              flex-wrap w-133.5
+            "
           >
             <img
-              @click="teamState.showAvatar = false; teamState.chooseAvatar = i - 1"
+              @click="teamState.chooseAvatar = i - 1; hideAll()"
               v-for="i in 13"
-              class="h-22 rounded m-0.5 cursor-pointer transition ring-zinc-400 hover:ring-2"
+              class="h-22 rounded-sm m-0.5 cursor-pointer transition ring-outline hover:ring-2"
               :src="`/old/img/t_${i - 1}.gif`"
             >
           </div>
           <img
-            @click="teamState.showAvatar = true"
+            ref="avatar"
             class="h-22 border-2 rounded m-auto cursor-pointer border-zinc-500/50 transition hover:border-zinc-500"
             :src="`/old/img/t_${teamState.chooseAvatar}.gif`" alt=""
           >
         </div>
       </template>
-      <div class="m-2 text-center">
-        <p class="text-zinc-400 m-2">队伍名称</p>
-        <input v-model="teamState.teamName" placeholder="15个字以内" class="p-1 bg-zinc-700 text-zinc-300 rounded text-center" type="text">
+      <div class="m-1 text-center">
+        <p class="m-1">队伍名称</p>
+        <input v-model="teamState.teamName" placeholder="15个字以内" class="p-1 bg-surfaceContainerHighest rounded text-center" type="text">
       </div>
-      <div class="m-2 text-center">
-        <p class="text-zinc-400 m-2">队伍密码</p>
-        <input v-model="teamState.teamPassword" placeholder="15个字以内" class="p-1 bg-zinc-700 text-zinc-300 rounded text-center" type="text">
+      <div class="m-1 text-center">
+        <p class="m-1">队伍密码</p>
+        <input v-model="teamState.teamPassword" placeholder="15个字以内" class="p-1 bg-surfaceContainerHighest rounded text-center" type="text">
       </div>
     </div>
   </template>

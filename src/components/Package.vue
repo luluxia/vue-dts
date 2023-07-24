@@ -84,14 +84,37 @@ const splitItem = async (key: any) => {
     v-for="(item, key) of state.playerState?.bag"
     @click="useItem(item, key)"
     :title="item?.name && item.type" :length="4"
-    :class="`${item?.name ? 'cursor-pointer group transition hover:(ring-zinc-500 ring-2)' : 'pointer-events-none border-2 border-dashed border-zinc-800 !bg-transparent'}`"
+    :class="`${item?.name ? 'cursor-pointer' : 'pointer-events-none opacity-40'}`"
   >
     <Item v-if="item" :item='item'/>
     <div v-if="item" class="absolute right-1 bottom-1 space-y-1 text-center transition opacity-0 group-hover:(opacity-100)">
-      <p @click.stop="encaseItem(key)" v-if="state.playerState?.itemBag.isEquip" class="text-xs px-3 py-1 rounded-sm transition transition-colors bg-slate-700 hover:bg-slate-500">存入背包</p>
+      <p
+        v-if="state.playerState?.itemBag.isEquip"
+        @click.stop="encaseItem(key)"
+        class="
+          text-xs px-2 py-1 rounded-sm transition
+          bg-primary text-onPrimary
+          hover:bg-primary/60
+        "
+      >存入背包</p>
       <div class="flex space-x-1">
-        <p @click.stop="dropItem(key)" class="text-xs px-3 py-1 flex-1 rounded-sm transition transition-colors bg-rose-900 hover:bg-rose-700">丢弃</p>
-        <p v-if="state.playerState?.canAction['element']" @click.stop="splitItem(key)" class="text-xs px-3 py-1 flex-1 rounded-sm transition transition-colors bg-green-900 hover:bg-green-700">提炼</p>
+        <p
+          @click.stop="dropItem(key)"
+          class="
+            text-xs px-2 py-1 rounded-sm flex-1 transition
+            bg-tertiary text-onTertiary
+            hover:bg-tertiary/60
+          "
+        >丢弃</p>
+        <p
+          v-if="state.playerState?.canAction['element']"
+          @click.stop="splitItem(key)"
+          class="
+            text-xs px-2 py-1 rounded-sm flex-1 transition
+            bg-secondary text-onSecondary
+            hover:bg-secondary/60
+          "
+        >提炼</p>
       </div>
     </div>
   </Card>

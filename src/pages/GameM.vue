@@ -10,7 +10,6 @@ provide('state', state)
 
 const actionState: ActionState = reactive({
   action: [],
-  oldAction: [{ name: '', action: () => {} }],
   oldType: '',
   showDetail: false,
   width: 0,

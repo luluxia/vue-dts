@@ -14,6 +14,6 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="m-auto">
-  <p class="text-xl">{{ state.songSoul.nowSongSoul }}/{{ state.songSoul.maxSongSoul }}</p>
+  <p>{{ state.songSoul.nowSongSoul }}/{{ state.songSoul.maxSongSoul }}</p>
 </div>
 </template>

@@ -76,7 +76,7 @@ const search = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">数据检索</h1>
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">数据检索</h1>
   <div class="text-zinc-400">
     <p>提交指令后，你眼前的数据流开始闪烁……</p>
     <p>片刻后，你的战术界面上显现出了几行额外的选项。</p>

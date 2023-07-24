@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { inject, nextTick, onMounted, reactive, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { command } from '../../utils/api'
-import tippy, { createSingleton } from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
-import 'tippy.js/animations/shift-away-subtle.css'
 import type { GameState } from '../../types/interface'
 const shopTypes = [
   { id: 1, name: "补给品" },
@@ -73,22 +70,22 @@ const buy = async (itemId: string) => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">商店</h1>
-  <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog"></div>
-  <div class="shop flex mb-2 rounded overflow-hidden bg-zinc-800/40 shadow">
-    <div class="text-zinc-300 justify-center flex-wrap">
-      <p class="bg-zinc-700/50 px-2.5 py-1 text-center mb-0.5">分类</p>
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">商店</h1>
+  <div v-if="gameState.actionLog" class="mb-1" v-html="gameState.actionLog"></div>
+  <div class="shop flex m1-2 rounded overflow-hidden bg-surfaceContainer">
+    <div class="justify-center flex-wrap">
+      <p class="bg-primaryContainer px-2.5 py-1 text-center mb-0.5">分类</p>
       <div class="h-102 space-y-0.5 overflow-y-auto overflow-x-hidden overscroll-contain snap snap-y">
         <p
           v-for="item in shopTypes"
-          class="px-2.5 py-1 snap-start cursor-pointer transition-colors hover:bg-zinc-700/50"
-          :class="shopType === item.id && '!bg-zinc-700'"
+          class="px-2.5 py-1 snap-start cursor-pointer transition-colors hover:bg-surfaceContainerHigh"
+          :class="shopType === item.id && '!bg-primaryContainer'"
           @click="changeShopType(item.id)"
         >{{ item.name }}</p>
       </div>
     </div>
-    <div class="text-zinc-300 w-190 justify-center flex-wrap">
-      <div class="flex bg-zinc-700/50 px-2.5 py-1 mb-0.5">
+    <div class="w-190 justify-center flex-wrap">
+      <div class="flex bg-primaryContainer px-2.5 py-1 mb-0.5">
         <p class="flex-1 text-center">物品名</p>
         <p class="w-15 text-center">效果</p>
         <p class="w-15 text-center">耐久</p>
@@ -96,9 +93,9 @@ const buy = async (itemId: string) => {
         <p class="w-15 text-center mr-27.5">价格</p>
       </div>
       <div class="h-102 space-y-0.5 overflow-y-scroll overflow-x-hidden overscroll-contain snap snap-y">
-        <div v-for="item in shopItems" class="flex px-2.5 py-1 snap-start group hover:bg-zinc-700/50">
+        <div v-for="item in shopItems" class="flex px-2.5 py-1 snap-start group hover:bg-surfaceContainerHigh">
           <p class="flex-1">
-            <span class="text-zinc-400 mr-1">[<span v-html="item.itmk_words"></span>]</span>
+            <span class="text-onSurfaceVariant mr-1">[<span v-html="item.itmk_words"></span>]</span>
             <span v-html="item.item_words"></span>
             <span v-if="item.itmsk_words"> / <span v-html="item.itmsk_words"></span></span>
           </p>
@@ -106,14 +103,14 @@ const buy = async (itemId: string) => {
           <p class="w-15 text-center">{{ item.itms }}</p>
           <p class="w-15 text-center">{{ item.num }}</p>
           <p class="w-15 text-center">{{ item.price }}</p>
-          <div class="w-25 text-sm flex justify-end h-6">
+          <div class="w-25 text-sm flex justify-end">
             <input
               v-if="[1, 2, 6, 7, 8, 10, 11, 12].includes(shopType)"
-              class="bg-zinc-600 p-1 w-10 mr-2 rounded-sm opacity-0 group-hover:opacity-100"
+              class="bg-surfaceDim px-1 w-10 mr-2 rounded-sm opacity-0 group-hover:opacity-100"
               type="number"
               v-model="buyNum"
             >
-            <div @click="buy(item.sid)" class="inline-flex items-center rounded-sm cursor-pointer transition bg-slate-600 opacity-30 group-hover:opacity-100 hover:bg-slate-500">
+            <div @click="buy(item.sid)" class="inline-flex items-center rounded-sm cursor-pointer transition bg-primary text-onPrimary opacity-30 group-hover:opacity-100">
               <span class="m-auto px-2">购买</span>
             </div>
           </div>

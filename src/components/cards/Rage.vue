@@ -14,6 +14,6 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="m-auto">
-  <p class="text-2xl">{{state.rage}}</p>
+  <p>{{state.rage}}</p>
 </div>
 </template>

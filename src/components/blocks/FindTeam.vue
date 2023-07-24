@@ -64,7 +64,7 @@ const back = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">
     发现队友
   </h1>
   <div class="text-zinc-400 mb-2">

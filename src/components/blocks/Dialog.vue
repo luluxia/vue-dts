@@ -68,25 +68,40 @@ const close = async () => {
   <Transition>
     <div
       v-if="showDialog"
-      class="fixed w-screen h-screen top-0 bg-black/70 shadow flex z-1"
+      class="fixed w-screen h-screen top-0 bg-black/40 shadow flex z-1"
       @click="close()"
     >
-      <div @click.stop="" class="m-auto min-w-120 text-zinc-300 bg-zinc-900/95 border-2 border-zinc-700 p-4 rounded flex flex-col justify-between relative">
+      <div @click.stop="" class="m-auto min-w-120 text-onSurface bg-surfaceContainer border-2 border-outline p-4 rounded flex flex-col justify-between relative">
         <!-- 普通剧情 -->
         <template v-if="Object.keys(story).includes(dialogID)">
           <div>
             <p v-html="story[dialogID].content[nowPage]"></p>
           </div>
           <div class="flex justify-end space-x-4 mt-4">
-            <p v-if="nowPage" @click="nowPage--" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max">
-              <p class="text-sm bg-zinc-300 pl-2.5 pr-2 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">上一页</p>
-            </p>
-            <p v-if="nowPage != story[dialogID].content.length - 1" @click="nowPage++" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max">
-              <p class="text-sm bg-zinc-300 pl-2.5 pr-2 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">下一页</p>
-            </p>
-            <p v-if="nowPage == story[dialogID].content.length - 1" @click="close()" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max">
-              <p class="text-sm bg-zinc-300 pl-2.5 pr-2 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">结束</p>
-            </p>
+            <div v-if="nowPage" @click="nowPage--" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+              <p
+                class="
+                  text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
+                  hover:bg-transparent hover:text-primary
+                "
+              >上一页</p>
+            </div>
+            <div v-if="nowPage != story[dialogID].content.length - 1" @click="nowPage++" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+              <p
+                class="
+                  text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
+                  hover:bg-transparent hover:text-primary
+                "
+              >下一页</p>
+            </div>
+            <div v-if="nowPage == story[dialogID].content.length - 1" @click="close()" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+              <p
+                class="
+                  text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
+                  hover:bg-transparent hover:text-primary
+                "
+              >结束</p>
+            </div>
           </div>
         </template>
         <!-- 开场剧情 -->
@@ -225,15 +240,30 @@ const close = async () => {
             </p>
           </div>
           <div class="flex justify-end space-x-4 mt-4">
-            <p v-if="nowPage" @click="nowPage--" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max">
-              <p class="text-sm bg-zinc-300 pl-2.5 pr-2 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">上一页</p>
-            </p>
-            <p v-if="nowPage != 7" @click="nowPage++" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max">
-              <p class="text-sm bg-zinc-300 pl-2.5 pr-2 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">下一页</p>
-            </p>
-            <p v-if="nowPage == 7" @click="close()" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max">
-              <p class="text-sm bg-zinc-300 pl-2.5 pr-2 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">进入战场</p>
-            </p>
+            <div v-if="nowPage" @click="nowPage--" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+              <p
+                class="
+                  text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
+                  hover:bg-transparent hover:text-primary
+                "
+              >上一页</p>
+            </div>
+            <div v-if="nowPage != 7" @click="nowPage++" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+              <p
+                class="
+                  text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
+                  hover:bg-transparent hover:text-primary
+                "
+              >下一页</p>
+            </div>
+            <div v-if="nowPage == 7" @click="close()" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+              <p
+                class="
+                  text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
+                  hover:bg-transparent hover:text-primary
+                "
+              >结束</p>
+            </div>
           </div>
         </template>
       </div>

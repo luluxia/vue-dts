@@ -29,25 +29,31 @@ const close = () => {
 </script>
 <template>
   <div
-    class="fixed w-screen h-screen top-0 bg-black/70 shadow flex transition opacity-0 pointer-events-none"
+    class="fixed w-screen h-screen top-0 bg-black/40 flex transition opacity-0 pointer-events-none z-1"
     :class="gameState.showDeadInfo && '!opacity-100 !pointer-events-auto'"
     @click="close()"
   >
-    <div @click.stop="" class="m-auto text-zinc-300 bg-zinc-900/95 border-2 border-zinc-700 p-4 rounded flex flex-col relative">
+    <div @click.stop="" class="m-auto text-onSurface bg-surfaceContainer border-2 border-outline p-4 rounded flex flex-col relative">
       <!-- <img class="absolute right-0 bottom-0 opacity-50 pointer-events-none" src="old/img/rbfireseed.png" alt=""> -->
-      <p class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow pb-4 text-center">{{ deathInfo?.title }}</p>
-      <div class="text-zinc-300 pb-6 relative" v-html="deathInfo?.content"></div>
+      <p class="text-xl text-primary font-bold tracking-wide pb-1 text-center">{{ deathInfo?.title }}</p>
+      <div class="pb-1 relative" v-html="deathInfo?.content"></div>
       <p>死亡时间：{{ deathInfo?.time }}</p>
       <p v-if="deathInfo?.name">凶手：{{ deathInfo?.name }}</p>
       <p class="red">你死了。</p>
-      <p @click="close()" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max m-auto">
-        <p class="text-xl bg-zinc-300 pl-3.5 pr-3 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">我靠！</p>
-      </p>
+      <div @click="close()" class="ring-1.5 ring-primary p-0.5 cursor-pointer w-max m-auto">
+        <p
+          class="
+              text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
+              hover:bg-transparent hover:text-primary
+            "
+          >我靠！
+        </p>
+      </div>
     </div>
   </div>
 </template>
 <style lang="postcss">
 .seedhint {
-  @apply text-shadow-md text-sm max-w-150 my-2;
+  @apply text-sm max-w-150 my-2;
 }
 </style>

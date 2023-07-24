@@ -97,7 +97,7 @@ const changeTrap = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">
     {{ state?.gift == '7' ? '带电' : '淬毒' }}
   </h1>
   <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog">

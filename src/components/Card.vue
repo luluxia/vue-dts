@@ -7,16 +7,32 @@ defineProps({
   length: {
     type: Number,
     default: 1,
+  },
+  width: {
+    type: Number,
+    default: 15,
   }
 })
 </script>
 <template>
   <div
-    class="card h-28 bg-zinc-700/30 border-zinc-500/50 flex flex-col text-zinc-200 m-0.25 transition hover:(ring-2 ring-zinc-500) <sm:h-[calc(25vw*1.25)]"
-    :class="`w-${length * 18.5 + length - 0.5} <sm:w-[calc(${length * 25}%-0.125rem)]`"
+    class="
+      card relative min-h-24 flex flex-col m-0.25 rounded group transition overflow-hidden
+      bg-surfaceContainerHigh/50 text-onSurface
+      <sm:h-[calc(25vw*1.25)]
+    "
+    :class="`w-${length * width + length - 0.5} <sm:w-[calc(${length * 25}%-0.125rem)]`"
   >
-    <p v-if="title" class="bg-gradient-to-r from-zinc-500/30 text-xs text-zinc-100 tracking-wider min-h-7 flex items-center px-2 text-shadow-xl" v-html="title"></p>
-    <div class="w-full h-full flex relative">
+    <div class="absolute w-full h-full rounded pointer-events-none transition z-1 group-hover:(ring-2 ring-inset ring-primary)"></div>
+    <p
+      v-if="title"
+      class="
+        text-xs tracking-wider min-h-6 flex items-center px-2 font-bold
+        bg-gradient-to-r from-primaryContainer text-onPrimaryContainer opacity-80
+      "
+      v-html="title"
+    ></p>
+    <div class="w-full h-full flex flex-1 relative">
       <slot></slot>
     </div>
   </div>

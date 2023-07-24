@@ -44,17 +44,20 @@ const moveTo = async (index: number) => {
 }
 </script>
 <template>
-  <img class="w-200 h-140" src="/img/map.png" alt="">
-  <div v-if="state" class="absolute w-200 px-10 py-10 text-zinc-200 text-sm text-shadow-sm grid grid-cols-10 grid-rows-10 text-center">
-    <p
-      @click="moveTo(index)"
-      class="flex justify-center items-center py-1 cursor-pointer" 
-      :class="[
-        `row-start-${item.x} col-start-${item.y}`,
-        state.nowAreaList.includes(Number(index)) || (!index && !gameState.playerState?.area.isHack) ? 'text-red-500' : state.nextAreaList.includes(index) ? 'text-yellow-500' : 'text-green-500'
-      ]"
-      v-for="(item, index) of mapData"
-      v-html="item.name"
-    ></p>
+  <div class="relative">
+    <div v-if="state" class="top-0 w-180 h-120 text-sm grid grid-cols-10 grid-rows-10 text-center">
+      <img class="absolute w-full h-full object-cover rounded" src="/img/map_new.jpg" alt="">
+      <div class="absolute w-full h-full bg-onPrimaryFixedVariant/50 rounded"></div>
+      <p
+        @click="moveTo(index)"
+        class="relative flex justify-center items-center py-1 cursor-pointer font-bold" 
+        :class="[
+          `row-start-${item.x} col-start-${item.y}`,
+          state.nowAreaList.includes(Number(index)) || (!index && !gameState.playerState?.area.isHack) ? 'text-red-500' : state.nextAreaList.includes(index) ? 'text-yellow-500' : 'text-green-500'
+        ]"
+        v-for="(item, index) of mapData"
+        v-html="item.name"
+      ></p>
+    </div>
   </div>
 </template>

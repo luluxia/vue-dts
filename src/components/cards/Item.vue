@@ -5,18 +5,18 @@ defineProps<{ item: Item }>()
 
 <template>
   <template v-if="item.name">
-    <div class="flex w-full p-2 items-center">
+    <div class="flex w-full p-1 items-center text-onSurface text-sm">
       <!-- <div class="w-12 h-full rounded bg-zinc-900/50 mr-2 flex">
         <img class="m-auto" src="img/weapon1.png" alt=""/>
       </div> -->
       <div class="flex flex-col flex-1 h-full justify-between">
         <div class="ml-0.5">
-          <p class="font-bold text-sm" v-html="item.name"></p>
-          <p class="text-zinc-400 text-sm" v-html="item.props"></p>
+          <p class="text-onSurface" v-html="item.name"></p>
+          <p class="opacity-80" v-html="item.props"></p>
         </div>
-        <p class="text-sm space-x-1 mt-1">
-          <span class="text-blue-300 bg-zinc-900/50 rounded px-1.5 py-0.5">品质 {{item.quality}}</span>
-          <span class="text-green-400 bg-zinc-900/50 rounded px-1.5 py-0.5">耐久 {{item.durability}}</span>
+        <p class="space-x-1 mb-0.5 text-xs">
+          <span class="text-onSurface bg-surfaceContainerHighest rounded px-1.5 py-0.5">品质 {{item.quality}}</span>
+          <span class="text-onSurface bg-surfaceContainerHighest rounded px-1.5 py-0.5">耐久 {{item.durability}}</span>
         </p>
       </div>
     </div>
