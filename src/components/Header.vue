@@ -72,30 +72,48 @@ onMounted(() => {
     }
   }
 })
-const setTheme = (type: string) => {
-  if (type === 'normalSize') {
-    document.documentElement.style.fontSize = '16px'
+const saveSetting = (type: string, value: string) => {
+  const setting = JSON.parse(localStorage.getItem('setting') || '{}')
+  setting[type] = value
+  localStorage.setItem('setting', JSON.stringify(setting))
+  setTheme(type, value)
+}
+const setTheme = (type: string, value: string) => {
+  if (type === 'size') {
+    if (value === 'normal') {
+      document.documentElement.style.fontSize = '16px'
+    }
+    if (value === 'big') {
+      document.documentElement.style.fontSize = '17px'
+    }
   }
-  if (type === 'bigSize') {
-    document.documentElement.style.fontSize = '17px'
+  if (type === 'theme') {
+    if (value === 'light') {
+      const cssFile = document.querySelector('link[id="css-theme')
+      cssFile?.setAttribute('href', '/css/light.css')
+    }
+    if (value === 'dark') {
+      const cssFile = document.querySelector('link[id="css-theme')
+      cssFile?.setAttribute('href', '/css/dark.css')
+    }
   }
-  if (type === 'light') {
-    const cssFile = document.querySelector('link[id="css-theme')
-    cssFile?.setAttribute('href', '/css/light.css')
-  }
-  if (type === 'dark') {
-    const cssFile = document.querySelector('link[id="css-theme')
-    cssFile?.setAttribute('href', '/css/dark.css')
-  }
-  if (type === 'red') {
-    const cssFile = document.querySelector('link[id="css-color')
-    cssFile?.setAttribute('href', '/css/red.css')
-  }
-  if (type === 'purple') {
-    const cssFile = document.querySelector('link[id="css-color')
-    cssFile?.setAttribute('href', '/css/purple.css')
+  if (type === 'color') {
+    if (value === 'red') {
+      const cssFile = document.querySelector('link[id="css-color')
+      cssFile?.setAttribute('href', '/css/red.css')
+    }
+    if (value === 'purple') {
+      const cssFile = document.querySelector('link[id="css-color')
+      cssFile?.setAttribute('href', '/css/purple.css')
+    }
   }
 }
+onMounted(() => {
+  const setting = JSON.parse(localStorage.getItem('setting') || '{}')
+  Object.keys(setting).forEach(key => {
+    setTheme(key, setting[key])
+  })
+})
 </script>
 <template>
   <div
@@ -143,18 +161,18 @@ const setTheme = (type: string) => {
           <div ref="settingContent" class="p-4 w-max bg-surfaceContainerHigh text-onSurface text-base">
             <div class="space-x-2">
               <span class="font-bold">字体</span>
-              <span @click="setTheme('normalSize')">标准</span>
-              <span @click="setTheme('bigSize')">大</span>
+              <span @click="saveSetting('size', 'normal')">标准</span>
+              <span @click="saveSetting('size', 'big')">大</span>
             </div>
             <div class="space-x-2">
               <span class="font-bold">主题</span>
-              <span @click="setTheme('light')">浅色</span>
-              <span @click="setTheme('dark')">深色</span>
+              <span @click="saveSetting('theme', 'light')">浅色</span>
+              <span @click="saveSetting('theme', 'dark')">深色</span>
             </div>
             <div class="space-x-2">
               <span class="font-bold">配色</span>
-              <span @click="setTheme('red')">朱</span>
-              <span @click="setTheme('purple')">紫</span>
+              <span @click="saveSetting('color', 'red')">朱</span>
+              <span @click="saveSetting('color', 'purple')">紫</span>
             </div>
           </div>
         </div>

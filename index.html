@@ -9,6 +9,42 @@
     <title>常磐大逃杀</title>
   </head>
   <body>
+    <script>
+      const setTheme = (type, value) => {
+        if (type === 'size') {
+          if (value === 'normal') {
+            document.documentElement.style.fontSize = '16px'
+          }
+          if (value === 'big') {
+            document.documentElement.style.fontSize = '17px'
+          }
+        }
+        if (type === 'theme') {
+          if (value === 'light') {
+            const cssFile = document.querySelector('link[id="css-theme')
+            cssFile?.setAttribute('href', '/css/light.css')
+          }
+          if (value === 'dark') {
+            const cssFile = document.querySelector('link[id="css-theme')
+            cssFile?.setAttribute('href', '/css/dark.css')
+          }
+        }
+        if (type === 'color') {
+          if (value === 'red') {
+            const cssFile = document.querySelector('link[id="css-color')
+            cssFile?.setAttribute('href', '/css/red.css')
+          }
+          if (value === 'purple') {
+            const cssFile = document.querySelector('link[id="css-color')
+            cssFile?.setAttribute('href', '/css/purple.css')
+          }
+        }
+      }
+      const setting = JSON.parse(localStorage.getItem('setting') || '{}')
+      Object.keys(setting).forEach(key => {
+        setTheme(key, setting[key])
+      })
+    </script>
     <div id="app" class="overflow-x-hidden min-h-screen bg-surface"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
