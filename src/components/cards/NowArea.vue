@@ -15,6 +15,6 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="m-auto text-center">
-  <p class="text-xl" v-html="state.nowArea"></p>
+  <p v-html="state.nowArea"></p>
 </div>
 </template>

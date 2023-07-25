@@ -14,6 +14,6 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="m-auto text-center">
-  <p v-html="state.attack" class="text-xl"></p>
+  <p v-html="state.attack"></p>
 </div>
 </template>

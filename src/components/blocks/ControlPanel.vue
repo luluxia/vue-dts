@@ -100,19 +100,19 @@ const pushButton = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">控制面板</h1>
-  <p class="text-zinc-400 mb-2">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">控制面板</h1>
+  <p class="mb-1">
     可用信道 
     <span class="green">{{ gameState.playerState?.controlPanel.channel }} / {{ gameState.playerState?.controlPanel.channelAll }}</span>
   </p>
   <div class="flex">
     <Card :length="2" title="天气控制">
       <div class="m-auto w-full text-center font-bold">
-        <p ref="weatherBtn" class="w-full transition cursor-pointer hover:(bg-zinc-200 text-zinc-800)">
+        <p ref="weatherBtn" class="w-full transition cursor-pointer hover:(bg-primary text-onPrimary)">
           {{ weatherData[gameState.playerState?.area.weather || 0] }}
         </p>
-        <div ref="weatherListDom" class="max-h-100 overflow-x-hidden overflow-y-auto overscroll-contain border-zinc-500 text-zinc-200 text-center p-0.5">
-          <p @click="changeWeather(i)" v-for="i in weatherList" class="px-2.5 py-1 min-w-full w-max transition cursor-pointer hover:(bg-zinc-700 ring-2 ring-zinc-500)">
+        <div ref="weatherListDom" class="max-h-100 overflow-x-hidden overflow-y-auto overscroll-contain text-center">
+          <p @click="changeWeather(i)" v-for="i in weatherList" class="px-2.5 py-1 min-w-full w-max transition cursor-pointer hover:(bg-primary text-onPrimary)">
             {{ weatherData[i] }}
           </p>
         </div>
@@ -120,20 +120,20 @@ const pushButton = async () => {
     </Card>
     <Card :length="2" title="数据控制">
       <div class="m-auto w-full text-center font-bold space-y-1">
-        <p @click="gameState.drawerType = 'search'" class="w-full transition cursor-pointer hover:(bg-zinc-200 text-zinc-800)">数据检索</p>
-        <p @click="checkLife()" class="w-full transition cursor-pointer hover:(bg-zinc-200 text-zinc-800)">生命探测</p>
+        <p @click="gameState.drawerType = 'search'" class="w-full transition cursor-pointer hover:(bg-primary text-onPrimary)">数据检索</p>
+        <p @click="checkLife()" class="w-full transition cursor-pointer hover:(bg-primary text-onPrimary)">生命探测</p>
       </div>
     </Card>
     <Card :length="2" title="禁区控制">
       <div class="m-auto w-full text-center font-bold space-y-1">
-        <p @click="addForbiddenArea()" class="w-full transition cursor-pointer hover:(bg-zinc-200 text-zinc-800)">增设禁区</p>
-        <p @click="removeForbiddenArea()" class="w-full transition cursor-pointer hover:(bg-zinc-200 text-zinc-800)">解除禁区</p>
+        <p @click="addForbiddenArea()" class="w-full transition cursor-pointer hover:(bg-primary text-onPrimary)">增设禁区</p>
+        <p @click="removeForbiddenArea()" class="w-full transition cursor-pointer hover:(bg-primary text-onPrimary)">解除禁区</p>
       </div>
     </Card>
     <Card v-if="!gameState.playerState?.controlPanel.noButton" @click="pushButton()" :length="3">
-      <div class="w-full h-full bg-rose-600/80 p-0.5 pattern-diagonal-lines-sm text-zinc-300/5 cursor-pointer">
-        <div class="w-full h-full border-2 border-zinc-800 flex">
-          <div class="m-auto font-bold text-zinc-300 text-xl tracking-widest">
+      <div class="w-full h-full bg-rose-600/80 p-0.5 pattern-diagonal-lines-sm text-surface/5 cursor-pointer">
+        <div class="w-full h-full border-2 border-surface rounded-sm flex">
+          <div class="m-auto font-bold text-white/80 text-xl tracking-widest">
             <p>DON'T PUSH</p>
             <p>危险勿触</p>
           </div>

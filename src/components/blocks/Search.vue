@@ -76,55 +76,55 @@ const search = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">数据检索</h1>
-  <div class="text-zinc-400">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">数据检索</h1>
+  <div>
     <p>提交指令后，你眼前的数据流开始闪烁……</p>
     <p>片刻后，你的战术界面上显现出了几行额外的选项。</p>
     <p>你打算怎么做呢？</p>
   </div>
-  <div class="text-zinc-300 flex justify-center flex-wrap mt-2">
+  <div class="flex justify-center flex-wrap mt-1">
     <p
       @click="changeType('player')"
-      :class="searchState.type === 'player' && 'ring-2 ring-zinc-500'"
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      :class="searchState.type === 'player' && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
       <span>查找角色/NPC位置</span>
     </p>
     <p
       @click="changeType('item')"
-      :class="searchState.type === 'item' && 'ring-2 ring-zinc-500'"
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      :class="searchState.type === 'item' && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
       <span>查找物品数量及位置</span>
     </p>
     <p
       @click="changeType('trap')"
-      :class="searchState.type === 'trap' && 'ring-2 ring-zinc-500'"
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      :class="searchState.type === 'trap' && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
       <span>查找陷阱数量及位置</span>
     </p>
   </div>
-  <div class="text-zinc-400 my-2">
+  <div class="my-1">
     <p>※ 请在此输入查找对象的完整名称（不支持关键字搜索）</p>
   </div>
   <div class="relative flex justify-center">
     <div :class="searchState.type !== 'player' && 'hidden'">
-      <p ref="playerTypeBtn" class="px-2.5 py-1 mr-1 bg-zinc-700 text-zinc-300 rounded text-center cursor-pointer">
+      <p ref="playerTypeBtn" class="px-2.5 py-1 mr-1 bg-surfaceContainer rounded text-center cursor-pointer">
         {{ playerType[searchState.playerType] }}
       </p>
-      <div ref="playerTypeList" class="max-h-100 overflow-x-hidden overflow-y-auto overscroll-contain border-zinc-500 text-zinc-200 text-center p-0.5">
-        <p @click="searchState.playerType = id; hideAll()" v-for="id in Object.keys(playerType)" class="px-2.5 py-1 min-w-full w-max transition cursor-pointer hover:(bg-zinc-700 ring-2 ring-zinc-500)">
+      <div ref="playerTypeList" class="max-h-100 overflow-x-hidden overflow-y-auto overscroll-contain text-center">
+        <p @click="searchState.playerType = id; hideAll()" v-for="id in Object.keys(playerType)" class="px-2.5 py-1 min-w-full w-max transition cursor-pointer hover:(bg-primary text-onPrimary)">
           {{ playerType[id] }}
         </p>
       </div>
     </div>
-    <input v-model="searchState.input" @input="checkInput()" class="p-1 bg-zinc-700 text-zinc-300 rounded text-center w-max" type="text">
+    <input v-model="searchState.input" @input="checkInput()" class="p-1 text-onSurfaceVariant bg-surfaceContainerHighest rounded text-center w-max" type="text">
     <Teleport to="body">
-      <div class="absolute w-full bottom-28">
-        <div v-if="searchState.showList && searchList?.length" class="mx-auto w-max rounded border-2 border-zinc-500 bg-zinc-800">
-          <div class="box-scrollbar max-h-100 overflow-x-hidden overflow-y-auto overscroll-contain border-zinc-500 text-zinc-200 text-center p-0.5">
-            <p v-for="id in searchList" @click="chooseItem(id)" class="px-2.5 py-1 min-w-full w-max transition cursor-pointer hover:(bg-zinc-700 ring-2 ring-zinc-500)">
+      <div class="absolute w-full text-sm bottom-30">
+        <div v-if="searchState.showList && searchList?.length" class="mx-auto w-max rounded border-2 border-outline bg-surfaceContainer">
+          <div class="box-scrollbar max-h-100 overflow-x-hidden overflow-y-auto overscroll-contain text-onSurface text-center">
+            <p v-for="id in searchList" @click="chooseItem(id)" class="px-2.5 py-1 min-w-full w-max transition cursor-pointer hover:(bg-primary text-onPrimary)">
               {{ itemData[id] }}
             </p>
           </div>

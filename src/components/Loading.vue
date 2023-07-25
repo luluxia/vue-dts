@@ -9,7 +9,7 @@ const state = inject('state', {
   <div v-if="state.loading" class="fixed w-screen h-screen flex top-0 z-9999 bg-black/10">
     <div class="m-auto text-center">
       <div class="loading"></div>
-      <p class="text-zinc-300 text-sm mt-3 text-shadow-lg">少女祈祷中</p>
+      <p class="text-sm mt-3 text-primary">少女祈祷中</p>
     </div>
   </div>
 </template>
@@ -41,14 +41,14 @@ const state = inject('state', {
   content: "";
   width: 48px;
   height: 48px;
-  border: 2px solid #FAFAFA;
+  border: 2px solid rgba(var(--md-sys-color-on-primary), 1);
   position: absolute;
   left: 0;
   top: 0;
   animation: rotationBreak 3s ease-in-out infinite alternate;
 }
 .loading::after {
-  border-color: #71717A;
+  border-color: rgba(var(--md-sys-color-primary), 1);
   animation-direction: alternate-reverse;
 }
 </style>

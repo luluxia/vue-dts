@@ -64,10 +64,10 @@ const back = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">
     发现队友
   </h1>
-  <div class="text-zinc-400 mb-2">
+  <div class="mb-1">
     <p v-html="state?.actionLog"></p>
   </div>
   <!-- 敌人信息 -->
@@ -133,13 +133,13 @@ const back = async () => {
       </Card>
       <!-- 武器 -->
       <Card :length="4" :title="state.team.weaponType">
-        <div class="flex w-full p-2 items-center">
+        <div class="flex w-full p-1 items-center text-sm">
           <div class="flex flex-col flex-1 h-full justify-between">
             <div class="ml-0.5">
-              <p v-html="state.team.weapon" class="font-bold text-sm"></p>
+              <p v-html="state.team.weapon"></p>
             </div>
-            <p class="text-sm space-x-1 mt-1">
-              <span class="text-blue-300 bg-zinc-900/50 rounded px-1.5 py-0.5">品质 {{ state.team.attack }}</span>
+            <p class="space-x-1 mb-0.5 text-xs">
+              <span class="bg-surfaceContainerHighest rounded px-1.5 py-0.5">品质 {{ state.team.attack }}</span>
             </p>
           </div>
         </div>
@@ -147,20 +147,20 @@ const back = async () => {
     </div>
   </div>
   <!-- 喊话 -->
-  <p class="text-zinc-400 m-2">留言：</p>
-  <input v-model="message" class="p-1 bg-zinc-700 text-zinc-300 rounded text-center" type="text">
-  <p class="text-zinc-400 m-2">转让道具</p>
-  <div class="text-zinc-300 flex justify-center flex-wrap mb-2">
+  <p class="m-1">留言：</p>
+  <input v-model="message" class="p-1 text-onSurfaceVariant bg-surfaceContainerHighest rounded text-center" type="text">
+  <p class="m-1">转让道具</p>
+  <div class="flex justify-center flex-wrap mb-1">
     <p
       v-for="(item, key) in state?.bag"
       @click="chooseItem(item?.name || '', key)"
-      :class="chooseItemKey == key && 'ring-2 ring-zinc-500'"
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      :class="chooseItemKey == key && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
       <span>{{ item?.name }}</span>
     </p>
   </div>
-  <div class="text-zinc-400 mt-2">
+  <div class="mt-1">
     <p>现在想要做什么？</p>
   </div>
 </template>

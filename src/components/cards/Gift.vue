@@ -14,6 +14,6 @@ const state = computed(() => {
 
 <template>
 <div class="m-auto">
-  <p v-if="state?.gift" class="text-xl">{{state?.gift.type[state.gift.nowGiftId]}}</p>
+  <p v-if="state?.gift">{{state?.gift.type[state.gift.nowGiftId]}}</p>
 </div>
 </template>

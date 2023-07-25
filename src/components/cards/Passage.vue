@@ -32,8 +32,8 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="m-auto text-center">
-  <p v-if="state.passage === '禁区'" class="text-xl text-red-600">{{state.passage}}</p>
-  <p v-else-if="state.passage === '即将成为禁区'" class="text-xl text-yellow-600">{{state.passage}}</p>
-  <p v-else class="text-xl text-green-600">{{state.passage}}</p>
+  <p v-if="state.passage === '禁区'" class="text-red-600">{{state.passage}}</p>
+  <p v-else-if="state.passage === '即将成为禁区'" class="text-yellow-600">{{state.passage}}</p>
+  <p v-else class="text-green-600">{{state.passage}}</p>
 </div>
 </template>

@@ -28,9 +28,9 @@ const back = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">雷达</h1>
-  <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog"></div>
-  <div class="radar text-zinc-400 rounded bg-zinc-800/40 max-h-100 overflow-y-scroll overscroll-contain mb-1" v-html="radar"></div>
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">雷达</h1>
+  <div v-if="gameState.actionLog" class="mb-1" v-html="gameState.actionLog"></div>
+  <div class="radar rounded bg-surfaceContainer max-h-100 overflow-y-scroll overscroll-contain mb-1" v-html="radar"></div>
 </template>
 <style lang="postcss">
 .radar td {
@@ -40,13 +40,13 @@ const back = async () => {
   @apply sticky top-0;
 }
 .radar tr:nth-child(odd) {
-  @apply bg-zinc-800/60;
+  @apply bg-surfaceContainerHigh;
 }
 .radar tr {
   @apply transition-colors;
 }
 .radar tr:hover {
-  @apply bg-zinc-700/50;
+  @apply bg-primaryContainer;
 }
 .radar .nttx {
   width: max-content;

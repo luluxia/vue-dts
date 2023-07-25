@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue'
-import Card from '../Card.vue'
-import { command } from '../../utils/api'
-import tippy from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
-import 'tippy.js/animations/shift-away-subtle.css'
-import type { GameState, ActionState } from '../../types/interface'
-const gameState = inject<GameState>('state') as GameState
-const actionState = inject<ActionState>('actionState') as ActionState
+import { computed, inject, onMounted, ref } from "vue"
+import Card from "../Card.vue"
+import { command } from "../../utils/api"
+import type { GameState, ActionState } from "../../types/interface"
+const gameState = inject<GameState>("state") as GameState
+const actionState = inject<ActionState>("actionState") as ActionState
 const state = computed(() => {
   if (gameState.searchState) {
     return {
@@ -17,47 +14,75 @@ const state = computed(() => {
     }
   }
 })
-const message = ref('')
+const message = ref("")
 const showDialog = ref(false)
 onMounted(() => {
-  if (state.value?.battleState === '发现敌人') {
+  if (state.value?.battleState === "发现敌人") {
     const attackType = gameState?.playerState?.attackType
     // 第一攻击方式
     actionState.action = [
-      { name: attackType?.type1.name || '', action: () => attack(attackType?.type1.id || '') },
+      {
+        name: attackType?.type1.name || "",
+        action: () => attack(attackType?.type1.id || ""),
+      },
     ]
     // 第二攻击方式
     if (attackType?.type2.name) {
-      actionState.action.push({ name: attackType.type2.name, action: () => attack(attackType.type2.id) })
+      actionState.action.push({
+        name: attackType.type2.name,
+        action: () => attack(attackType.type2.id),
+      })
     }
     // 换手
-    actionState.action.push({ name: '切换', action: () => changeWeapon()})
+    actionState.action.push({ name: "切换", action: () => changeWeapon() })
     // 技能
     if (state.value.enemy?.battleSkills) {
       state.value.enemy.battleSkills.forEach((item: any) => {
-        actionState.action.push({ name: item.title, action: () => useSkill(item.key), active: item.unlock, desc: item.desc })
+        actionState.action.push({
+          name: item.title,
+          action: () => useSkill(item.key),
+          active: item.unlock,
+          desc: item.desc,
+        })
       })
     }
     // 查看敌方技能
     if (state.value?.enemy?.skill) {
-      actionState.action.push({ name: '查看敌方技能', action: () => enemySkill() })
+      actionState.action.push({
+        name: "查看敌方技能",
+        action: () => enemySkill(),
+      })
     }
     // 润了
-    actionState.action.push({ name: '逃跑', action: () => back('revcombat') })
-  } else if (state.value?.battleState === '遭遇突袭' || state.value?.battleState === '战斗发生') {
+    actionState.action.push({ name: "逃跑", action: () => back("revcombat") })
+  } else if (
+    state.value?.battleState === "遭遇突袭" ||
+    state.value?.battleState === "战斗发生"
+  ) {
     actionState.action = []
     // 查看敌方技能
     if (state.value?.enemy?.skill) {
-      actionState.action.push({ name: '查看敌方技能', action: () => enemySkill() })
+      actionState.action.push({
+        name: "查看敌方技能",
+        action: () => enemySkill(),
+      })
     }
-    actionState.action.push({ name: '确定', action: () => back('command') })
+    actionState.action.push({ name: "确定", action: () => back("command") })
   } else {
     // 发现尸体
     const actionList: any = []
     state.value?.enemy?.actionList?.forEach((item: any) => {
-      actionList.push({ name: item.title, action: () => corpseAction(item.key) })
+      actionList.push({
+        name: item.title,
+        action: () => corpseAction(item.key),
+      })
     })
     actionState.action = actionList
+    // 默认拾取金钱
+    const moneyItem = state.value?.enemy?.items.find(item => item.key === 'money')
+    if (moneyItem) {
+      selectItem(moneyItem)
+    }
   }
 })
 // 攻击
@@ -65,7 +90,11 @@ const attack = async (type: string | null) => {
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
-  await command({ mode: 'revcombat', command: type, message: message.value }).then(res => {
+  await command({
+    mode: "revcombat",
+    command: type,
+    message: message.value,
+  }).then((res) => {
     window.clearTimeout(waitTimer)
     gameState.loading = false
     const data = res as any
@@ -75,14 +104,20 @@ const attack = async (type: string | null) => {
     actionState.action = []
     // 查看敌方技能
     if (state.value?.enemy?.skill) {
-      actionState.action.push({ name: '查看敌方技能', action: () => enemySkill() })
+      actionState.action.push({
+        name: "查看敌方技能",
+        action: () => enemySkill(),
+      })
     }
     if (state.value?.enemy?.actionList) {
       state.value?.enemy?.actionList.forEach((item: any) => {
-        actionState.action.push({ name: item.title, action: () => corpseAction(item.key) })
+        actionState.action.push({
+          name: item.title,
+          action: () => corpseAction(item.key),
+        })
       })
     } else {
-      actionState.action.push({ name: '确定', action: () => back('command') })
+      actionState.action.push({ name: "确定", action: () => back("command") })
     }
   })
 }
@@ -91,7 +126,11 @@ const useSkill = async (key: string) => {
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
-  await command({ mode: 'revcombat', command: key, message: message.value }).then(res => {
+  await command({
+    mode: "revcombat",
+    command: key,
+    message: message.value,
+  }).then((res) => {
     window.clearTimeout(waitTimer)
     gameState.loading = false
     const data = res as any
@@ -101,14 +140,25 @@ const useSkill = async (key: string) => {
     actionState.action = []
     // 查看敌方技能
     if (state.value?.enemy?.skill) {
-      actionState.action.push({ name: '查看敌方技能', action: () => enemySkill() })
+      actionState.action.push({
+        name: "查看敌方技能",
+        action: () => enemySkill(),
+      })
     }
     if (state.value?.enemy?.actionList) {
       state.value?.enemy?.actionList.forEach((item: any) => {
-        actionState.action.push({ name: item.title, action: () => corpseAction(item.key) })
+        actionState.action.push({
+          name: item.title,
+          action: () => corpseAction(item.key),
+        })
       })
+      // 默认拾取金钱
+      const moneyItem = state.value?.enemy?.items.find(item => item.key === 'money')
+      if (moneyItem) {
+        selectItem(moneyItem)
+      }
     } else {
-      actionState.action.push({ name: '确定', action: () => back('command') })
+      actionState.action.push({ name: "确定", action: () => back("command") })
     }
   })
 }
@@ -117,14 +167,14 @@ const back = async (mode: string) => {
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
-  await command({ mode: mode, command: 'back' }).then(res => {
+  await command({ mode: mode, command: "back" }).then((res) => {
     window.clearTimeout(waitTimer)
     gameState.loading = false
     const data = res as any
     gameState.playerState = data.playerState
     gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
-    gameState.drawerType = ''
+    gameState.drawerType = ""
   })
 }
 // 切换武器
@@ -132,7 +182,7 @@ const changeWeapon = async () => {
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
-  await command({ mode: 'revcombat', command: 'changewep' }).then(res => {
+  await command({ mode: "revcombat", command: "changewep" }).then((res) => {
     window.clearTimeout(waitTimer)
     gameState.loading = false
     const data = res as any
@@ -143,51 +193,68 @@ const changeWeapon = async () => {
     const attackType = gameState?.playerState?.attackType
     // 第一攻击方式
     actionState.action = [
-      { name: attackType?.type1.name || '', action: () => attack(attackType?.type1.id || '') },
+      {
+        name: attackType?.type1.name || "",
+        action: () => attack(attackType?.type1.id || ""),
+      },
     ]
     // 第二攻击方式
     if (attackType?.type2.name) {
-      actionState.action.push({ name: attackType.type2.name, action: () => attack(attackType.type2.id) })
+      actionState.action.push({
+        name: attackType.type2.name,
+        action: () => attack(attackType.type2.id),
+      })
     }
     // 换手
-    actionState.action.push({ name: '切换', action: () => changeWeapon() })
+    actionState.action.push({ name: "切换", action: () => changeWeapon() })
     // 技能
     if (state.value?.enemy?.battleSkills) {
       state.value.enemy.battleSkills.forEach((item: any) => {
-        actionState.action.push({ name: item.title, action: () => useSkill(item.key), active: item.unlock, desc: item.desc })
+        actionState.action.push({
+          name: item.title,
+          action: () => useSkill(item.key),
+          active: item.unlock,
+          desc: item.desc,
+        })
       })
     }
     // 查看敌方技能
     if (state.value?.enemy?.skill) {
-      actionState.action.push({ name: '查看敌方技能', action: () => enemySkill() })
+      actionState.action.push({
+        name: "查看敌方技能",
+        action: () => enemySkill(),
+      })
     }
     // 润了
-    actionState.action.push({ name: '逃跑', action: () => back('revcombat') })
+    actionState.action.push({ name: "逃跑", action: () => back("revcombat") })
   })
 }
 // 拾取物品相关
-const selectItemKey = ref('')
+const selectItemKey = ref("")
 const selectItem = (item: any) => {
   selectItemKey.value = item.key
-  if (actionState.action[0].name.includes('拾取')) {
-    actionState.action[0].name = '拾取 ' + item.name
+  if (actionState.action[0].name.includes("拾取")) {
+    actionState.action[0].name = "拾取 " + item.name
     actionState.action[0].action = () => corpseAction(item.key)
   } else {
-    actionState.action.unshift({ name: '拾取 ' + item.name, action: () => corpseAction(item.key) })
+    actionState.action.unshift({
+      name: "拾取 " + item.name,
+      action: () => corpseAction(item.key),
+    })
   }
 }
 const corpseAction = async (key: string) => {
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
-  await command({ mode: 'corpse', command: key }).then(res => {
+  await command({ mode: "corpse", command: key }).then((res) => {
     window.clearTimeout(waitTimer)
     gameState.loading = false
     const data = res as any
     gameState.playerState = data.playerState
     gameState.searchState = data.searchState
     gameState.actionLog = data.actionLog
-    gameState.drawerType = ''
+    gameState.drawerType = ""
   })
 }
 
@@ -197,155 +264,184 @@ const enemySkill = () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">
     {{ state?.enemy?.battleState }}
   </h1>
-  <div class="text-zinc-400 mb-2">
-    <p v-html="state?.actionLog"></p>
-  </div>
-  <!-- 敌人信息 -->
-  <div v-if="state?.enemy" class="flex">
-    <img
-      v-if="state.enemy.hasBigAvatar"
-      class="h-57 border-2 border-zinc-700 mr-0.25"
-      :class="state.battleState === '发现尸体' && ' filter grayscale-80'"
-      :src="`/old/img/${state.enemy.avatar}`"
-    >
-      <div>
-        <div class="flex">
-        <Card :title="state.enemy.type" :length="2">
-          <div class="flex w-full">
-            <img
-              v-if="!state.enemy.hasBigAvatar"
-              class="absolute w-full h-full object-cover -z-1 opacity-30"
-              :class="state.battleState === '发现尸体' && ' filter grayscale-80'"
-              :src="`/old/img/${state.enemy.avatar}`"
-            >
-            <div class="flex-1 flex">
-              <div class="m-auto">
-                <p class="font-bold">{{ state.enemy.name }}</p>
-                <p class="text-xs mt-1">{{ state.enemy.title }}</p>
-                <p v-if="state.enemy.rp" class="text-xs mt-1">报应点数 {{ state.enemy.rp }}</p>
-              </div>
-            </div>
-          </div>
-        </Card>
-        <Card title="等级">
-          <div class="m-auto text-center">
-            <p class="text-2xl">{{ state.enemy.level }}</p>
-          </div>
-        </Card>
-        <!-- 生命 -->
-        <Card title="生命">
-          <div class="m-auto text-center">
-            <p v-html="state.enemy.hp"></p>
-          </div>
-        </Card>
-        <!-- 体力 -->
-        <Card title="体力">
-          <div class="m-auto text-center">
-            <p v-html="state.enemy.mp"></p>
-          </div>
-        </Card>
-        <!-- 怒气 -->
-        <Card title="怒气">
-          <div class="m-auto text-center">
-            <p v-html="state.enemy.rage"></p>
-          </div>
-        </Card>
-        <!-- 受伤部位 -->
-        <Card title="受伤部位" :length="2">
-          <div class="flex w-full">
-            <div class="flex-1 flex">
-              <div class="m-auto">
-                <p v-html="state.enemy.hurt"></p>
-              </div>
-            </div>
-          </div>
-        </Card>
-      </div>
+  <div v-if="state?.enemy" class="flex items-end">
+    <div class="flex flex-col items-center">
+      <!-- 战斗日志 -->
+      <div class="mb-1" v-html="state?.actionLog"></div>
+      <!-- 敌方信息 -->
       <div class="flex">
-        <!-- 基础姿态 -->
-        <Card title="基础姿态" :length="2">
-          <div class="m-auto text-center">
-            <p v-html="state.enemy.tactic"></p>
-          </div>
-        </Card>
-        <!-- 应战策略 -->
-        <Card title="应战策略" :length="2">
-          <div class="m-auto text-center">
-            <p v-html="state.enemy.pose"></p>
-          </div>
-        </Card>
-        <!-- 武器 -->
-        <Card :length="4" :title="state.enemy.weaponType">
-          <div class="flex w-full p-2 items-center">
-            <div class="flex flex-col flex-1 h-full justify-between">
-              <div class="ml-0.5">
-                <p v-html="state.enemy.weapon" class="font-bold text-sm"></p>
+        <img
+          v-if="state.enemy.hasBigAvatar"
+          class="h-49 rounded mr-0.25"
+          :class="state.battleState === '发现尸体' && ' filter grayscale-80'"
+          :src="`/old/img/${state.enemy.avatar}`"
+        />
+        <div>
+          <div class="flex">
+            <Card :title="state.enemy.type" :length="2">
+              <div class="flex w-full">
+                <img
+                  v-if="!state.enemy.hasBigAvatar"
+                  class="absolute w-full h-full object-cover -z-1 opacity-30"
+                  :class="
+                    state.battleState === '发现尸体' && ' filter grayscale-80'
+                  "
+                  :src="`/old/img/${state.enemy.avatar}`"
+                />
+                <div class="flex-1 flex">
+                  <div class="m-auto">
+                    <p class="font-bold">{{ state.enemy.name }}</p>
+                    <p class="text-xs mt-1">{{ state.enemy.title }}</p>
+                    <p v-if="state.enemy.rp" class="text-xs mt-1">
+                      报应点数 {{ state.enemy.rp }}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <p class="text-sm space-x-1 mt-1">
-                <span class="text-blue-300 bg-zinc-900/50 rounded px-1.5 py-0.5">品质 {{ state.enemy.attack }}</span>
-              </p>
-            </div>
+            </Card>
+            <Card title="等级">
+              <div class="m-auto text-center">
+                <p class="text-2xl">{{ state.enemy.level }}</p>
+              </div>
+            </Card>
+            <!-- 生命 -->
+            <Card title="生命">
+              <div class="m-auto text-center">
+                <p v-html="state.enemy.hp"></p>
+              </div>
+            </Card>
+            <!-- 体力 -->
+            <Card title="体力">
+              <div class="m-auto text-center">
+                <p v-html="state.enemy.mp"></p>
+              </div>
+            </Card>
+            <!-- 怒气 -->
+            <Card title="怒气">
+              <div class="m-auto text-center">
+                <p v-html="state.enemy.rage"></p>
+              </div>
+            </Card>
+            <!-- 受伤部位 -->
+            <Card title="受伤部位" :length="2">
+              <div class="flex w-full">
+                <div class="flex-1 flex">
+                  <div class="m-auto">
+                    <p v-html="state.enemy.hurt"></p>
+                  </div>
+                </div>
+              </div>
+            </Card>
           </div>
-        </Card>
+          <div class="flex">
+            <!-- 基础姿态 -->
+            <Card title="基础姿态" :length="2">
+              <div class="m-auto text-center">
+                <p v-html="state.enemy.tactic"></p>
+              </div>
+            </Card>
+            <!-- 应战策略 -->
+            <Card title="应战策略" :length="2">
+              <div class="m-auto text-center">
+                <p v-html="state.enemy.pose"></p>
+              </div>
+            </Card>
+            <!-- 武器 -->
+            <Card :length="4" :title="state.enemy.weaponType">
+              <div class="flex w-full p-1 items-center text-sm">
+                <div class="flex flex-col flex-1 h-full justify-between">
+                  <div class="ml-0.5">
+                    <p v-html="state.enemy.weapon"></p>
+                  </div>
+                  <p class="space-x-1 mb-0.5 text-xs">
+                    <span
+                      class="bg-surfaceContainerHighest rounded px-1.5 py-0.5"
+                      >品质 {{ state.enemy.attack }}</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 掉落物品信息 -->
+    <div v-if="state?.battleState === '发现尸体'" class="ml-1">
+      <p class="mb-1">想要从尸体上拾取什么？</p>
+      <div class="rounded overflow-hidden">
+        <p
+          v-for="(item, key) in state?.enemy?.items"
+          @click="selectItem(item)"
+          :class="selectItemKey == item.key && '!bg-primaryContainer'"
+          class="bg-surfaceContainer px-2.5 py-1 cursor-pointer transition"
+        >
+          <span>
+            <span class="text-primary" v-if="item.type">
+              [<span class="inline-flex" v-html="item.type"></span>]
+            </span>
+            {{ item.name }}
+            <template v-if="item.type">
+              / {{ item.quality }} / {{ item.durability }}
+            </template>
+            <template v-if="item.props">
+              / <span class="inline-flex" v-html="item.props"></span>
+            </template>
+          </span>
+        </p>
       </div>
     </div>
   </div>
-  <!-- 掉落物品信息 -->
-  <template v-if="state?.battleState === '发现尸体'">
-    <p class="text-zinc-400 mt-2">想要从尸体上拾取什么？</p>
-    <div class="text-zinc-300 flex justify-center flex-wrap mt-1 -mb-1 max-w-200">
-      <p
-        v-for="(item, key) in state?.enemy?.items"
-        @click="selectItem(item)"
-        :class="selectItemKey == item.key && 'ring-2 ring-zinc-500'"
-        class="bg-zinc-700/80 px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
-      >
-        <span>
-          <span class="text-zinc-400" v-if="item.type">
-            [<span class="inline-flex" v-html="item.type"></span>]
-          </span>
-          {{ item.name }}
-          <template v-if="item.type">
-            / {{ item.quality }}
-            / {{ item.durability }}
-          </template>
-          <template v-if="item.props">
-            / <span class="inline-flex" v-html="item.props"></span>
-          </template>
-        </span>
-      </p>
-    </div>
-  </template>
   <!-- 战斗喊话 -->
   <template v-if="state?.battleState === '发现敌人'">
-    <p class="text-zinc-400 m-2">向对手大喊：</p>
-    <input v-model="message" class="p-1 bg-zinc-700 text-zinc-300 rounded text-center" type="text">
+    <p class="m-1">向对手大喊：</p>
+    <input
+      v-model="message"
+      class="p-1 text-onSurfaceVariant bg-surfaceContainerHighest rounded text-center"
+      type="text"
+    />
   </template>
-  <div class="text-zinc-400 mt-2">
+  <div class="mt-1">
     <p>现在想要做什么？</p>
   </div>
   <Teleport to="body">
     <div
       v-if="state?.enemy?.skill"
-      class="fixed w-screen h-screen top-0 bg-black/70 z-1 shadow flex transition opacity-0 pointer-events-none"
+      class="fixed w-screen h-screen top-0 bg-black/40 z-1 shadow flex transition opacity-0 pointer-events-none"
       :class="showDialog && '!opacity-100 !pointer-events-auto'"
       @click="showDialog = false"
     >
-      <div class="crafting craft-dialog text-zinc-300 bg-zinc-900/95 border-2 border-zinc-700 h-max max-w-300 m-auto p-2 rounded">
-        <div class="p-2">
-          <p>以下是<span class="yellow">{{ state.enemy.name }}</span>的技能列表。</p>
-          <p>请注意描述文字中的<span class="yellow">“你”</span>指代的是这个对象。</p>
+      <div
+        class="crafting craft-dialog text-onSurface bg-surfaceContainer text-sm border-2 border-outline h-max max-w-300 m-auto p-1 rounded"
+      >
+        <div class="p-1">
+          <p>
+            以下是<span class="yellow">{{ state.enemy.name }}</span
+            >的技能列表。
+          </p>
+          <p>
+            请注意描述文字中的<span class="yellow">“你”</span>指代的是这个对象。
+          </p>
         </div>
-        <div class="text-zinc-400 max-h-150 overflow-y-auto overscroll-contain">
-          <div class="bg-zinc-800 m-1 rounded-sm" v-for="item in state?.enemy?.skill">
-            <div class="bg-zinc-700/80 text-zinc-300 px-2 py-1 flex justify-between items-center">
+        <div class="max-h-150 overflow-y-auto overscroll-contain">
+          <div
+            class="bg-surfaceContainerHigh m-1 rounded-sm"
+            v-for="item in state?.enemy?.skill"
+          >
+            <div
+              class="bg-surfaceContainerHighest px-2 py-1 flex justify-between items-center"
+            >
               <span>{{ item.name }}</span>
             </div>
             <div class="relative group">
-              <div v-if="item.desc" class="skill-desc p-2" v-html="item.desc"></div>
+              <div
+                v-if="item.desc"
+                class="skill-desc p-2"
+                v-html="item.desc"
+              ></div>
             </div>
           </div>
         </div>

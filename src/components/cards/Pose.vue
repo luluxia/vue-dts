@@ -14,6 +14,6 @@ const state = computed(() => {
 
 <template>
 <div class="m-auto">
-  <p v-html="state?.pose" class="text-xl"></p>
+  <p v-html="state?.pose"></p>
 </div>
 </template>

@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { computed, inject, nextTick, onMounted, reactive, ref } from 'vue'
+import { computed, inject, onMounted, reactive, ref } from 'vue'
 import { command } from '../../utils/api'
-import tippy, { hideAll } from 'tippy.js'
-import 'tippy.js/dist/tippy.css'
-import 'tippy.js/animations/shift-away-subtle.css'
 import type { GameState, ActionState, Item } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const actionState = inject<ActionState>('actionState') as ActionState
@@ -94,33 +91,33 @@ const itemIndex = ref('');
 }
 </script>
 <template v-else-if="state.drawerType == 'crafting'">
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">合成</h1>
-  <p class="text-zinc-400 mb-2">合成笔记</p>
-  <div class="crafting text-zinc-300 bg-zinc-800/70 max-h-100 max-w-screen-lg p-4 rounded overflow-y-auto">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">合成</h1>
+  <p class="mb-1">合成笔记</p>
+  <div class="crafting bg-surfaceContainer max-h-100 max-w-screen-lg p-4 rounded overflow-y-auto">
     <div v-if="state?.craftTips != '<br>'" v-html="state?.craftTips"></div>
     <span v-else>现在没有可以合成的物品</span>
   </div>
-  <div class="text-zinc-400 mt-2" v-html="gameState.actionLog">
+  <div class="mt-1" v-html="gameState.actionLog">
 
   </div>
-  <p class="text-zinc-400 mb-2">你想要合成什么？</p>
-  <div class="text-zinc-300 flex justify-center flex-wrap mb-2">
+  <p class="mb-1">你想要合成什么？</p>
+  <div class="flex justify-center flex-wrap mb-1">
     <p
       v-for="(item, key) in state?.bag"
       @click="itemClick(key as string)"
-      :class="craftingState.list.has(key) && 'ring-2 ring-zinc-500'"
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      :class="craftingState.list.has(key) && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
       <span v-html="item?.name"></span>
     </p>
   </div>
   <Teleport to="body">
     <div
-      class="fixed w-screen h-screen top-0 bg-black/70 z-1 shadow flex transition opacity-0 pointer-events-none"
+      class="fixed w-screen h-screen top-0 bg-black/40 z-1 shadow flex transition opacity-0 pointer-events-none"
       :class="craftingState.showDialog && '!opacity-100 !pointer-events-auto'"
       @click="craftingState.showDialog = false"
     >
-      <div class="crafting craft-dialog text-zinc-300 bg-zinc-900/95 border-2 border-zinc-700 h-max max-w-300 m-auto p-4 rounded overflow-y-scroll" v-html="state?.craftDialog">
+      <div class="crafting craft-dialog bg-surfaceContainerHigh text-onSurface border-2 border-outline h-max max-w-300 m-auto p-4 rounded overflow-y-auto" v-html="state?.craftDialog">
 
       </div>
     </div>
@@ -140,9 +137,7 @@ const itemIndex = ref('');
   @apply list-none;
 }
 .crafting .grey {
-  @apply text-zinc-500;
+  @apply opacity-60;
 }
-.crafting .blueseed {
-  @apply text-sky-300 font-bold;
-}
+
 </style>

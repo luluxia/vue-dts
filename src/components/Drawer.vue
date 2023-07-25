@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { inject, watch, ref, nextTick } from 'vue'
+import { command } from '../utils/api'
 
+import Semo from './Semo.vue'
 import Map from './blocks/Map.vue'
 import Tactic from './blocks/Tactics.vue'
 import FindItem from './blocks/FindItem.vue'
@@ -41,26 +43,55 @@ watch(() => state.drawerType, () => {
     state.drawerHeight = drawerDom.value.getClientRects()[0].height
   })
 })
+// 探索
+const search = async () => {
+  // 搜索指令
+  let waitTimer = setTimeout(() => {
+    state.loading = true
+  }, 200)
+  await command({mode: 'command', command: 'search'}).then(res => {
+    window.clearTimeout(waitTimer)
+    state.loading = false
+    const data = res as any
+    state.playerState = data.playerState
+    state.searchState = data.searchState
+    state.actionLog = data.actionLog
+    if (data.searchState.findEnemy) {
+      // 发现敌人
+      state.drawerType = 'find-enemy'
+    } else if (data.searchState.findItem) {
+      // 发现物品
+      state.drawerType = 'find-item'
+    }
+  })
+}
 </script>
 <template>
   <div class="hide fixed w-screen h-20 bottom-0 z-2 pointer-events-none">
     <div
       @mouseenter="state.hideDrawer = true"
       @mouseleave="state.hideDrawer = false"
-      class="absolute bottom-4 right-4 h-11 w-11 flex rounded border-2 border-zinc-700 bg-zinc-700/50 pointer-events-auto <sm:bottom-28"
+      class="absolute bottom-4 right-4 h-11 w-11 flex rounded border-2 border-primary/20 bg-primaryContainer/60 text-onPrimaryContainer pointer-events-auto <sm:bottom-28"
     >
       <img class="w-6 m-auto" src="/img/hide.svg" alt=""/>
     </div>
   </div>
   <div
     class="
-      drawer fixed w-screen max-h-[calc(100%-15rem)] overflow-y-auto overscroll-contain bottom-0 left-15 flex bg-zinc-900/90 border-zinc-600/40 pb-2 border-t-2 transition pattern-diagonal-lines-sm text-zinc-50/1
+      drawer fixed w-screen bottom-18 flex
       <sm:left-0 <sm:pb-12
     "
     :class="state.hideDrawer && 'opacity-0'"
     ref="drawerDom"
   >
-    <div class="m-auto flex flex-col items-center pb-16 pr-30 <sm:pr-0">
+    <div
+      class="
+        relative m-auto flex flex-col items-center p-2 rounded text-sm
+        max-h-[calc(100vh-9rem)] overflow-y-auto overscroll-contain
+        border-2 border-outlineVariant bg-surface/95 text-onSurface
+        <sm:pr-0
+      "
+    >
       <!-- 发现物品 -->
       <FindItem v-if="state.drawerType == 'find-item'" />
       <!-- 敌人相关 -->
@@ -107,9 +138,18 @@ watch(() => state.drawerType, () => {
       <Search v-else-if="state.drawerType == 'search'"/>
       <!-- 默认 -->
       <template v-else>
-        <div class="text-zinc-400 mt-2">
+        <div>
           <p v-html="state.actionLog"></p>
-          <p class="text-center mt-1">现在想要做什么？</p>
+          <p class="text-center mb-1">现在想要做什么？</p>
+          <Semo/>
+          <p
+            @click="search()"
+            class="
+              w-full mt-1 text-center p-2 cursor-pointer rounded
+              bg-primary text-onPrimary ring-primary/40
+              transition hover:ring-2
+            "
+          >探索</p>
         </div>
       </template>
     </div>
@@ -117,10 +157,10 @@ watch(() => state.drawerType, () => {
 </template>
 <style lang="postcss">
 .yellow {
-  @apply text-yellow-500 font-bold;
+  @apply text-yellow-600 font-bold;
 }
 .red {
-  @apply text-red-600 font-bold;
+  @apply text-rose-600 font-bold;
 }
 .redseed {
   @apply text-rose-600 font-bold;
@@ -138,7 +178,7 @@ watch(() => state.drawerType, () => {
   @apply text-yellow-600 font-bold;
 }
 .grey {
-  @apply text-gray-500;
+  @apply opacity-80;
 }
 .green {
   @apply text-green-600 font-bold;
@@ -147,13 +187,13 @@ watch(() => state.drawerType, () => {
   @apply text-sky-600 font-bold;
 }
 .evergreen {
-  @apply text-green-500 font-bold;
+  @apply text-green-600 font-bold;
 }
 .ltcrimson {
-  @apply text-rose-500;
+  @apply text-rose-600;
 }
 .seagreen {
-  @apply text-teal-500;
+  @apply text-teal-600;
 }
 .drawer {
   view-transition-name: drawer;

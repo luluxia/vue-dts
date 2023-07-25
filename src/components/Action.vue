@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { inject, onMounted, watch } from 'vue'
-import Semo from './Semo.vue'
 import ItemBag from './ItemBag.vue'
 import { command } from '../utils/api'
 import { transitionHelper } from '../utils/tools'
@@ -15,7 +14,7 @@ const state = inject<GameState>('state', {
 const actionState = inject<ActionState>('actionState') as ActionState
 onMounted(() => {
   actionState.action = [
-    { name: '探索', action: () => search() },
+    // { name: '探索', action: () => search() },
     { name: '地图', action: () => map() },
     { name: '战术', action: () => tactics() },
     { name: '合成', action: () => crafting(), id: 'crafting' },
@@ -47,7 +46,7 @@ onMounted(() => {
 watch(() => state.drawerType, type => {
   if (type === '') {
     actionState.action = [
-      { name: '探索', action: () => search() },
+      // { name: '探索', action: () => search() },
       { name: '地图', action: () => map() },
       { name: '战术', action: () => tactics() },
       { name: '合成', action: () => crafting(), id: 'crafting' },
@@ -281,14 +280,11 @@ const controlPanel = () => {
 <template>
   <div class="actions fixed flex w-screen bottom-0">
     <div class="mb-4 mx-auto">
-      <TransitionGroup name="list" tag="div" class="flex flex-wrap justify-center rounded mx-4 px-2 border-2 border-zinc-700 bg-zinc-800/95">
-        <!-- 视野 -->
-        <div
-          v-if="state.drawerType === '' && state.playerState?.hp?.nowHp && state.playerState.hp.nowHp > 0"
-          class="group transition-opacity" key="semo"
-        >
-          <Semo/>
-        </div>
+      <TransitionGroup
+        name="list"
+        tag="div"
+        class="flex flex-wrap justify-center rounded mx-4 px-2 border-2 border-primary/20 bg-primaryContainer/60 text-onPrimaryContainer"
+      >
         <!-- 背包 -->
         <div
           v-if="state.drawerType === '' && state.playerState?.hp?.nowHp && state.playerState.hp.nowHp > 0"
@@ -302,7 +298,7 @@ const controlPanel = () => {
           <div v-if="item.active === false" class="relative flex justify-center cursor-default">
             <!-- 悬浮 -->
             <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
-              <div class="bg-zinc-800 border-2 border-zinc-700 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
+              <div class="bg-surfaceContainerHigh text-onSurface border-2 border-outline rounded w-max p-2 text-sm">
                 <template v-if="item.id === 'song'">
                   {{ `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` }}
                 </template>
@@ -311,12 +307,11 @@ const controlPanel = () => {
               </div>
             </div>
             <div
-              class="text-zinc-500 px-3 py-2"
+              class="opacity-50 px-3 py-2"
               :class="item.id && !state.playerState?.canAction?.[item.id as any] ? 'hidden' : ''"
             >
               <p class="m-auto">
                 {{item.name}}
-                <!-- <span v-if="item.desc" class="text-sm text-zinc-500">[?]</span> -->
               </p>
             </div>
           </div>
@@ -329,7 +324,7 @@ const controlPanel = () => {
           >
             <!-- 悬浮 -->
             <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
-              <div class="bg-zinc-800 border-2 border-zinc-700 rounded w-max space-y-0.5 text-base text-zinc-300 p-2">
+              <div class="bg-surfaceContainerHigh text-onSurface border-2 border-outline rounded w-max p-2 text-sm">
                 <template v-if="item.id === 'song'">
                   {{ `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` }}
                 </template>
@@ -338,7 +333,7 @@ const controlPanel = () => {
               </div>
             </div>
             <div
-              class="text-zinc-300 px-3 py-2"
+              class="px-3 py-2"
               :class="item.id && !state.playerState?.canAction?.[item.id as any] ? 'hidden' : ''"
             >
               <p class="m-auto">
@@ -346,9 +341,8 @@ const controlPanel = () => {
                 <span
                   v-if="item.name === '技能'"
                   class="text-sm"
-                  :class="state.playerState && state.playerState?.skillPoint > 0 ? 'text-yellow-600' : 'text-zinc-400'"
+                  :class="state.playerState && state.playerState?.skillPoint == 0 && 'opacity-60'"
                 > | 技能点 {{ state.playerState?.skillPoint }}</span>
-                <!-- <span v-if="item.desc" class="text-sm text-zinc-500">[?]</span> -->
               </p>
             </div>
           </div>
@@ -365,7 +359,7 @@ const controlPanel = () => {
 }
 .list-enter-from {
   opacity: 0;
-  transform: translateY(-30px);
+  transform: translateY(-20px);
 }
 .list-leave-to {
   opacity: 0;
@@ -374,17 +368,7 @@ const controlPanel = () => {
   transition: none;
 }
 .list-leave-active {
-  position: absolute;
-}
-.tippy-box {
-  border: 2px solid rgb(255 255 255 / 20%);
-  box-shadow: 0 0 2px 2px rgb(0 0 0 / 20%);
-  max-width: max-content !important;
-  /* padding: 0.125em; */
-  /* background-color: #252528; */
-}
-.tippy-content {
-  padding: 0em;
+  display: none;
 }
 .actions {
   view-transition-name: actions;

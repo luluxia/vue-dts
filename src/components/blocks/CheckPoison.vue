@@ -66,24 +66,24 @@ const checkPoison = async () => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">检查毒物</h1>
-  <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog">
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">检查毒物</h1>
+  <div v-if="gameState.actionLog" class="mb-1" v-html="gameState.actionLog">
 
   </div>
-  <div class="text-zinc-400 mb-2 text-center">
+  <div class="mb-1 text-center">
     <p>选择一份背包中的补给品，检查其是否带毒</p>
     <p>想检查什么？</p>
   </div>
-  <div class="text-zinc-300 flex justify-center flex-wrap mb-2">
+  <div class="flex justify-center flex-wrap mb-1">
     <p
       v-for="item in state?.items"
       @click="selectItem(item)"
-      :class="checkPoisonState.selectItemKey === item.key && 'ring-2 ring-zinc-500'"
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      :class="checkPoisonState.selectItemKey === item.key && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
       <span>{{ item.item.name }}</span>
     </p>
-    <p class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 opacity-50" v-if="!state?.items.length">
+    <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 opacity-50" v-if="!state?.items.length">
       包裹中没有补给品
     </p>
   </div>

@@ -14,6 +14,6 @@ const state = computed(() => {
 
 <template>
 <div v-if="state" class="m-auto">
-  <p class="text-xl">{{ state.team || '无'}}</p>
+  <p>{{ state.team || '无'}}</p>
 </div>
 </template>

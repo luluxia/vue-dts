@@ -27,46 +27,46 @@ const change = async (type: 'tac' | 'pose' | 'clubsel', id: string) => {
 }
 </script>
 <template>
-  <h1 class="text-zinc-300 text-2xl font-bold tracking-wide text-shadow py-2">战术选择</h1>
+  <h1 class="text-primary text-xl font-bold tracking-wide mb-1">战术选择</h1>
   <!-- 基础姿态 -->
-  <div class="text-zinc-400 mb-2">
+  <div class="mb-1">
     <p>基础姿态</p>
   </div>
-  <div class="text-zinc-300 flex w-200 justify-center flex-wrap">
+  <div class="flex justify-center flex-wrap">
     <p
       v-for="id in state?.pose.idList"
       @click="change('pose', id)"
-      :class="state?.pose.nowPoseId == id && 'ring-2 ring-zinc-500'"
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
+      :class="state?.pose.nowPoseId == id && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
       <span :tooltip="state?.pose.tips[Number(id)]">{{ state?.pose.type[Number(id)] }}</span>
     </p>
   </div>
   <!-- 应战策略 -->
-  <div class="text-zinc-400 my-2">
+  <div class="my-1">
     <p>应战策略</p>
   </div>
-  <div class="text-zinc-300 flex w-200 justify-center flex-wrap mb-2">
+  <div class="flex justify-center flex-wrap mb-1">
     <p
       v-for="id in state?.tactic.idList"
       @click="change('tac', id)"
-      :class="state?.tactic.nowTacticId == id && 'ring-2 ring-zinc-500'"
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
+      :class="state?.tactic.nowTacticId == id && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
       <span :tooltip="state?.tactic.tips[Number(id)]">{{ state?.tactic.type[Number(id)] }}</span>
     </p>
   </div>
   <!-- 内定称号 -->
   <template v-if="state?.gift.nowGiftId == '0'">
-    <div class="text-zinc-400 mb-2">
+    <div class="mb-1">
       <p>内定称号</p>
     </div>
-    <div class="text-zinc-300 flex w-200 justify-center flex-wrap mb-2">
+    <div class="flex justify-center flex-wrap mb-1">
       <p
         v-for="(id, index) in state?.gift.giftList"
         @click="change('clubsel', String(index))"
-        :class="state?.gift.nowGiftId == id && 'ring-2 ring-zinc-500'"
-        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
+        :class="state?.gift.nowGiftId == id && 'ring-2 ring-outline'"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
         <span>{{ state?.gift.type[Number(id)] }}</span>
       </p>

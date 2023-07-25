@@ -21,19 +21,19 @@ const nowStoryType = computed(() => {
   const state = props.state
   if (!state) return ''
   if (state.title === '锁定解除') {
-    if (state.flag.state === 6) {
+    if (state.flag.state == 6) {
       storyType = '锁定解除（解禁者）'
     } else {
       storyType = '锁定解除（非胜利者）'
     }
   } else if (state.title === '核爆全灭') {
-    if (state.flag.state === 6) {
+    if (state.flag.state == 6) {
       storyType = '核爆全灭（引爆者）'
     } else {
       storyType = '核爆全灭（非引爆者）'
     }
   } else if (state.title === '幻境解离') {
-    if (state.flag.state === 6) {
+    if (state.flag.state == 6) {
       storyType = '幻境解离（解离者）'
     } else {
       storyType = '幻境解离（非解离者）'
@@ -48,10 +48,10 @@ const nowStoryType = computed(() => {
 </script>
 <template>
   <div class="m-auto w-full flex flex-col items-center">
-    <p class="text-4xl font-bold text-zinc-300 tracking-widest">- 游戏结束 -</p>
-    <div class="m-auto w-full border-zinc-600 bg-zinc-800/30 border-t-2 border-b-2 my-4 flex flex-col items-center">
-      <p class="text-xl border-t-2 bg-zinc-700/50 text-zinc-300 pl-3.5 pr-3 py-1 -mt-0.5 tracking-widest">{{ props.state?.title }}</p>
-      <div class="text-zinc-300 flex flex-1 my-4">
+    <p class="text-4xl font-bold text-primary tracking-widest">- 游戏结束 -</p>
+    <div class="m-auto w-full border-outlineVariant bg-surface border-t-2 border-b-2 my-4 flex flex-col items-center">
+      <p class="text-xl border-t-2 bg-primary text-onPrimary pl-3.5 pr-3 py-1 -mt-0.5 tracking-widest">{{ props.state?.title }}</p>
+      <div class="text-onSurface flex flex-1 my-4">
         <!-- 死亡 -->
         <div v-if="props.state?.deadInfo" class="m-auto">
           <img :src="`/old/img/${props.state?.deadInfo.avatar}`" alt="">
@@ -168,7 +168,7 @@ const nowStoryType = computed(() => {
         <!-- 锁定解除 -->
         <div v-else-if="props.state?.title === '锁定解除'" class="m-auto">
           <!-- 解禁者 -->
-          <template v-if="props.state.flag.state === 6">
+          <template v-if="props.state.flag.state == 6">
             <div v-if="nowPage == 0">
               <span class="b">“你们的实力也不过如此嘛。”</span>
               <br>
@@ -298,7 +298,7 @@ const nowStoryType = computed(() => {
         <!-- 核爆全灭 -->
         <div v-else-if="props.state?.title === '核爆全灭'" class="m-auto">
           <!-- 引爆者 -->
-          <template v-if="props.state?.flag.state === 6">
+          <template v-if="props.state?.flag.state == 6">
             <div v-if="nowPage == 0">
               在你按下按钮之后，天空中出现了一颗流星，以肉眼可见的速度下降着。<br>
               那是什么？你努力分辨那玩意的轮廓，心中萌生出一丝不安。<br>
@@ -610,15 +610,30 @@ const nowStoryType = computed(() => {
       </div>
       <div class="flex space-x-4 mb-4">
         <template v-if="storyType[nowStoryType] !== 1">
-          <div v-if="nowPage" @click="nowPage--" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max">
-            <p class="text-sm bg-zinc-300 pl-2.5 pr-2 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">上一页</p>
+          <div v-if="nowPage" @click="nowPage--" class="ring-1.5 ring-primary p-0.5 cursor-pointer w-max">
+            <p
+              class="
+                text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
+                hover:bg-transparent hover:text-primary
+              "
+            >上一页</p>
           </div>
-          <div v-if="nowPage != storyType[nowStoryType]" @click="nowPage++" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max">
-            <p class="text-sm bg-zinc-300 pl-2.5 pr-2 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">下一页</p>
+          <div v-if="nowPage != storyType[nowStoryType]" @click="nowPage++" class="ring-1.5 ring-primary p-0.5 cursor-pointer w-max">
+            <p
+              class="
+                text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
+                hover:bg-transparent hover:text-primary
+              "
+            >下一页</p>
           </div>
         </template>
-        <router-link v-if="nowPage == storyType[nowStoryType] || storyType[nowStoryType] === 1" to="/" class="ring-1.5 ring-zinc-300 text-zinc-300 p-0.5 cursor-pointer w-max">
-          <p class="text-sm bg-zinc-300 pl-2.5 pr-2 py-1 text-zinc-800 font-bold tracking-widest transition-colors hover:bg-transparent hover:text-zinc-300">返回首页</p>
+        <router-link v-if="nowPage == storyType[nowStoryType] || storyType[nowStoryType] === 1" to="/" class="ring-1.5 ring-primary p-0.5 cursor-pointer w-max">
+          <p
+            class="
+              text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
+              hover:bg-transparent hover:text-primary
+            "
+          >返回首页</p>        
         </router-link>
       </div>
     </div>
