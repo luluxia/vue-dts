@@ -47,10 +47,10 @@ input::placeholder {
   @apply !p-0;
 }
 [data-theme="tooltip"] {
-  @apply p-2 rounded-none shadow;
+  @apply p-2 shadow;
 }
 [data-theme="tooltip"] .tippy-content {
-  @apply text-sm text-left w-max max-w-70 text-onSurface whitespace-pre-line;
+  @apply text-sm text-left w-max max-w-70 whitespace-pre-line;
 }
 /* 过渡样式 */
 .v-enter-active, .v-leave-active {

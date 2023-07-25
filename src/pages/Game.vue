@@ -345,7 +345,7 @@ watch(() => {
   scrollbar-gutter: stable;
 } */
 ::selection {
-  @apply text-white bg-zinc-600/80;
+  @apply text-onPrimary bg-primary;
 }
 *::-webkit-scrollbar {
   width: 6px;
@@ -362,9 +362,6 @@ watch(() => {
 .tippy-content > div::-webkit-scrollbar-thumb, .box-scrollbar::-webkit-scrollbar-thumb {
   border: none;
 }
-.avatar {
-  clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%);
-}
 
 span[tooltip] {
   @apply relative flex justify-center items-center w-max;
@@ -376,8 +373,11 @@ span[tooltip]::after {
 .inline-flex span[tooltip]::after {
   @apply w-2;
 }
-input[type="range"] {
-  @apply appearance-none bg-zinc-600 rounded;
+.range {
+  @apply appearance-none bg-primary/60 rounded;
+}
+.range::-webkit-slider-thumb {
+  @apply appearance-none bg-primary w-4 h-4 rounded-xl;
 }
 .neonblue { animation: blueflicker 1.5s infinite alternate; }
 .neonred { animation: redflicker 1.5s infinite alternate; }
@@ -398,32 +398,32 @@ input[type="range"] {
 	}
 }
 .mtgcolorless {
-  color: #eee;
+  @apply surface;
 	text-shadow: 0px 0px 2px rgba(137, 137, 137, 0.706), 0px 0px 3px #f5f5f586, 0px 0px 4px rgb(255, 255, 255);
 	animation: fadeInOut 2s ease-in-out infinite;
 }
 .mtgred {
-  color: #eee;
+  @apply surface;
 	text-shadow: 0px 0px 2px #F43F5E, 0px 0px 3px #F43F5E, 0px 0px 4px #F43F5E;
 	animation: fadeInOut 2s ease-in-out infinite;
 }
 .mtgblue {
-  color: #eee;
+  @apply surface;
 	text-shadow: 0px 0px 2px #378bc6, 0px 0px 3px #0da0a0, 0px 0px 4px #0a4fd0;
 	animation: fadeInOut 2s ease-in-out infinite;
 }
 .mtggreen {
-  color: #eee;
+  @apply surface;
 	text-shadow: 0px 0px 2px #10B981, 0px 0px 3px #10B981, 0px 0px 4px #10B981;
 	animation: fadeInOut 2s ease-in-out infinite;
 }
 .mtgwhite {
-  color: #eee;
+  @apply surface;
 	text-shadow: 0px 0px 2px #ffffdd, 0px 0px 3px #ededc4, 0px 0px 4px #cfcf9f;
 	animation: fadeInOut 2s ease-in-out infinite;
 }
 .mtgblack {
-  color: #eee;
+  @apply surface;
 	text-shadow: 0px 0px 2px #8B5CF6, 0px 0px 3px #8B5CF6, 0px 0px 4px #8B5CF6;
 	animation: fadeInOut 2s ease-in-out infinite;
 }

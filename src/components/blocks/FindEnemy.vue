@@ -351,14 +351,14 @@ const enemySkill = () => {
             </Card>
             <!-- 武器 -->
             <Card :length="4" :title="state.enemy.weaponType">
-              <div class="flex w-full p-1 items-center text-onSurface text-sm">
+              <div class="flex w-full p-1 items-center text-sm">
                 <div class="flex flex-col flex-1 h-full justify-between">
                   <div class="ml-0.5">
                     <p v-html="state.enemy.weapon"></p>
                   </div>
                   <p class="space-x-1 mb-0.5 text-xs">
                     <span
-                      class="text-onSurface bg-surfaceContainerHighest rounded px-1.5 py-0.5"
+                      class="bg-surfaceContainerHighest rounded px-1.5 py-0.5"
                       >品质 {{ state.enemy.attack }}</span
                     >
                   </p>
@@ -410,14 +410,14 @@ const enemySkill = () => {
   <Teleport to="body">
     <div
       v-if="state?.enemy?.skill"
-      class="fixed w-screen h-screen top-0 bg-black/70 z-1 shadow flex transition opacity-0 pointer-events-none"
+      class="fixed w-screen h-screen top-0 bg-black/40 z-1 shadow flex transition opacity-0 pointer-events-none"
       :class="showDialog && '!opacity-100 !pointer-events-auto'"
       @click="showDialog = false"
     >
       <div
-        class="crafting craft-dialog text-zinc-300 bg-zinc-900/95 border-2 border-zinc-700 h-max max-w-300 m-auto p-2 rounded"
+        class="crafting craft-dialog text-onSurface bg-surfaceContainer text-sm border-2 border-outline h-max max-w-300 m-auto p-1 rounded"
       >
-        <div class="p-2">
+        <div class="p-1">
           <p>
             以下是<span class="yellow">{{ state.enemy.name }}</span
             >的技能列表。
@@ -428,11 +428,11 @@ const enemySkill = () => {
         </div>
         <div class="max-h-150 overflow-y-auto overscroll-contain">
           <div
-            class="bg-zinc-800 m-1 rounded-sm"
+            class="bg-surfaceContainerHigh m-1 rounded-sm"
             v-for="item in state?.enemy?.skill"
           >
             <div
-              class="bg-zinc-700/80 text-zinc-300 px-2 py-1 flex justify-between items-center"
+              class="bg-surfaceContainerHighest px-2 py-1 flex justify-between items-center"
             >
               <span>{{ item.name }}</span>
             </div>

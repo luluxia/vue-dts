@@ -55,11 +55,5 @@ const max = computed(() => {
       <p class="text-sm relative">{{ state.proficiency[i] }}</p>
     </div>
   </div>
-  <!-- <p class="text-xl">
-    <div class="flex items-center justify-center group">
-      <span class="group-hover:opacity-0">100M</span>
-      <span class="opacity-0 p-1 border-2 border-zinc-700 bg-zinc-800 text-base absolute group-hover:(opacity-100)">100000000</span>
-    </div>
-  </p> -->
 </div>
 </template>

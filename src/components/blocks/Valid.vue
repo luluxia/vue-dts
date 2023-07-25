@@ -127,7 +127,7 @@ const enter = async () => {
                 </div>
                 <img
                   @click="formState.showAvatar = true"
-                  class="h-20 border-2 rounded m-auto cursor-pointer border-outlineVariant transition hover:border-outlineVariant"
+                  class="h-20 border-2 rounded m-auto cursor-pointer border-outlineVariant transition hover:border-outline"
                   :src="`/old/img/${formState.gender}_${formState.chooseAvatar}.gif`" alt=""
                 >
               </div>

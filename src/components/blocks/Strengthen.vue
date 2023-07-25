@@ -77,24 +77,24 @@ const strengthen = async () => {
 </script>
 <template>
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">强化</h1>
-  <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog">
+  <div v-if="gameState.actionLog" class="mb-1" v-html="gameState.actionLog">
 
   </div>
   <template v-if="state?.items.length">
-    <div class="text-zinc-400 mb-2 text-center">
+    <div class="mb-1 text-center">
       <p>宝石在你的手上发出异样的光芒，似乎有个奇怪的女声在你耳边说道<span class="yellow">“我是从天界来的凯丽”</span>。</p>
       <p>你想强化哪一件装备？</p>
     </div>
-    <div class="text-zinc-300 flex justify-center flex-wrap mb-2">
+    <div class="flex justify-center flex-wrap mb-1">
       <p
         v-for="item in state?.items"
         @click="selectItem(item)"
-        :class="strengthenState.selectItemKey === item.key && 'ring-2 ring-zinc-500'"
-        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        :class="strengthenState.selectItemKey === item.key && 'ring-2 ring-outline'"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
         <span>{{ item.item.name }}</span>
       </p>
     </div>
   </template>
-  <p class="text-zinc-400" v-else>唔？你的包裹里没有可以强化的装备，是不是没有脱下来呢？DA☆ZE</p>
+  <p v-else>唔？你的包裹里没有可以强化的装备，是不是没有脱下来呢？DA☆ZE</p>
 </template>

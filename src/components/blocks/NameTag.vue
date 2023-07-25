@@ -90,25 +90,25 @@ const nameTag = async () => {
 </script>
 <template>
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">命名</h1>
-  <div v-if="gameState.actionLog" class="text-zinc-400 mb-2" v-html="gameState.actionLog">
+  <div v-if="gameState.actionLog" class="mb-1" v-html="gameState.actionLog">
 
   </div>
-  <div class="text-zinc-400 mb-2 text-center">
+  <div class="mb-1 text-center">
     <p>你想修改哪个道具的名字？</p>
   </div>
-  <div class="text-zinc-300 flex justify-center flex-wrap mb-2">
+  <div class="flex justify-center flex-wrap mb-1">
     <p
       v-for="item in state?.items"
       @click="selectItem(item)"
-      :class="nameTagState.selectItemKey === item.key && 'ring-2 ring-zinc-500'"
-      class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      :class="nameTagState.selectItemKey === item.key && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
       <span>{{ item.item.name }}</span>
     </p>
-    <p class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 opacity-50" v-if="!state?.items.length">
+    <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 opacity-50" v-if="!state?.items.length">
       没有可改名的道具
     </p>
   </div>
-  <p class="text-zinc-400 mb-2">修改为：</p>
-  <input v-model="nameTagState.rename" class="p-1 bg-zinc-700 text-zinc-300 rounded text-center" type="text">
+  <p class="mb-1">修改为：</p>
+  <input v-model="nameTagState.rename" class="p-1 text-onSurfaceVariant bg-surfaceContainerHighest rounded text-center" type="text">
 </template>

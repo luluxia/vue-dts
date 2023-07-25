@@ -147,7 +147,7 @@ const back = () => {
             ref="avatarList"
             class="
               flex justify-start items-start
-              flex-wrap w-133.5
+              flex-wrap w-135.5 p-1
             "
           >
             <img
@@ -159,7 +159,7 @@ const back = () => {
           </div>
           <img
             ref="avatar"
-            class="h-22 border-2 rounded m-auto cursor-pointer border-zinc-500/50 transition hover:border-zinc-500"
+            class="h-22 border-2 rounded m-auto cursor-pointer border-outlineVariant transition hover:border-outline"
             :src="`/old/img/t_${teamState.chooseAvatar}.gif`" alt=""
           >
         </div>

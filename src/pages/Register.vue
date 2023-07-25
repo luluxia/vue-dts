@@ -33,36 +33,36 @@ const submit = async () => {
 
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center pt-16">
-    <p class="text-4xl font-bold text-zinc-300 tracking-widest">-账号注册-</p>
-    <div class="m-auto w-full border-zinc-600 bg-zinc-800/30 border-t-2 border-b-2 my-4 py-4 flex flex-col">
-      <div class="text-zinc-300 flex flex-1 items-center justify-center">
+    <p class="text-4xl font-bold text-primary tracking-widest">-账号注册-</p>
+    <div class="m-auto w-full border-outlineVariant bg-surface border-t-2 border-b-2 my-4 py-4 flex flex-col">
+      <div class="text-onSurface flex flex-1 items-center justify-center">
         <div class="space-y-2 <sm:(w-full pr-4)">
           <!-- 账号 -->
           <div class="flex items-center space-x-2">
-            <p class="text-zinc-400 font-bold text-sm w-20 mr-2 text-right">账号</p>
-            <input v-model="formState.username" placeholder="最长15个英文字符或者汉字，不能出现半角符号" maxlength="15" class="p-2 w-100 bg-zinc-700 text-zinc-300 rounded-sm text-sm <sm:flex-1" type="text">
+            <p class="font-bold text-sm w-20 mr-2 text-right">账号</p>
+            <input v-model="formState.username" placeholder="最长15个英文字符或者汉字，不能出现半角符号" maxlength="15" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <sm:flex-1" type="text">
           </div>
           <!-- 密码 -->
           <div class="flex items-center space-x-2">
-            <p class="text-zinc-400 font-bold text-sm w-20 mr-2 text-right">密码</p>
-            <input v-model="formState.password" placeholder="最长24个字符" maxlength="24" class="p-2 w-100 bg-zinc-700 text-zinc-300 rounded-sm text-sm <sm:flex-1" type="text">
+            <p class="font-bold text-sm w-20 mr-2 text-right">密码</p>
+            <input v-model="formState.password" placeholder="最长24个字符" maxlength="24" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <sm:flex-1" type="text">
           </div>
           <!-- 二次密码 -->
           <div class="flex items-center space-x-2">
-            <p class="text-zinc-400 font-bold text-sm w-20 mr-2 text-right">二次密码</p>
-            <input v-model="formState.passwordAgain" placeholder="最长24个字符" maxlength="24" class="p-2 w-100 bg-zinc-700 text-zinc-300 rounded-sm text-sm <sm:flex-1" type="text">
+            <p class="font-bold text-sm w-20 mr-2 text-right">二次密码</p>
+            <input v-model="formState.passwordAgain" placeholder="最长24个字符" maxlength="24" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <sm:flex-1" type="text">
           </div>
           <!-- 性别 -->
           <div class="flex items-center space-x-2">
-            <p class="text-zinc-400 font-bold text-sm w-20 mr-2 text-right">性别</p>
+            <p class="font-bold text-sm w-20 mr-2 text-right">性别</p>
             <div class="py-1">
               <span
-                class="bg-zinc-700 px-2.5 py-1.5 text-sm rounded-sm mr-2 cursor-pointer transition ring-zinc-500"
+                class="bg-surfaceContainer px-2.5 py-1.5 text-sm rounded-sm mr-2 cursor-pointer transition ring-zinc-500"
                 :class="formState.gender == 'm' && 'ring-2'"
                 @click="formState.gender = 'm'"
               >男生</span>
               <span
-                class="bg-zinc-700 px-2.5 py-1.5 text-sm rounded-sm mr-2 cursor-pointer transition ring-zinc-500"
+                class="bg-surfaceContainer px-2.5 py-1.5 text-sm rounded-sm mr-2 cursor-pointer transition ring-zinc-500"
                 :class="formState.gender == 'f' && 'ring-2'"
                 @click="formState.gender = 'f'"
               >女生</span>
@@ -70,13 +70,13 @@ const submit = async () => {
           </div>
           <!-- 头像 -->
           <div class="flex items-center space-x-2">
-            <p class="text-zinc-400 font-bold text-sm w-20 mr-2 text-right">头像</p>
-            <div class="flex justify-center items-center">
+            <p class="font-bold text-sm w-20 mr-2 text-right">头像</p>
+            <div class="flex justify-center items-center z-1">
               <div
                 class="
                   absolute flex justify-start items-start
-                  flex-wrap w-147 bg-zinc-800 p-1 border-2
-                  border-zinc-500 rounded transition opacity-0 pointer-events-none
+                  flex-wrap w-147 bg-surfaceContainerHighest p-1 border-2
+                  border-outlineVariant rounded transition opacity-0 pointer-events-none
                   <sm:(h-60 w-80 overflow-y-scroll)
                 "
                 :class="formState.showAvatar && '!opacity-100 !pointer-events-auto'"
@@ -90,25 +90,25 @@ const submit = async () => {
               </div>
               <img
                 @click="formState.showAvatar = true"
-                class="h-20 border-2 rounded m-auto cursor-pointer border-zinc-500/50 transition hover:border-zinc-500"
+                class="h-20 border-2 rounded m-auto cursor-pointer border-outlineVariant transition hover:border-outline"
                 :src="`/old/img/${formState.gender}_${formState.chooseAvatar}.gif`" alt=""
               >
             </div>
           </div>
           <!-- 口头禅 -->
           <div class="flex items-center space-x-2">
-            <p class="text-zinc-400 font-bold text-sm w-20 mr-2 text-right">口头禅</p>
-            <input v-model="formState.motto" placeholder="写下彰显个性的台词，30个字以内" maxlength="30" class="p-2 w-100 bg-zinc-700 text-zinc-300 rounded-sm text-sm <sm:flex-1" type="text">
+            <p class="font-bold text-sm w-20 mr-2 text-right">口头禅</p>
+            <input v-model="formState.motto" placeholder="写下彰显个性的台词，30个字以内" maxlength="30" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <sm:flex-1" type="text">
           </div>
           <!-- 杀人宣言 -->
           <div class="flex items-center space-x-2">
-            <p class="text-zinc-400 font-bold text-sm w-20 mr-2 text-right">杀人宣言</p>
-            <input v-model="formState.killMessage" placeholder="写下你杀死对手的留言，30个字以内" maxlength="30" class="p-2 w-100 bg-zinc-700 text-zinc-300 rounded-sm text-sm <sm:flex-1" type="text">
+            <p class="font-bold text-sm w-20 mr-2 text-right">杀人宣言</p>
+            <input v-model="formState.killMessage" placeholder="写下你杀死对手的留言，30个字以内" maxlength="30" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <sm:flex-1" type="text">
           </div>
           <!-- 遗言 -->
           <div class="flex items-center space-x-2">
-            <p class="text-zinc-400 font-bold text-sm w-20 mr-2 text-right">遗言</p>
-            <input v-model="formState.lastWord" placeholder="写下你不幸被害时的台词，30个字以内" maxlength="30" class="p-2 w-100 bg-zinc-700 text-zinc-300 rounded-sm text-sm <sm:flex-1" type="text">
+            <p class="font-bold text-sm w-20 mr-2 text-right">遗言</p>
+            <input v-model="formState.lastWord" placeholder="写下你不幸被害时的台词，30个字以内" maxlength="30" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <sm:flex-1" type="text">
           </div>
         </div>
       </div>

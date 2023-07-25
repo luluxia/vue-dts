@@ -97,26 +97,26 @@ const back = async () => {
 </script>
 <template>
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">元素口袋</h1>
-  <p class="text-zinc-400 mb-2">合成笔记</p>
-  <div class="element-hint text-zinc-300 bg-zinc-800/70 max-h-60 p-4 rounded overflow-y-scroll mb-2" v-html="hint">
+  <p class="mb-1">合成笔记</p>
+  <div class="element-hint bg-surfaceContainer max-h-60 px-4 py-2 rounded overflow-y-scroll mb-1" v-html="hint">
 
   </div>
   <template v-if="state.pushedList.length">
-    <p class="text-zinc-400 mb-2">已投入</p>
-    <div class="text-zinc-300 mb-2 flex">
+    <p class="mb-1">已投入</p>
+    <div class="mb-1 flex">
       <p
         @click="unPush(element.index)"
         v-for="element in state.pushedList"
-        class="bg-zinc-700 px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
       >
         {{ element.num }} 份<span v-html="element.title"></span>
       </p>
     </div>
   </template>
-  <p class="text-zinc-400 mb-2">口袋</p>
-  <div class="flex flex-wrap bg-zinc-900/80 w-234">
-    <card v-for="(element, index) in elements" :length="4" :title="`${element.title}<span class='pl-2'>${element.num} 份</span>`">
-      <div class="flex flex-col justify-between p-2 w-full text-zinc-300">
+  <p class="mb-1">口袋</p>
+  <div class="flex flex-wrap w-234">
+    <card v-for="(element, index) in elements" :length="4" :width="18.5" :title="`${element.title}<span class='pl-2'>${element.num} 份</span>`">
+      <div class="flex flex-col justify-between p-2 w-full">
         <div class="text-sm">
           <div class="space-x-2">
             <span class="font-bold">主</span>
@@ -128,17 +128,17 @@ const back = async () => {
           </div>
         </div>
         <div class="flex items-center justify-between space-x-2">
-          <input class="flex-1 min-w-0 h-1" type="range" v-model="state.selectNum[index]" :max="state.haveNum[index]">
-          <input class="w-14 text-sm px-1 py-0.5 rounded bg-zinc-900/30" type="number" v-model="state.selectNum[index]" min="0" :max="state.haveNum[index]">
-          <p @click="push(index)" class="text-sm px-2 py-0.5 rounded cursor-pointer transition transition-colors bg-slate-700 hover:bg-slate-500">投入</p>
+          <input class="range flex-1 min-w-0 h-1" type="range" v-model="state.selectNum[index]" :max="state.haveNum[index]">
+          <input class="w-14 text-sm px-1 py-0.5 rounded bg-surfaceDim" type="number" v-model="state.selectNum[index]" min="0" :max="state.haveNum[index]">
+          <p @click="push(index)" class="text-sm px-2 py-0.5 rounded cursor-pointer transition transition-colors bg-primary text-onPrimary hover:bg-primary/80">投入</p>
         </div>
       </div>
     </card>
   </div>
-  <p class="text-zinc-400 my-2">调整</p>
-  <div class="flex bg-zinc-900/80 mb-2">
-    <Card :length="4" title="【数术】" class="h-32">
-      <div class="p-2 text-sm flex flex-col justify-between text-zinc-300">
+  <p class="my-1">调整</p>
+  <div class="flex mb-1">
+    <Card :length="4" title="【数术】" :width="18.5" class="h-32">
+      <div class="p-2 text-sm flex flex-col justify-between">
         <div>
           <p>投入份数<span class="green">最多(±10)</span>的一种或多种元素</p>
           <p>会成为<span class="green">主元素</span>，影响合成结果的<span class="green">类型</span>。</p>
@@ -149,15 +149,15 @@ const back = async () => {
         </div>
       </div>
     </Card>
-    <Card :length="4" title="【节制】" class="h-32">
-      <div class="p-2 text-sm flex flex-col justify-between w-full text-zinc-300">
+    <Card :length="4" title="【节制】" :width="18.5" class="h-32">
+      <div class="p-2 text-sm flex flex-col justify-between w-full">
         <p>你可以主动限制元素合成结果的<span class="green">效耐上限</span>。</p>
         <p>当前：生成道具的效果+耐久上限<span class="yellow">【{{ state.max }}】</span></p>
         <div class="flex items-center justify-between">
-          <input class="w-60 h-1" type="range" v-model="state.max" :max="max">
+          <input class="range w-60 h-1" type="range" v-model="state.max" :max="max">
           <p
             @click="state.activeChangeMax = !state.activeChangeMax"
-            class="text-sm px-2 py-0.5 rounded cursor-pointer transition transition-colors bg-slate-700 hover:bg-slate-500"
+            class="text-sm px-2 py-0.5 rounded cursor-pointer transition transition-colors bg-primary text-onPrimary hover:bg-primary/80"
             :class="state.activeChangeMax && '!bg-rose-700 !hover:bg-rose-500'"
           >
             {{ state.activeChangeMax ? '禁用' : '启用' }}
@@ -165,16 +165,16 @@ const back = async () => {
         </div>
       </div>
     </Card>
-    <Card :length="4" title="【预言】" class="h-32">
+    <Card :length="4" title="【预言】" :width="18.5" class="h-32">
       <div class="p-2 text-sm flex flex-col justify-between w-full">
         <p>你能够干涉元素合成结果的<span class="green">效耐占比</span>。</p>
         <p>当前：效果占比<span class="yellow">【{{ state.percent }}%】</span>耐久占比<span class="yellow">【{{ 100 - state.percent }}%】</span></p>
         <p v-if="state.percent >= 80 || state.percent <= 20" class="red">警告：过度干预可能引发灾难性的后果！</p>
         <div class="flex items-center justify-between">
-          <input class="w-60 h-1" type="range" v-model="state.percent" min="2" max="98">
+          <input class="range w-60 h-1" type="range" v-model="state.percent" min="2" max="98">
           <p
             @click="state.activeChangePercent = !state.activeChangePercent"
-            class="text-sm px-2 py-0.5 rounded cursor-pointer transition transition-colors bg-slate-700 hover:bg-slate-500"
+            class="text-sm px-2 py-0.5 rounded cursor-pointer transition transition-colors bg-primary text-onPrimary hover:bg-primary/80"
             :class="state.activeChangePercent && '!bg-rose-700 !hover:bg-rose-500'"
           >
             {{ state.activeChangePercent ? '禁用' : '启用' }}

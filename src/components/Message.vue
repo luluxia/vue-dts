@@ -2,7 +2,7 @@
   <div
     ref="dom"
     class="
-      w-max mx-auto mb-2 px-3 py-2 rounded bg-zinc-700 text-zinc-300 border-2 border-zinc-500 shadow-xl transition-all pointer-events-auto
+      w-max mx-auto mb-2 px-3 py-2 rounded bg-surfaceContainerHigh text-onSurface border-2 border-outline shadow-xl transition-all pointer-events-auto
     "
   >
     {{ message }}

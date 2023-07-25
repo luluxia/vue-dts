@@ -20,11 +20,6 @@ defineProps<{ item: Item }>()
         </p>
       </div>
     </div>
-    <!-- <div class="absolute right-1 bottom-1 space-y-1 transition opacity-0 group-hover:(opacity-100)">
-      <p v-if="type == 'equipment'" class="m-auto text-xs px-3 py-1 bg-zinc-600 rounded">卸下</p>
-      <p v-if="type == 'bag'" class="m-auto text-xs px-3 py-1 bg-zinc-600 rounded">快捷</p>
-      <p class="m-auto text-xs px-3 py-1 bg-rose-800 rounded">丢弃</p>
-    </div> -->
   </template>
   <template v-else>
     <div class="m-auto pointer-events-none">
