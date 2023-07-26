@@ -20,24 +20,12 @@
           }
         }
         if (type === 'theme') {
-          if (value === 'light') {
-            const cssFile = document.querySelector('link[id="css-theme')
-            cssFile?.setAttribute('href', '/css/light.css')
-          }
-          if (value === 'dark') {
-            const cssFile = document.querySelector('link[id="css-theme')
-            cssFile?.setAttribute('href', '/css/dark.css')
-          }
+          const cssFile = document.querySelector('link[id="css-theme"]')
+          cssFile?.setAttribute('href', `/css/${value}.css`)
         }
         if (type === 'color') {
-          if (value === 'red') {
-            const cssFile = document.querySelector('link[id="css-color')
-            cssFile?.setAttribute('href', '/css/red.css')
-          }
-          if (value === 'purple') {
-            const cssFile = document.querySelector('link[id="css-color')
-            cssFile?.setAttribute('href', '/css/purple.css')
-          }
+          const cssFile = document.querySelector('link[id="css-color"]')
+          cssFile?.setAttribute('href', `/css/${value}.css`)
         }
       }
       const setting = JSON.parse(localStorage.getItem('setting') || '{}')

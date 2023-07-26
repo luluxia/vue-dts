@@ -88,24 +88,12 @@ const setTheme = (type: string, value: string) => {
     }
   }
   if (type === 'theme') {
-    if (value === 'light') {
-      const cssFile = document.querySelector('link[id="css-theme')
-      cssFile?.setAttribute('href', '/css/light.css')
-    }
-    if (value === 'dark') {
-      const cssFile = document.querySelector('link[id="css-theme')
-      cssFile?.setAttribute('href', '/css/dark.css')
-    }
+    const cssFile = document.querySelector('link[id="css-theme"]')
+    cssFile?.setAttribute('href', `/css/${value}.css`)
   }
   if (type === 'color') {
-    if (value === 'red') {
-      const cssFile = document.querySelector('link[id="css-color')
-      cssFile?.setAttribute('href', '/css/red.css')
-    }
-    if (value === 'purple') {
-      const cssFile = document.querySelector('link[id="css-color')
-      cssFile?.setAttribute('href', '/css/purple.css')
-    }
+    const cssFile = document.querySelector('link[id="css-color"]')
+    cssFile?.setAttribute('href', `/css/${value}.css`)
   }
 }
 onMounted(() => {
@@ -173,6 +161,8 @@ onMounted(() => {
               <span class="font-bold">配色</span>
               <span @click="saveSetting('color', 'red')">朱</span>
               <span @click="saveSetting('color', 'purple')">紫</span>
+              <span @click="saveSetting('color', 'green')">绿野幻梦</span>
+              <span @click="saveSetting('color', 'blue')">夏日口袋</span>
             </div>
           </div>
         </div>

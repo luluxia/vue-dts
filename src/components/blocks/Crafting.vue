@@ -93,7 +93,7 @@ const itemIndex = ref('');
 <template v-else-if="state.drawerType == 'crafting'">
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">合成</h1>
   <p class="mb-1">合成笔记</p>
-  <div class="crafting bg-surfaceContainer max-h-100 max-w-screen-lg p-4 rounded overflow-y-auto">
+  <div class="crafting bg-surfaceContainer max-h-100 max-w-screen-lg p-2 rounded overflow-y-auto">
     <div v-if="state?.craftTips != '<br>'" v-html="state?.craftTips"></div>
     <span v-else>现在没有可以合成的物品</span>
   </div>

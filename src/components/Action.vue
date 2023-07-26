@@ -283,7 +283,7 @@ const controlPanel = () => {
       <TransitionGroup
         name="list"
         tag="div"
-        class="flex flex-wrap justify-center rounded mx-4 px-2 border-2 border-primary/20 bg-primaryContainer/60 text-onPrimaryContainer"
+        class="flex flex-wrap justify-center rounded mx-4 px-2 border-2 border-primary/20 bg-primaryContainer/95 text-onPrimaryContainer"
       >
         <!-- 背包 -->
         <div
@@ -311,7 +311,7 @@ const controlPanel = () => {
               :class="item.id && !state.playerState?.canAction?.[item.id as any] ? 'hidden' : ''"
             >
               <p class="m-auto">
-                {{item.name}}
+                <span class="inline-flex" v-html="item.name"></span>
               </p>
             </div>
           </div>
@@ -337,7 +337,7 @@ const controlPanel = () => {
               :class="item.id && !state.playerState?.canAction?.[item.id as any] ? 'hidden' : ''"
             >
               <p class="m-auto">
-                {{item.name}}
+                <span class="inline-flex" v-html="item.name"></span>
                 <span
                   v-if="item.name === '技能'"
                   class="text-sm"

@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const cssFile = 'red.css';
+const cssFile = 'blue.css';
 
 fs.readFile(cssFile, 'utf8', (err, data) => {
   if (err) {

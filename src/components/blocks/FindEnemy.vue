@@ -383,7 +383,7 @@ const enemySkill = () => {
             <span class="text-primary" v-if="item.type">
               [<span class="inline-flex" v-html="item.type"></span>]
             </span>
-            {{ item.name }}
+            <span class="inline-block" v-html="item.name"></span>
             <template v-if="item.type">
               / {{ item.quality }} / {{ item.durability }}
             </template>
