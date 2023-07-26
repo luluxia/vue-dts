@@ -8,11 +8,12 @@ const state = computed(() => {
     return {
       tactic: gameState.playerState.tactic,
       pose: gameState.playerState.pose,
-      gift: gameState.playerState.gift
+      gift: gameState.playerState.gift,
+      horizon: gameState.playerState.horizon,
     }
   }
 })
-const change = async (type: 'tac' | 'pose' | 'clubsel', id: string) => {
+const change = async (type: 'tac' | 'pose' | 'clubsel' | 'hor', id: string) => {
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
@@ -56,6 +57,20 @@ const change = async (type: 'tac' | 'pose' | 'clubsel', id: string) => {
       <span :tooltip="state?.tactic.tips[Number(id)]">{{ state?.tactic.type[Number(id)] }}</span>
     </p>
   </div>
+  <!-- 战术界面 -->
+  <div class="my-1">
+    <p>战术界面</p>
+  </div>
+  <div class="flex justify-center flex-wrap mb-1">
+    <p
+      v-for="(horizon, index) in state?.horizon.type"
+      @click="change('hor', String(index))"
+      :class="Number(state?.horizon.nowHorizonId) == index && 'ring-2 ring-outline'"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+    >
+      <span>{{ horizon }}</span>
+    </p>
+  </div>
   <!-- 内定称号 -->
   <template v-if="state?.gift.nowGiftId == '0'">
     <div class="mb-1">
@@ -63,8 +78,8 @@ const change = async (type: 'tac' | 'pose' | 'clubsel', id: string) => {
     </div>
     <div class="flex justify-center flex-wrap mb-1">
       <p
-        v-for="(id, index) in state?.gift.giftList"
-        @click="change('clubsel', String(index))"
+        v-for="id in state?.gift.giftList"
+        @click="change('clubsel', id)"
         :class="state?.gift.nowGiftId == id && 'ring-2 ring-outline'"
         class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive, inject } from 'vue'
+import { onMounted, ref, reactive, inject, watch, nextTick } from 'vue'
 import axios from 'axios'
 import tippy, { hideAll } from 'tippy.js'
 import Card from '../Card.vue'
@@ -16,7 +16,7 @@ const formState = reactive({
   showAvatar: false,
   chooseAvatar: 0,
   gender: 'm',
-  chooseNick: { id: 0, title: '参展者' },
+  chooseNick: { id: 0, title: '参展者', desc: '' },
   chooseGift: { id: 0, title: '无' },
   motto: '',
   killMessage: '',
@@ -82,6 +82,25 @@ const enter = async () => {
     gameState.page = 'game'
   })
 }
+const nickRef = ref()
+watch(() => formState.chooseNick, () => {
+  if (nickRef.value._tippy) {
+    nickRef.value._tippy.setContent(formState.chooseNick.desc || '暂无描述')
+  } else {
+    tippy(nickRef.value, {
+      arrow: false,
+      content: (el) => {
+        const content = formState.chooseNick.desc || '暂无描述'
+        return content as string
+      },
+      theme: 'tooltip',
+      appendTo: () => document.body,
+    })
+  }
+  nextTick(() => {
+
+  })
+})
 </script>
 
 <template>
@@ -153,7 +172,7 @@ const enter = async () => {
               <p class="font-bold text-sm w-20 mr-2 text-right">头衔</p>
               <div>
                 <p ref="nickBtn" class="bg-surfaceContainerHighest px-2.5 py-1 text-sm rounded-sm w-30 m-auto cursor-pointer transition">
-                  {{ formState.chooseNick.title }}
+                  <p class="" ref="nickRef">{{ formState.chooseNick.title }}</p>
                 </p>
                 <div ref="nickListDom" class="max-h-100 overflow-x-hidden overflow-y-auto overscroll-contain border-outlineVariant text-center">
                   <p @click="formState.chooseNick = item; hideAll()" v-for="item in state?.nickList" class="px-2.5 py-1 min-w-full w-max transition cursor-pointer hover:(bg-primary text-onPrimary)">

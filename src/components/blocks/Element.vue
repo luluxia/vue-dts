@@ -3,6 +3,7 @@
 import { computed, inject, nextTick, onMounted, reactive } from 'vue'
 import { command } from '../../utils/api'
 import Card from '../Card.vue'
+import Message from '../Message'
 import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const actionState = inject<ActionState>('actionState') as ActionState
@@ -94,11 +95,49 @@ const back = async () => {
     }
   })
 }
+const quickAdd = (e: any) => {
+  const searchTarget = (e: any) : any => {
+    if (e.parentElement) {
+      if (e.parentElement.tagName == 'LI') {
+        return e.parentElement
+      } else {
+        return searchTarget(e.parentElement)
+      }
+    } else {
+      return null
+    }
+  }
+  const target = searchTarget(e.target)
+  if (!target) return
+  if (!target.innerText.includes('份')) return
+  const elementList = target.innerText.split('→')[0].split('+').map((e: string) => {
+    return {
+      id: ['亮晶晶', '暖洋洋', '冷冰冰', '郁萌萌', '昼闪闪', '夜静静'].findIndex((item) => item === e.split('份')[1].trim()),
+      value: e.split('份')[0].trim(),
+    }
+  })
+  let flag = true
+  for (const element of elementList) {
+    if (state.haveNum[element.id] < element.value) {
+      Message({
+        message: '当前拥有的元素不足以合成该道具',
+      })
+      flag = false
+      return
+    }
+  }
+  if (flag) {
+    elementList.forEach((item: any) => {
+      state.selectNum[item.id] = Number(item.value)
+      push(item.id)
+    })
+  }
+}
 </script>
 <template>
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">元素口袋</h1>
   <p class="mb-1">合成笔记</p>
-  <div class="element-hint bg-surfaceContainer max-h-60 px-4 py-2 rounded overflow-y-scroll mb-1" v-html="hint">
+  <div @click="e => quickAdd(e)" class="element-hint bg-surfaceContainer px-4 py-2 rounded mb-1" v-html="hint">
 
   </div>
   <template v-if="state.pushedList.length">
@@ -158,7 +197,7 @@ const back = async () => {
           <p
             @click="state.activeChangeMax = !state.activeChangeMax"
             class="text-sm px-2 py-0.5 rounded cursor-pointer transition transition-colors bg-primary text-onPrimary hover:bg-primary/80"
-            :class="state.activeChangeMax && '!bg-rose-700 !hover:bg-rose-500'"
+            :class="state.activeChangeMax && '!bg-tertiary !hover:bg-tertiary/80'"
           >
             {{ state.activeChangeMax ? '禁用' : '启用' }}
           </p>
@@ -175,7 +214,7 @@ const back = async () => {
           <p
             @click="state.activeChangePercent = !state.activeChangePercent"
             class="text-sm px-2 py-0.5 rounded cursor-pointer transition transition-colors bg-primary text-onPrimary hover:bg-primary/80"
-            :class="state.activeChangePercent && '!bg-rose-700 !hover:bg-rose-500'"
+            :class="state.activeChangePercent && '!bg-tertiary !hover:bg-tertiary/80'"
           >
             {{ state.activeChangePercent ? '禁用' : '启用' }}
           </p>

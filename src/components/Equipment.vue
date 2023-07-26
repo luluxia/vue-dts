@@ -62,7 +62,7 @@ const specialWeapon = async () => {
     `"
   >
     <Item :item='item'/>
-    <div v-if="key === 'weapon'" class="absolute right-1 bottom-1 space-y-1 cursor-pointer">
+    <div v-if="key === 'weapon'" class="absolute right-1 bottom-1 space-y-0.5 cursor-pointer">
       <p
         @click.stop="switchWeapon()"
         class="

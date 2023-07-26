@@ -101,7 +101,7 @@ onUnmounted(() => {
   <div>
     <div v-if="gameState" class="relative bg-surfaceContainerHighest text-onSurface text-sm rounded">
       <!-- 消息框 -->
-      <input v-model="messageState.message" class="bg-transparent !ring-0 w-full p-2"/>
+      <input @keypress.enter="sendMessage()" v-model="messageState.message" class="bg-transparent !ring-0 w-full p-2"/>
       <!-- 功能 -->
       <div class="flex justify-between pt-0 p-1">
         <!-- 目标 -->
@@ -117,8 +117,8 @@ onUnmounted(() => {
         <!-- 表情与发送 -->
         <div class="flex space-x-1.5 items-center">
           <p @click="getMessage()" class="px-2 py-0.5 cursor-pointer">刷新</p>
-          <p ref="emojiRef" class="px-3 py-0.5 bg-primary text-onPrimary rounded-sm cursor-pointer">表情</p>
-          <p @click="sendMessage()" class="px-3 py-0.5 bg-primary text-onPrimary rounded-sm cursor-pointer">发送</p>
+          <p ref="emojiRef" class="px-3 py-0.5 bg-primary text-onPrimary rounded-sm cursor-pointer transition hover:bg-primary/80">表情</p>
+          <p @click="sendMessage()" class="px-3 py-0.5 bg-primary text-onPrimary rounded-sm cursor-pointer transition hover:bg-primary/80">发送</p>
         </div>
         <!-- 表情列表 -->
         <div ref="emojiListRef" class="flex justify-start items-start flex-wrap w-171 p-1">
@@ -131,7 +131,7 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-    <div class="overflow-auto">
+    <div class="overflow-auto mt-1 max-h-140">
       <div v-for="item in message" class="message flex items-end text-onSurface text-sm font-bold" v-html="item"></div>
     </div>
   </div>

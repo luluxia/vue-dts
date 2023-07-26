@@ -25,6 +25,7 @@ import Strengthen from './blocks/Strengthen.vue'
 import Element from './blocks/Element.vue'
 import ControlPanel from './blocks/ControlPanel.vue'
 import Search from './blocks/Search.vue'
+import Trait from './blocks/Trait.vue'
 
 import type { GameState } from '../types/interface'
 const state = inject<GameState>('state', {
@@ -73,12 +74,12 @@ const search = async () => {
       @mouseleave="state.hideDrawer = false"
       class="absolute bottom-4 right-4 h-11 w-11 flex rounded border-2 border-primary/20 bg-primaryContainer/60 text-onPrimaryContainer pointer-events-auto <sm:bottom-28"
     >
-      <img class="w-6 m-auto" src="/img/hide.svg" alt=""/>
+      <svg class="stroke-onSurface m-auto" width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.85786 18C6.23858 21 4 24 4 24C4 24 12.9543 36 24 36C25.3699 36 26.7076 35.8154 28 35.4921M20.0318 12.5C21.3144 12.1816 22.6414 12 24 12C35.0457 12 44 24 44 24C44 24 41.7614 27 38.1421 30" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter"/><path d="M20.3142 20.6211C19.4981 21.5109 19 22.6972 19 23.9998C19 26.7612 21.2386 28.9998 24 28.9998C25.3627 28.9998 26.5981 28.4546 27.5 27.5705" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter"/><path d="M42 42L6 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter"/></svg>
     </div>
   </div>
   <div
     class="
-      drawer fixed w-screen bottom-18 flex
+      drawer fixed w-screen bottom-18 flex pointer-events-none z-1
       <sm:left-0 <sm:pb-12
     "
     :class="state.hideDrawer && 'opacity-0'"
@@ -87,7 +88,7 @@ const search = async () => {
     <div
       class="
         relative m-auto flex flex-col items-center p-2 rounded text-sm
-        max-h-[calc(100vh-9rem)] overflow-y-auto overscroll-contain
+        max-h-[calc(100vh-9rem)] overflow-y-auto overscroll-contain pointer-events-auto
         border-2 border-outlineVariant bg-surface/95 text-onSurface
         <sm:pr-0
       "
@@ -136,6 +137,8 @@ const search = async () => {
       <ControlPanel v-else-if="state.drawerType == 'control-panel'"/>
       <!-- 搜索 -->
       <Search v-else-if="state.drawerType == 'search'"/>
+      <!-- 码语行人 -->
+      <Trait v-else-if="state.drawerType == 'trait'"/>
       <!-- 默认 -->
       <template v-else>
         <div>

@@ -3,19 +3,20 @@ import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue'
 import Card from '../components/Card.vue'
 import Action from '../components/Action.vue'
 import Drawer from '../components/Drawer.vue'
-import Sidebar from '../components/Sidebar.vue'
+// import Sidebar from '../components/Sidebar.vue'
 import Loading from '../components/Loading.vue'
 // 玩家状态组件
 import Player from '../components/cards/Player.vue'
 import Level from '../components/cards/Level.vue'
 import Health from '../components/cards/Health.vue'
-import Hp from '../components/cards/Hp.vue'
-import Mp from '../components/cards/Mp.vue'
+// import Hp from '../components/cards/Hp.vue'
+// import Mp from '../components/cards/Mp.vue'
 import Rage from '../components/cards/Rage.vue'
 import SongSoul from '../components/cards/SongSoul.vue'
 import Gift from '../components/cards/Gift.vue'
 import Tactic from '../components/cards/Tactic.vue'
 import Pose from '../components/cards/Pose.vue'
+import Horizon from '../components/cards/Horizon.vue'
 import Attack from '../components/cards/Attack.vue'
 import Defense from '../components/cards/Defense.vue'
 import Team from '../components/cards/Team.vue'
@@ -26,7 +27,7 @@ import Remain from '../components/cards/Remain.vue'
 import Passage from '../components/cards/Passage.vue'
 import Weather from '../components/cards/Weather.vue'
 // 负面效果组件
-import Debuffs from '../components/cards/Debuffs.vue'
+// import Debuffs from '../components/cards/Debuffs.vue'
 // 装备包裹
 import Equipment from '../components/Equipment.vue'
 import Package from '../components/Package.vue'
@@ -217,16 +218,20 @@ watch(() => {
                   <Card title="内定称号" :length="2">
                     <Gift/>
                   </Card>
-                  <!-- 队伍 -->
-                  <Card title="队伍" :length="2">
-                    <Team/>
+                  <!-- 战术界面 -->
+                  <Card title="战术界面" :length="2">
+                    <Horizon/>
                   </Card>
-                  <!-- 殴熟 -->
+                  <!-- 熟练度 -->
                   <Card title="熟练度" :length="4" class="overflow-hidden">
                     <Proficiency type="melee"/>
                   </Card>
                 </div>
                 <div class="flex">
+                  <!-- 队伍 -->
+                  <Card title="队伍" :length="2">
+                    <Team/>
+                  </Card>
                   <!-- 怒气 -->
                   <Card title="怒气" :length="2">
                     <Rage/>

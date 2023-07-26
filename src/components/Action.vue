@@ -278,7 +278,7 @@ const controlPanel = () => {
 
 </script>
 <template>
-  <div class="actions fixed flex w-screen bottom-0">
+  <div class="actions fixed flex w-screen bottom-0 z-1">
     <div class="mb-4 mx-auto">
       <TransitionGroup
         name="list"

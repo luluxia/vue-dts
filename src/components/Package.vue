@@ -78,6 +78,11 @@ const splitItem = async (key: any) => {
     state.drawerType = ''
   })
 }
+// 码语行人
+const trait = (key: any) => {
+  state.drawerType = 'trait'
+  state.useItemKey = key
+}
 </script>
 <template>
   <Card
@@ -87,7 +92,7 @@ const splitItem = async (key: any) => {
     :class="`${item?.name ? 'cursor-pointer' : 'pointer-events-none opacity-40'}`"
   >
     <Item v-if="item" :item='item'/>
-    <div v-if="item" class="absolute right-1 bottom-1 space-y-1 text-center transition opacity-0 group-hover:(opacity-100)">
+    <div v-if="item" class="absolute right-1 bottom-1 space-y-0.5 text-center transition opacity-0 group-hover:(opacity-100)">
       <p
         v-if="state.playerState?.itemBag.isEquip"
         @click.stop="encaseItem(key)"
@@ -97,15 +102,7 @@ const splitItem = async (key: any) => {
           hover:bg-primary/60
         "
       >存入背包</p>
-      <div class="flex space-x-1">
-        <p
-          @click.stop="dropItem(key)"
-          class="
-            text-xs px-2 py-1 rounded-sm flex-1 transition
-            bg-tertiary text-onTertiary
-            hover:bg-tertiary/60
-          "
-        >丢弃</p>
+      <div class="flex space-x-0.5">
         <p
           v-if="state.playerState?.canAction['element']"
           @click.stop="splitItem(key)"
@@ -115,6 +112,32 @@ const splitItem = async (key: any) => {
             hover:bg-secondary/60
           "
         >提炼</p>
+        <p
+          v-if="state.playerState?.gift.nowGiftId == '21' && (item.typeID?.indexOf('D') === 0 || item.typeID?.indexOf('W') === 0)"
+          @click.stop="trait(key)"
+          class="
+            text-xs px-2 py-1 rounded-sm flex-1 transition
+            bg-secondary text-onSecondary
+            hover:bg-secondary/60
+          "
+        >提取</p>
+        <p
+          v-if="state.playerState?.gift.nowGiftId == '21' && item.typeID == '🥚'"
+          @click.stop="trait(key)"
+          class="
+            text-xs px-2 py-1 rounded-sm flex-1 transition
+            bg-secondary text-onSecondary
+            hover:bg-secondary/60
+          "
+        >插入</p>
+        <p
+          @click.stop="dropItem(key)"
+          class="
+            text-xs px-2 py-1 rounded-sm flex-1 transition
+            bg-tertiary text-onTertiary
+            hover:bg-tertiary/60
+          "
+        >丢弃</p>
       </div>
     </div>
   </Card>

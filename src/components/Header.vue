@@ -67,7 +67,7 @@ onMounted(() => {
   for (let i = 0; i < cookies.length; i++) {
     const cookie = cookies[i].trim()
     if (cookie.startsWith('acbra3_user=')) {
-      state.user = cookie.substring('acbra3_user='.length, cookie.length)
+      state.user = decodeURIComponent(cookie.substring('acbra3_user='.length, cookie.length))
       break
     }
   }

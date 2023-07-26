@@ -50,6 +50,8 @@ export interface Item {
 export interface FindItem extends Item {
   /** 是否可堆叠 */
   canMerge: boolean,
+  /** 可合并列表 */
+  mergeList: string[],
 }
 
 /** 玩家状态 */
@@ -135,6 +137,13 @@ export interface PlayerState {
     type: string[]
     /** tips */
     tips: string[]
+  },
+  /** 战术界面 */
+  horizon: {
+    /** 当前战术界面id */
+    nowHorizonId: string
+    /** 类型 */
+    type: string[]
   },
   /** 攻击力 */
   attack: number,

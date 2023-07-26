@@ -92,7 +92,7 @@ const strengthen = async () => {
         :class="strengthenState.selectItemKey === item.key && 'ring-2 ring-outline'"
         class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
       >
-        <span>{{ item.item.name }}</span>
+        <span v-html="item.item.name"></span>
       </p>
     </div>
   </template>

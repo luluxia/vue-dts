@@ -45,12 +45,12 @@ const submit = async () => {
           <!-- 密码 -->
           <div class="flex items-center space-x-2">
             <p class="font-bold text-sm w-20 mr-2 text-right">密码</p>
-            <input v-model="formState.password" placeholder="最长24个字符" maxlength="24" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <sm:flex-1" type="text">
+            <input v-model="formState.password" placeholder="最长24个字符" maxlength="24" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <sm:flex-1" type="password">
           </div>
           <!-- 二次密码 -->
           <div class="flex items-center space-x-2">
             <p class="font-bold text-sm w-20 mr-2 text-right">二次密码</p>
-            <input v-model="formState.passwordAgain" placeholder="最长24个字符" maxlength="24" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <sm:flex-1" type="text">
+            <input v-model="formState.passwordAgain" placeholder="最长24个字符" maxlength="24" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <sm:flex-1" type="password">
           </div>
           <!-- 性别 -->
           <div class="flex items-center space-x-2">

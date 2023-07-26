@@ -71,6 +71,9 @@ const useSkill = async (skill: any) => {
     const data = res as any
     gameState.playerState = data.playerState
     gameState.actionLog = data.actionLog
+    if (gameState.playerState?.radar) {
+      gameState.drawerType = 'radar'
+    }
   })
 }
 // 激活技能
@@ -133,7 +136,7 @@ const use_c10_inspire = async (id: any) => {
     你目前没有任何技能，先选择一个内定称号吧！
   </div>
   <div v-else class="space-y-1">
-    <div class="bg-surfaceContainer rounded-sm" v-for="item in gameState.playerState?.skill">
+    <div class="bg-surfaceContainer rounded-sm overflow-hidden" v-for="item in gameState.playerState?.skill">
       <div class="bg-surfaceContainerHighest px-2 py-1 flex justify-between items-center">
         <span class="">{{ item.name }}</span>
         <!-- 狙击鹰眼特殊技能 -->

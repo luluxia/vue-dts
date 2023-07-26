@@ -112,12 +112,12 @@ const changeTrap = async () => {
   <p class="font-bold">改造武器</p>
   <div class="flex justify-center flex-wrap my-1">
     <p
-      v-if="state?.weapon.name && state.weapon.name !== '拳头'"
+      v-if="state?.weapon.name && state.weapon.quality != 0"
       @click="selectWeapon(state?.weapon)"
       :class="electricState.selectWeapon && 'ring-2 ring-outline'"
       class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
-      <span>{{ state?.weapon.name }}</span>
+      <span v-html="state?.weapon.name"></span>
     </p>
     <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 opacity-50" v-else>
       当前未装备武器
@@ -132,7 +132,7 @@ const changeTrap = async () => {
       :class="electricState.selectTrapKey === item.key && 'ring-2 ring-outline'"
       class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
-      <span>{{ item.item.name }}</span>
+      <span v-html="item.item.name"></span>
     </p>
     <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 opacity-50" v-if="!state?.traps.length">
       包裹中没有陷阱

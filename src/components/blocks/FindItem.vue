@@ -17,8 +17,8 @@ const state = computed(() => {
       if (gameState.playerState?.bag[key]) {
         const item = gameState.playerState.bag[key]
         bag[key] = item
-        // 相同名字 相同品质
-        if (item?.name === findItem?.name && item?.quality === findItem?.quality && findItem?.canMerge) {
+        // 判断可合并物品中含有自身
+        if (findItem?.mergeList.includes(key)) {
           sameItems[key] = item
         }
       } else {
