@@ -81,7 +81,7 @@ const checkPoison = async () => {
       :class="checkPoisonState.selectItemKey === item.key && 'ring-2 ring-outline'"
       class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
-      <span>{{ item.item.name }}</span>
+      <span v-html="item.item.name"></span>
     </p>
     <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 opacity-50" v-if="!state?.items.length">
       包裹中没有补给品

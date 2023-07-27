@@ -157,7 +157,7 @@ const back = async () => {
       :class="chooseItemKey == key && 'ring-2 ring-outline'"
       class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
     >
-      <span>{{ item?.name }}</span>
+      <span v-html="item?.name"></span>
     </p>
   </div>
   <div class="mt-1">
