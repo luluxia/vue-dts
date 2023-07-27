@@ -22,7 +22,7 @@ export async function post(url: string, cmd: {}) {
 }
 
 export async function command(cmd: {}) {
-  const res = await axios.post('/old/command.php', transRequest(cmd), {
+  const res = await axios.post('/old/command.php?is_new=1', transRequest(cmd), {
     headers: {
       'content-type': 'application/x-www-form-urlencoded'
     },
