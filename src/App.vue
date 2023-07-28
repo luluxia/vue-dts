@@ -27,9 +27,6 @@ import 'tippy.js/animations/shift-away-subtle.css'
   font-display: swap;
   src: url(https://dsfs.oppo.com/oppo/shop-pc-v2/main/fonts/OPPOSans-Medium.621326d.ttf) format("truetype")
 }
-body {
-  font-family: OPPOSans2;
-}
 input {
   @apply outline-none transition;
 }

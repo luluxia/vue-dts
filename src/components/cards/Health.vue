@@ -55,7 +55,7 @@ const action = async (i: string) => {
           {{ infInfo[item].name }}
         </span>
       </template>
-      <span v-if="state?.debuff[0] == '无'" class="text-green-600">状态良好</span>
+      <span v-if="!state?.debuff" class="text-green-600">状态良好</span>
     </p>
     <!-- 生命 -->
     <div class="w-full h-4 flex relative">

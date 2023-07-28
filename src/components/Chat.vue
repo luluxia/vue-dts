@@ -99,7 +99,7 @@ onUnmounted(() => {
 </script>
 <template>
   <div>
-    <div v-if="gameState" class="relative bg-surfaceContainerHighest text-onSurface text-sm rounded">
+    <div v-if="gameState" class="relative bg-surfaceContainerHigh/50 text-onSurface text-sm rounded">
       <!-- 消息框 -->
       <input @keypress.enter="sendMessage()" v-model="messageState.message" class="bg-transparent !ring-0 w-full p-2"/>
       <!-- 功能 -->
@@ -131,13 +131,13 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-    <div class="overflow-auto mt-1 max-h-140">
-      <div v-for="item in message" class="message flex items-end text-onSurface text-sm font-bold" v-html="item"></div>
+    <div class="message overflow-auto mt-1 max-h-140 space-y-1 text-onSurface text-sm font-bold">
+      <p v-for="item in message" class="break-all break-words" v-html="item"></p>
     </div>
   </div>
 </template>
 <style lang="postcss">
-.message span {
-  @apply !font-normal;
+.message img {
+  @apply inline-block align-bottom;
 }
 </style>

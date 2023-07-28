@@ -64,7 +64,7 @@ const roomAction = async (action: string) => {
 }
 </script>
 <template>
-  <div class="min-h-screen flex pt-16">
+  <div class="min-h-screen flex pt-10 pb-4">
     <!-- 背景 -->
     <div class="fixed w-screen h-screen top-0 pointer-events-none">
       <img class="w-full h-full object-cover" src="/img/bg.png"/>
@@ -72,14 +72,14 @@ const roomAction = async (action: string) => {
     <Transition>
       <div v-if="homeState.num" class="relative flex justify-between space-x-4 m-auto">
         <!-- 左侧 -->
-        <div class="space-y-1">
+        <div class="space-y-1 w-156">
           <!-- 游戏情报 -->
           <div class="border-b-outlineVariant border-b-2 border-dashed flex items-center justify-between mb-1">
             <h1 class="py-1 text-xl font-bold tracking-wider text-primary">
               游戏情报<span class="text-base -ml-1 opacity-20">STATUS</span>
             </h1>
           </div>
-          <div class="flex flex-wrap max-w-156">
+          <div class="flex flex-wrap">
             <!-- 当前回合 -->
             <Card title="当前回合" :length="4" class="h-30" :width="18.5">
               <div class="m-auto text-center">
@@ -170,8 +170,8 @@ const roomAction = async (action: string) => {
             </div>
           </div>
           <!-- 房间列表 -->
-          <div class="bg-surfaceContainer/50 text-onSurface text-center h-88 overflow-y-auto overscroll-contain rounded">
-            <div class="flex w-full justify-between py-1 bg-primaryContainer text-onPrimaryContainer opacity-80 font-bold text-sm sticky top-0 rounded">
+          <div class="bg-surfaceContainer/50 text-onSurface text-center h-88 overflow-y-auto overscroll-contain rounded overflow-hidden">
+            <div class="flex w-full justify-between py-1 bg-primaryContainer text-onPrimaryContainer opacity-80 font-bold text-sm sticky top-0">
               <p class="w-15">编号</p>
               <p class="w-20">状态</p>
               <p class="flex-1">创建者/房主</p>
@@ -209,13 +209,13 @@ const roomAction = async (action: string) => {
           </div>
         </div>
         <!-- 右侧 -->
-        <div class="space-y-1">
+        <div class="space-y-1 flex-1">
           <div class="border-b-outlineVariant border-b-2 border-dashed flex items-center justify-between mb-1">
             <h1 class="py-1 text-xl font-bold tracking-wider text-primary">
               新闻<span class="text-base -ml-1 opacity-10">NEWS</span>
             </h1>
           </div>
-          <div class="w-156 text-onSurface">
+          <div class="text-onSurface">
             <div class="text-center my-5 text-primary">
               <p class="text-3xl font-bold">常磐大逃杀</p>
               <p class="opacity-60">次世代文字类多人在线游戏</p>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="常磐大逃杀是一款多人在线文字游戏，玩家需要制定战术并在危机四伏的世界中生存。在常磐大逃杀迎接你的终极冒险吧！" />
     <link rel="stylesheet" id="css-color" href="/css/purple.css">
     <link rel="stylesheet" id="css-theme" href="/css/light.css">
     <title>常磐大逃杀</title>
@@ -11,13 +12,11 @@
   <body>
     <script>
       const setTheme = (type, value) => {
+        if (type === 'font') {
+          document.documentElement.style.fontFamily = value
+        }
         if (type === 'size') {
-          if (value === 'normal') {
-            document.documentElement.style.fontSize = '16px'
-          }
-          if (value === 'big') {
-            document.documentElement.style.fontSize = '17px'
-          }
+          document.documentElement.style.fontSize = `${value}px`
         }
         if (type === 'theme') {
           const cssFile = document.querySelector('link[id="css-theme"]')

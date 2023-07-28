@@ -52,7 +52,6 @@ onMounted(() => {
     allowHTML: true,
     arrow: false,
     placement: 'bottom-end',
-    offset: [0, 25],
   })
   tippy(settingBtn.value, {
     content: settingContent.value,
@@ -61,7 +60,6 @@ onMounted(() => {
     allowHTML: true,
     arrow: false,
     placement: 'bottom-end',
-    offset: [0, 25],
   })
   const cookies = document.cookie.split(';')
   for (let i = 0; i < cookies.length; i++) {
@@ -79,13 +77,11 @@ const saveSetting = (type: string, value: string) => {
   setTheme(type, value)
 }
 const setTheme = (type: string, value: string) => {
+  if (type === 'font') {
+    document.documentElement.style.fontFamily = value
+  }
   if (type === 'size') {
-    if (value === 'normal') {
-      document.documentElement.style.fontSize = '16px'
-    }
-    if (value === 'big') {
-      document.documentElement.style.fontSize = '17px'
-    }
+    document.documentElement.style.fontSize = `${value}px`
   }
   if (type === 'theme') {
     const cssFile = document.querySelector('link[id="css-theme"]')
@@ -106,13 +102,13 @@ onMounted(() => {
 <template>
   <div
     class="
-      no-view-trans fixed z-1 top-0 h-15 w-screen border-b-2 border-outlineVariant
+      no-view-trans fixed z-1 top-0 h-8 w-screen border-b-2 border-outlineVariant
       bg-surfaceContainer text-onSurface transition
       hover:(opacity-100 bg-surfaceDim)
     "
     :class="!state.showHeader && 'opacity-0'"
   >
-    <div class="mx-5 h-15 flex items-center justify-between">
+    <div class="mx-5 h-8 flex items-center justify-between">
       <div class="flex">
         <router-link to="/">
           <!-- <img class="h-6 mr-5" src="/img/logo.png" alt=""> -->
@@ -149,20 +145,28 @@ onMounted(() => {
           <div ref="settingContent" class="p-4 w-max bg-surfaceContainerHigh text-onSurface text-base">
             <div class="space-x-2">
               <span class="font-bold">字体</span>
-              <span @click="saveSetting('size', 'normal')">标准</span>
-              <span @click="saveSetting('size', 'big')">大</span>
+              <span class="cursor-pointer" @click="saveSetting('font', '')">默认</span>
+              <span class="cursor-pointer" @click="saveSetting('font', 'OPPOSans2')">OPPO Sans</span>
+            </div>
+            <div class="space-x-2">
+              <span class="font-bold">尺寸</span>
+              <span class="cursor-pointer" @click="saveSetting('size', '14')">很小</span>
+              <span class="cursor-pointer" @click="saveSetting('size', '15')">小</span>
+              <span class="cursor-pointer" @click="saveSetting('size', '16')">标准</span>
+              <span class="cursor-pointer" @click="saveSetting('size', '17')">大</span>
+              <span class="cursor-pointer" @click="saveSetting('size', '18')">很大</span>
             </div>
             <div class="space-x-2">
               <span class="font-bold">主题</span>
-              <span @click="saveSetting('theme', 'light')">浅色</span>
-              <span @click="saveSetting('theme', 'dark')">深色</span>
+              <span class="cursor-pointer" @click="saveSetting('theme', 'light')">浅色</span>
+              <span class="cursor-pointer" @click="saveSetting('theme', 'dark')">深色</span>
             </div>
             <div class="space-x-2">
               <span class="font-bold">配色</span>
-              <span @click="saveSetting('color', 'red')">朱</span>
-              <span @click="saveSetting('color', 'purple')">紫</span>
-              <span @click="saveSetting('color', 'green')">绿野幻梦</span>
-              <span @click="saveSetting('color', 'blue')">夏日口袋</span>
+              <span class="cursor-pointer" @click="saveSetting('color', 'red')">朱</span>
+              <span class="cursor-pointer" @click="saveSetting('color', 'purple')">紫</span>
+              <span class="cursor-pointer" @click="saveSetting('color', 'green')">绿野幻梦</span>
+              <span class="cursor-pointer" @click="saveSetting('color', 'blue')">夏日口袋</span>
             </div>
           </div>
         </div>

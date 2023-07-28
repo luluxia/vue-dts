@@ -170,7 +170,7 @@ export interface PlayerState {
   /** 击杀数 */
   killNum: string,
   /** 负面状态 */
-  debuff: string[],
+  debuff: string,
   /** 装备 */
   equipment: {
     /** 武器 */
@@ -232,9 +232,9 @@ export interface PlayerState {
       id: string,
       name: string,
     }
-    type2: {
-      id: string | null,
-      name: string | null,
+    type2?: {
+      id: string,
+      name: string,
     }
   }
   /** 视野 */

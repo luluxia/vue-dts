@@ -27,10 +27,10 @@ onMounted(() => {
       },
     ]
     // 第二攻击方式
-    if (attackType?.type2.name) {
+    if (attackType?.type2) {
       actionState.action.push({
         name: attackType.type2.name,
-        action: () => attack(attackType.type2.id),
+        action: () => attack(attackType?.type2?.id || ""),
       })
     }
     // 换手
@@ -119,6 +119,11 @@ const attack = async (type: string | null) => {
     } else {
       actionState.action.push({ name: "确定", action: () => back("command") })
     }
+    // 默认拾取金钱
+    const moneyItem = state.value?.enemy?.items?.find(item => item.key === 'money')
+    if (moneyItem) {
+      selectItem(moneyItem)
+    }
   })
 }
 // 技能
@@ -199,10 +204,10 @@ const changeWeapon = async () => {
       },
     ]
     // 第二攻击方式
-    if (attackType?.type2.name) {
+    if (attackType?.type2) {
       actionState.action.push({
         name: attackType.type2.name,
-        action: () => attack(attackType.type2.id),
+        action: () => attack(attackType?.type2?.id || ""),
       })
     }
     // 换手
@@ -281,24 +286,22 @@ const enemySkill = () => {
         />
         <div>
           <div class="flex">
-            <Card :title="state.enemy.type" :length="2">
+            <Card :title="state.enemy.type" :length="3">
               <div class="flex w-full">
                 <img
                   v-if="!state.enemy.hasBigAvatar"
-                  class="absolute w-full h-full object-cover -z-1 opacity-30"
+                  class="absolute object-cover h-full rounded"
                   :class="
                     state.battleState === '发现尸体' && ' filter grayscale-80'
                   "
                   :src="`/old/img/${state.enemy.avatar}`"
                 />
-                <div class="flex-1 flex">
-                  <div class="m-auto">
-                    <p class="font-bold">{{ state.enemy.name }}</p>
-                    <p class="text-xs mt-1">{{ state.enemy.title }}</p>
-                    <p v-if="state.enemy.rp" class="text-xs mt-1">
+                <div class="m-auto px-1 relative w-full flex flex-col" :class="state.enemy.hasBigAvatar ? 'items-center' : 'items-end'">
+                  <p class="truncate tracking-wide bg-primaryContainer/80 text-onPrimaryContainer w-max px-1 rounded">{{ state.enemy.name }}</p>
+                    <p class="text-xs mt-1 px-1 opacity-80">{{ state.enemy.title }}</p>
+                    <p v-if="state.enemy.rp" class="text-xs mt-1 px-1 opacity-80">
                       报应点数 {{ state.enemy.rp }}
                     </p>
-                  </div>
                 </div>
               </div>
             </Card>
@@ -326,7 +329,7 @@ const enemySkill = () => {
               </div>
             </Card>
             <!-- 受伤部位 -->
-            <Card title="受伤部位" :length="2">
+            <Card title="受伤" :length="1">
               <div class="flex w-full">
                 <div class="flex-1 flex">
                   <div class="m-auto">
@@ -428,7 +431,7 @@ const enemySkill = () => {
         </div>
         <div class="max-h-150 overflow-y-auto overscroll-contain">
           <div
-            class="bg-surfaceContainerHigh m-1 rounded-sm"
+            class="bg-surfaceContainerHigh m-1 rounded-sm overflow-hidden"
             v-for="item in state?.enemy?.skill"
           >
             <div

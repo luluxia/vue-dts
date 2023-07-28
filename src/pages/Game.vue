@@ -150,10 +150,10 @@ watch(() => {
     <Transition>
     <div v-if="state.playerState?.playerInfo.name">
       <!-- 游戏卡片 -->
-      <div class="w-screen mx-auto pt-16" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
+      <div class="w-screen mx-auto pt-8" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
         <div class="flex justify-center mx-5 space-x-2">
           <!-- 左 -->
-          <div class="max-w-128 flex-1">
+          <div class="max-w-128 min-w-0 flex-1">
             <div class="w-full">
               <div class="border-b-outlineVariant border-b-2 border-dashed flex items-center justify-between mb-1">
                 <h1 class="py-1 text-xl font-bold tracking-wider text-primary">
@@ -323,7 +323,7 @@ watch(() => {
       <Dialog/>
     </div>
     </Transition>
-    <div v-if="!state.playerState?.playerInfo.name" class="w-screen h-screen absolute top-0 flex">
+    <div v-if="!state.playerState?.playerInfo.name" class="min-h-screen flex pt-10 pb-4 relative">
       <!-- 入场手续 -->
       <Transition>
         <Valid :state="validState" v-if="state.page == 'valid'"/>

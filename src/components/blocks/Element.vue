@@ -137,7 +137,7 @@ const quickAdd = (e: any) => {
 <template>
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">元素口袋</h1>
   <p class="mb-1">合成笔记</p>
-  <div @click="e => quickAdd(e)" class="element-hint bg-surfaceContainer px-4 py-2 rounded mb-1" v-html="hint">
+  <div @click="(e: any) => quickAdd(e)" class="element-hint bg-surfaceContainer px-4 py-2 rounded mb-1" v-html="hint">
 
   </div>
   <template v-if="state.pushedList.length">
