@@ -40,10 +40,10 @@ const dropKey = ref<any>('')
 const mergeKey = ref<any>('')
 onMounted(() => {
   actionState.action = [
-    { name: '拾取', action: () => getItem() },
-    { name: '使用', action: () => useItem() },
+    { name: '拾取', action: () => getItem(), shortcut: 'z' },
+    { name: '使用', action: () => useItem(), shortcut: 'a' },
     { name: '提炼', action: () => splitItem(), id: 'element' },
-    { name: '丢弃', action: () => dropItem() },
+    { name: '丢弃', action: () => dropItem(), shortcut: 'x' },
   ]
 })
 const selectDropItem = (key: any) => {

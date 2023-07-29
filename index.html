@@ -9,7 +9,7 @@
     <link rel="stylesheet" id="css-theme" href="/css/light.css">
     <title>常磐大逃杀</title>
   </head>
-  <body>
+  <body class="bg-surface">
     <script>
       const setTheme = (type, value) => {
         if (type === 'font') {
@@ -32,7 +32,7 @@
         setTheme(key, setting[key])
       })
     </script>
-    <div id="app" class="overflow-x-hidden min-h-screen bg-surface"></div>
+    <div id="app" class="overflow-x-hidden"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

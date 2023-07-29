@@ -1,8 +1,14 @@
 <script setup lang="ts">
+import { ref, provide, onMounted } from 'vue'
 import HeaderVue from './components/Header.vue'
 import './assets/pattern.min.css'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away-subtle.css'
+const isMobile = ref(false)
+onMounted(() => {
+  isMobile.value = window.innerWidth <= 768
+})
+provide('isMobile', isMobile)
 </script>
 
 <template>

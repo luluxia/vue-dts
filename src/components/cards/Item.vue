@@ -23,7 +23,7 @@ defineProps<{ item: Item }>()
   </template>
   <template v-else>
     <div class="m-auto pointer-events-none">
-      <p class="text-xl opacity-50">{{item.type}}</p>
+      <p class="text-xl opacity-50">{{ item.type }}</p>
     </div>
   </template>
 </template>

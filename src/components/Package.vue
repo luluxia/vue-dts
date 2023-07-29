@@ -83,12 +83,17 @@ const trait = (key: any) => {
   state.drawerType = 'trait'
   state.useItemKey = key
 }
+document.addEventListener('keydown', (e) => {
+  if (['1', '2', '3', '4', '5', '6'].includes(e.key)) {
+    state?.playerState?.bag[`item${e.key}`] && useItem(state?.playerState?.bag[`item${e.key}`], `item${e.key}`)
+  }
+})
 </script>
 <template>
   <Card
     v-for="(item, key) of state.playerState?.bag"
     @click="useItem(item, key)"
-    :title="item?.name && item.type" :length="4"
+    :title="item?.name && `[${(key as string).replace('item', '')}]${item.type}`" :length="4"
     :class="`${item?.name ? 'cursor-pointer' : 'pointer-events-none opacity-40'}`"
   >
     <Item v-if="item" :item='item'/>

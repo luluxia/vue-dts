@@ -429,6 +429,7 @@ export interface Action {
   active?: boolean
   desc?: string
   id?: string
+  shortcut?: string
 }
 
 /** 指令状态 */

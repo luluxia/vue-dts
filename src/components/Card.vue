@@ -19,7 +19,7 @@ defineProps({
     class="
       card relative min-h-24 flex flex-col m-0.25 rounded group transition overflow-hidden
       bg-surfaceContainerHigh/50 text-onSurface
-      <sm:h-[calc(25vw*1.25)]
+      <sm:(h-[calc(25vw*1.25)])
     "
     :class="`w-${length * width + length - 0.5} <sm:w-[calc(${length * 25}%-0.125rem)]`"
   >

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue'
+import { inject, onMounted, reactive, ref } from 'vue'
 import axios from 'axios'
 import tippy, { hideAll } from 'tippy.js'
 const state = reactive({
@@ -98,21 +98,22 @@ onMounted(() => {
     setTheme(key, setting[key])
   })
 })
+const isMobile = inject('isMobile')
 </script>
 <template>
   <div
     class="
       no-view-trans fixed z-1 top-0 h-8 w-screen border-b-2 border-outlineVariant
       bg-surfaceContainer text-onSurface transition
-      hover:(opacity-100 bg-surfaceDim)
+      hover:(opacity-100 bg-surfaceDim) <md:(h-12 border-none)
     "
     :class="!state.showHeader && 'opacity-0'"
   >
-    <div class="mx-5 h-8 flex items-center justify-between">
+    <div v-if="!isMobile" class="mx-5 h-8 flex items-center justify-between">
       <div class="flex">
-        <router-link to="/">
+        <router-link to="/" class="mr-5">
           <!-- <img class="h-6 mr-5" src="/img/logo.png" alt=""> -->
-          <span class="font-bold mr-5 text-primary">Battle Royale</span>
+          <span class="font-bold text-primary">Battle Royale</span>
         </router-link>
         <div>
           <router-link to="/game">游戏</router-link>
@@ -171,6 +172,12 @@ onMounted(() => {
           </div>
         </div>
       </div>
+    </div>
+    <div v-else class="mx-2 h-12 flex items-center">
+      <router-link to="/" class="mr-5">
+        <!-- <img class="h-6 mr-5" src="/img/logo.png" alt=""> -->
+        <span class="font-bold text-primary">Battle Royale</span>
+      </router-link>
     </div>
   </div>
 </template>

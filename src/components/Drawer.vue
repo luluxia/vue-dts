@@ -66,6 +66,11 @@ const search = async () => {
     }
   })
 }
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'KeyZ' && !state.drawerType) {
+    search()
+  }
+})
 </script>
 <template>
   <!-- <div class="hide fixed w-screen h-20 bottom-0 z-2 pointer-events-none">
@@ -152,7 +157,7 @@ const search = async () => {
               bg-primary text-onPrimary ring-primary/40
               transition hover:ring-2
             "
-          >探索</p>
+          >[Z] 探索</p>
         </div>
       </template>
     </div>

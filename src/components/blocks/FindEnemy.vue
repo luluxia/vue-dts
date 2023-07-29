@@ -24,6 +24,7 @@ onMounted(() => {
       {
         name: attackType?.type1.name || "",
         action: () => attack(attackType?.type1.id || ""),
+        shortcut: "z",
       },
     ]
     // 第二攻击方式
@@ -34,7 +35,7 @@ onMounted(() => {
       })
     }
     // 换手
-    actionState.action.push({ name: "切换", action: () => changeWeapon() })
+    actionState.action.push({ name: "切换", action: () => changeWeapon(), shortcut: "c" })
     // 技能
     if (state.value.enemy?.battleSkills) {
       state.value.enemy.battleSkills.forEach((item: any) => {
@@ -54,7 +55,7 @@ onMounted(() => {
       })
     }
     // 润了
-    actionState.action.push({ name: "逃跑", action: () => back("revcombat") })
+    actionState.action.push({ name: "逃跑", action: () => back("revcombat"), shortcut: "x" })
   } else if (
     state.value?.battleState === "遭遇突袭" ||
     state.value?.battleState === "战斗发生"
@@ -67,7 +68,7 @@ onMounted(() => {
         action: () => enemySkill(),
       })
     }
-    actionState.action.push({ name: "确定", action: () => back("command") })
+    actionState.action.push({ name: "确定", action: () => back("command"), shortcut: "z" })
   } else {
     // 发现尸体
     const actionList: any = []
@@ -117,7 +118,7 @@ const attack = async (type: string | null) => {
         })
       })
     } else {
-      actionState.action.push({ name: "确定", action: () => back("command") })
+      actionState.action.push({ name: "确定", action: () => back("command"), shortcut: "z" })
     }
     // 默认拾取金钱
     const moneyItem = state.value?.enemy?.items?.find(item => item.key === 'money')
@@ -163,7 +164,7 @@ const useSkill = async (key: string) => {
         selectItem(moneyItem)
       }
     } else {
-      actionState.action.push({ name: "确定", action: () => back("command") })
+      actionState.action.push({ name: "确定", action: () => back("command"), shortcut: "z" })
     }
   })
 }
@@ -201,6 +202,7 @@ const changeWeapon = async () => {
       {
         name: attackType?.type1.name || "",
         action: () => attack(attackType?.type1.id || ""),
+        shortcut: "z",
       },
     ]
     // 第二攻击方式
@@ -211,7 +213,7 @@ const changeWeapon = async () => {
       })
     }
     // 换手
-    actionState.action.push({ name: "切换", action: () => changeWeapon() })
+    actionState.action.push({ name: "切换", action: () => changeWeapon(), shortcut: "c" })
     // 技能
     if (state.value?.enemy?.battleSkills) {
       state.value.enemy.battleSkills.forEach((item: any) => {
@@ -231,7 +233,7 @@ const changeWeapon = async () => {
       })
     }
     // 润了
-    actionState.action.push({ name: "逃跑", action: () => back("revcombat") })
+    actionState.action.push({ name: "逃跑", action: () => back("revcombat"), shortcut: "x" })
   })
 }
 // 拾取物品相关
@@ -311,17 +313,19 @@ const enemySkill = () => {
               </div>
             </Card>
             <!-- 生命 -->
-            <Card title="生命">
-              <div class="m-auto text-center">
-                <p v-html="state.enemy.hp"></p>
+            <Card title="体征" :length="3">
+              <div class="my-auto mx-2">
+                <p><span class="font-bold mr-2">生命</span><span v-html="state.enemy.hp"></span></p>
+                <p><span class="font-bold mr-2">体力</span><span v-html="state.enemy.mp"></span></p>
+                <p><span class="font-bold mr-2">受伤部位</span><span v-html="state.enemy.hurt"></span></p>
               </div>
             </Card>
             <!-- 体力 -->
-            <Card title="体力">
+            <!-- <Card title="体力">
               <div class="m-auto text-center">
                 <p v-html="state.enemy.mp"></p>
               </div>
-            </Card>
+            </Card> -->
             <!-- 怒气 -->
             <Card title="怒气">
               <div class="m-auto text-center">
@@ -329,7 +333,7 @@ const enemySkill = () => {
               </div>
             </Card>
             <!-- 受伤部位 -->
-            <Card title="受伤" :length="1">
+            <!-- <Card title="受伤" :length="1">
               <div class="flex w-full">
                 <div class="flex-1 flex">
                   <div class="m-auto">
@@ -337,7 +341,7 @@ const enemySkill = () => {
                   </div>
                 </div>
               </div>
-            </Card>
+            </Card> -->
           </div>
           <div class="flex">
             <!-- 基础姿态 -->
