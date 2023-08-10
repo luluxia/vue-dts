@@ -3,8 +3,8 @@ import { inject, onMounted, onUnmounted, ref, Ref } from 'vue'
 import { command } from '../../utils/api'
 import Card from '../Card.vue'
 import Item from '../cards/Item.vue'
-const actionState = inject<ActionState>('actionState') as ActionState
 import type { GameState, ActionState } from '../../types/interface'
+const actionState = inject<ActionState>('actionState') as ActionState
 const shopTypes = [
   { id: 1, name: "补给品" },
   { id: 2, name: "药剂" },
