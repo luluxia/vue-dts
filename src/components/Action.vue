@@ -160,52 +160,32 @@ const rest = async (type: string) => {
 }
 // 队伍
 const team = () => {
-  transitionHelper({
-    updateDOM() {
-      state.drawerType = 'team'
-    }
-  })
+  state.drawerType = 'team'
 }
 // 技能
 const skill = () => {
-  transitionHelper({
-    updateDOM() {
-      if (state.drawerType !== 'skill') {
-        actionState.oldType = state.drawerType
-        actionState.action.map(action => {
-          action.name != '技能' && (action.active = false)
-        })
-        state.drawerType = 'skill'
-      } else {
-        state.drawerType = actionState.oldType
-      }
-    }
-  })
+  if (state.drawerType !== 'skill') {
+    actionState.oldType = state.drawerType
+    actionState.action.map(action => {
+      action.name != '技能' && (action.active = false)
+    })
+    state.drawerType = 'skill'
+  } else {
+    state.drawerType = actionState.oldType
+  }
 }
 // 商店
 const shop = async () => {
-  transitionHelper({
-    async updateDOM() {
-      if (state.drawerType !== 'shop') {
-        actionState.oldType = state.drawerType
-        actionState.action.map(action => {
-          action.name != '商店' && (action.active = false)
-        })
-        let waitTimer = setTimeout(() => {
-          state.loading = true
-        }, 200)
-        await command({ mode: 'special', command: 'shop1' }).then(res => {
-          window.clearTimeout(waitTimer)
-          state.loading = false
-          const data = res as any
-          state.playerState = data.playerState
-          state.actionLog = data.actionLog
-          state.drawerType = 'shop'
-        })
-      } else {
-        state.drawerType = actionState.oldType
-      }
-    }
+  let waitTimer = setTimeout(() => {
+    state.loading = true
+  }, 200)
+  await command({ mode: 'special', command: 'shop1' }).then(res => {
+    window.clearTimeout(waitTimer)
+    state.loading = false
+    const data = res as any
+    state.playerState = data.playerState
+    state.actionLog = data.actionLog
+    state.drawerType = 'shop'
   })
 }
 // 安全箱
@@ -245,35 +225,23 @@ const checkPoison = () => {
 }
 // 佣兵
 const mercenary = () => {
-  transitionHelper({
-    updateDOM() {
-      if (state.drawerType !== 'mercenary') {
-        actionState.oldType = state.drawerType
-        actionState.action.map(action => {
-          action.name != '佣兵' && (action.active = false)
-        })
-        state.drawerType = 'mercenary'
-      } else {
-        state.drawerType = actionState.oldType
-      }
-    }
-  })
+  if (state.drawerType !== 'mercenary') {
+    actionState.oldType = state.drawerType
+    actionState.action.map(action => {
+      action.name != '佣兵' && (action.active = false)
+    })
+    state.drawerType = 'mercenary'
+  } else {
+    state.drawerType = actionState.oldType
+  }
 }
 // 元素口袋
 const element = () => {
-  transitionHelper({
-    updateDOM() {
-      state.drawerType = 'element'
-    }
-  })
+  state.drawerType = 'element'
 }
 // 控制面板
 const controlPanel = () => {
-  transitionHelper({
-    updateDOM() {
-      state.drawerType = 'control-panel'
-    }
-  })
+  state.drawerType = 'control-panel'
 }
 // 键控
 document.addEventListener('keydown', (e) => {
@@ -282,22 +250,25 @@ document.addEventListener('keydown', (e) => {
 
 </script>
 <template>
-  <div class="actions fixed flex w-screen bottom-0 z-1">
-    <div class="mb-4 mx-auto flex">
+  <div class="actions m-auto z-1">
+    <div class="mb-4 mx-auto flex <md:m-0">
       <TransitionGroup
         name="list"
         tag="div"
-        class="relative flex flex-wrap justify-center rounded mx-2 px-2 border-2 border-primary/20 bg-primaryContainer/95 text-onPrimaryContainer"
+        class="
+          relative flex flex-wrap justify-center rounded mx-2 px-2 border-2 border-primary/20 bg-primaryContainer/95 text-onPrimaryContainer
+          <md:(px-0 m-0 border-b-0 border-l-0 border-r-0 rounded-none w-screen)
+        "
       >
         <!-- 背包 -->
         <div
           v-if="state.drawerType === '' && state.playerState?.hp?.nowHp && state.playerState.hp.nowHp > 0"
-          class="group transition-opacity" key="itemBag"
+          class="group transition-opacity <md:(!transition-none)" key="itemBag"
         >
           <ItemBag/>
         </div>
         <!-- 行动 -->
-        <div v-for="(item, index) in actionState.action" class="group transition-opacity" :key="item.name + index">
+        <div v-for="(item, index) in actionState.action" class="group transition-opacity <md:(!transition-none)" :key="item.name + index">
           <!-- 禁用项 -->
           <div v-if="item.active === false" class="relative flex justify-center cursor-default">
             <!-- 悬浮 -->
@@ -315,7 +286,7 @@ document.addEventListener('keydown', (e) => {
               :class="item.id && !state.playerState?.canAction?.[item.id as any] ? 'hidden' : ''"
             >
               <p class="m-auto">
-                <span v-if="item.shortcut" class="uppercase">[{{ item.shortcut }}] </span>
+                <span v-if="item.shortcut" class="uppercase <md:hidden">[{{ item.shortcut }}] </span>
                 <span class="inline-flex" v-html="item.name"></span>
               </p>
             </div>
@@ -342,7 +313,7 @@ document.addEventListener('keydown', (e) => {
               :class="item.id && !state.playerState?.canAction?.[item.id as any] ? 'hidden' : ''"
             >
               <p class="m-auto">
-                <span v-if="item.shortcut" class="uppercase">[{{ item.shortcut }}] </span>
+                <span v-if="item.shortcut" class="uppercase <md:hidden">[{{ item.shortcut }}] </span>
                 <span class="inline-flex" v-html="item.name"></span>
                 <span
                   v-if="item.name === '技能'"
@@ -353,14 +324,14 @@ document.addEventListener('keydown', (e) => {
             </div>
           </div>
         </div>
-        <div
+        <!-- <div
           @mouseenter="state.hideDrawer = true"
           @mouseleave="state.hideDrawer = false"
           key="hideDrawer"
           class="absolute -bottom-0.5 -right-20 h-11 w-11 flex rounded border-2 border-primary/20 bg-primaryContainer/50 text-onPrimaryContainer pointer-events-auto"
         >
           <svg class="stroke-onSurface m-auto" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.85786 18C6.23858 21 4 24 4 24C4 24 12.9543 36 24 36C25.3699 36 26.7076 35.8154 28 35.4921M20.0318 12.5C21.3144 12.1816 22.6414 12 24 12C35.0457 12 44 24 44 24C44 24 41.7614 27 38.1421 30" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter"/><path d="M20.3142 20.6211C19.4981 21.5109 19 22.6972 19 23.9998C19 26.7612 21.2386 28.9998 24 28.9998C25.3627 28.9998 26.5981 28.4546 27.5 27.5705" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter"/><path d="M42 42L6 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="miter"/></svg>
-        </div>
+        </div> -->
       </TransitionGroup>
     </div>
   </div>

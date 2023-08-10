@@ -269,95 +269,87 @@ const corpseAction = async (key: string) => {
 const enemySkill = () => {
   showDialog.value = true
 }
+const isMobile = inject('isMobile')
 </script>
 <template>
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">
     {{ state?.enemy?.battleState }}
   </h1>
-  <div v-if="state?.enemy" class="flex items-end">
+  <div v-if="state?.enemy" class="flex items-end <md:(flex-col items-center)">
     <div class="flex flex-col items-center">
       <!-- 战斗日志 -->
       <div class="mb-1" v-html="state?.actionLog"></div>
       <!-- 敌方信息 -->
       <div class="flex">
         <img
-          v-if="state.enemy.hasBigAvatar"
+          v-if="state.enemy.hasBigAvatar && !isMobile"
           class="h-49 rounded mr-0.25"
           :class="state.battleState === '发现尸体' && ' filter grayscale-80'"
           :src="`/old/img/${state.enemy.avatar}`"
         />
-        <div>
-          <div class="flex">
-            <Card :title="state.enemy.type" :length="3">
-              <div class="flex w-full">
-                <img
-                  v-if="!state.enemy.hasBigAvatar"
-                  class="absolute object-cover h-full rounded"
-                  :class="
-                    state.battleState === '发现尸体' && ' filter grayscale-80'
-                  "
-                  :src="`/old/img/${state.enemy.avatar}`"
-                />
-                <div class="m-auto px-1 relative w-full flex flex-col" :class="state.enemy.hasBigAvatar ? 'items-center' : 'items-end'">
-                  <p class="truncate tracking-wide bg-primaryContainer/80 text-onPrimaryContainer w-max px-1 rounded">{{ state.enemy.name }}</p>
-                    <p class="text-xs mt-1 px-1 opacity-80">{{ state.enemy.title }}</p>
-                    <p v-if="state.enemy.rp" class="text-xs mt-1 px-1 opacity-80">
-                      报应点数 {{ state.enemy.rp }}
-                    </p>
+        <div class="<md:w-[calc(100vw-1.5rem)]">
+          <div class="flex flex-wrap <md:(justify-end relative)">
+            <img
+              v-if="state.enemy.hasBigAvatar && isMobile"
+              class="rounded m-0.25 absolute left-0 w-[calc(25%-0.125rem)] h-[calc(100%-0.125rem)] object-cover"
+              :class="state.battleState === '发现尸体' && ' filter grayscale-80'"
+              :src="`/old/img/${state.enemy.avatar}`"
+            />
+            <Card :title="state.enemy.type" :length="state.enemy.hasBigAvatar && isMobile ? 2 : 3">
+                <div class="flex w-full">
+                  <img
+                    v-if="!state.enemy.hasBigAvatar"
+                    class="absolute object-cover h-full rounded"
+                    :class="
+                      state.battleState === '发现尸体' && ' filter grayscale-80'
+                    "
+                    :src="`/old/img/${state.enemy.avatar}`"
+                  />
+                  <div class="m-auto px-1 relative w-full flex flex-col" :class="state.enemy.hasBigAvatar ? 'items-center' : 'items-end'">
+                    <p class="truncate tracking-wide bg-primaryContainer/80 text-onPrimaryContainer w-max px-1 rounded">{{ state.enemy.name }}</p>
+                      <p class="text-xs mt-1 px-1 opacity-80">{{ state.enemy.title }}</p>
+                      <p v-if="state.enemy.rp" class="text-xs mt-1 px-1 opacity-80">
+                        报应点数 {{ state.enemy.rp }}
+                      </p>
+                  </div>
                 </div>
-              </div>
             </Card>
             <Card title="等级">
-              <div class="m-auto text-center">
-                <p class="text-2xl">{{ state.enemy.level }}</p>
-              </div>
+                <div class="m-auto text-center">
+                  <p class="text-2xl">{{ state.enemy.level }}</p>
+                </div>
             </Card>
             <!-- 生命 -->
-            <Card title="体征" :length="3">
-              <div class="my-auto mx-2">
+            <Card title="体征" :length="state.enemy.hasBigAvatar && isMobile ? 2 : 3">
+              <p v-if="state.battleState === '发现尸体'" class="font-bold m-auto text-rose-600">已经死亡</p>
+              <div v-else class="my-auto mx-2">
                 <p><span class="font-bold mr-2">生命</span><span v-html="state.enemy.hp"></span></p>
                 <p><span class="font-bold mr-2">体力</span><span v-html="state.enemy.mp"></span></p>
                 <p><span class="font-bold mr-2">受伤部位</span><span v-html="state.enemy.hurt"></span></p>
               </div>
             </Card>
-            <!-- 体力 -->
-            <!-- <Card title="体力">
-              <div class="m-auto text-center">
-                <p v-html="state.enemy.mp"></p>
-              </div>
-            </Card> -->
             <!-- 怒气 -->
             <Card title="怒气">
-              <div class="m-auto text-center">
-                <p v-html="state.enemy.rage"></p>
-              </div>
-            </Card>
-            <!-- 受伤部位 -->
-            <!-- <Card title="受伤" :length="1">
-              <div class="flex w-full">
-                <div class="flex-1 flex">
-                  <div class="m-auto">
-                    <p v-html="state.enemy.hurt"></p>
-                  </div>
+                <div class="m-auto text-center">
+                  <p v-html="state.enemy.rage"></p>
                 </div>
-              </div>
-            </Card> -->
+            </Card>
           </div>
-          <div class="flex">
+          <div class="flex flex-wrap">
             <!-- 基础姿态 -->
-            <Card title="基础姿态" :length="2">
+            <Card title="基础姿态" :length="isMobile ? 1 : 2">
               <div class="m-auto text-center">
                 <p v-html="state.enemy.tactic"></p>
               </div>
             </Card>
             <!-- 应战策略 -->
-            <Card title="应战策略" :length="2">
+            <Card title="应战策略" :length="isMobile ? 1 : 2">
               <div class="m-auto text-center">
                 <p v-html="state.enemy.pose"></p>
               </div>
             </Card>
             <!-- 武器 -->
-            <Card :length="4" :title="state.enemy.weaponType">
+            <Card :length="isMobile ? 2 : 4" :title="state.enemy.weaponType">
               <div class="flex w-full p-1 items-center text-sm">
                 <div class="flex flex-col flex-1 h-full justify-between">
                   <div class="ml-0.5">
@@ -378,7 +370,7 @@ const enemySkill = () => {
     </div>
     <!-- 掉落物品信息 -->
     <div v-if="state?.battleState === '发现尸体'" class="ml-1">
-      <p class="mb-1">想要从尸体上拾取什么？</p>
+      <p class="mb-1 <md:text-center">想要从尸体上拾取什么？</p>
       <div class="rounded overflow-hidden">
         <p
           v-for="(item, key) in state?.enemy?.items"

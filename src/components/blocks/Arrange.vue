@@ -156,7 +156,7 @@ const move = async () => {
       v-for="item in state?.mergeBag"
       @click="mergeItemClick(item.key as string)"
       :class="arrangeState.mergeList.has(item.key) && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span v-html="item.item?.name"></span>
     </p>
@@ -171,7 +171,7 @@ const move = async () => {
         arrangeState.moveList.has(item.key) && 'ring-2 ring-outline',
         !item.item?.type && !arrangeState.moveList.size && 'opacity-50 pointer-events-none'
       "
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
     <span v-html="item.item?.name"></span>
     </p>

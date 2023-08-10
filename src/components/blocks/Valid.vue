@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive, inject, watch, nextTick } from 'vue'
+import { onMounted, ref, reactive, inject, watch, nextTick, Ref } from 'vue'
 import axios from 'axios'
 import tippy, { hideAll } from 'tippy.js'
 import Card from '../Card.vue'
@@ -84,6 +84,7 @@ const enter = async () => {
 }
 const nickRef = ref()
 watch(() => formState.chooseNick, () => {
+  if (isMobile.value) return
   if (nickRef.value._tippy) {
     nickRef.value._tippy.setContent(formState.chooseNick.desc || '暂无描述')
   } else {
@@ -97,17 +98,15 @@ watch(() => formState.chooseNick, () => {
       appendTo: () => document.body,
     })
   }
-  nextTick(() => {
-
-  })
 })
+const isMobile = inject('isMobile') as Ref<boolean>
 </script>
 
 <template>
   <div class="m-auto w-full flex flex-col items-center">
     <p class="text-4xl font-bold text-primary tracking-widest">-入场手续-</p>
     <div class="m-auto w-full border-outlineVariant bg-surface border-t-2 border-b-2 my-4 py-4 flex flex-col">
-      <div class="text-onSurface flex flex-1 items-center justify-center">
+      <div class="text-onSurface flex flex-1 items-center justify-center <md:(flex-col px-2)">
         <template v-if="!enterState?.name">
           <!-- 入场手续 -->
           <div class="flex items-center bg-surfaceContainer p-1 rounded">
@@ -122,19 +121,21 @@ watch(() => formState.chooseNick, () => {
           </div>
           <div class="space-y-2">
             <!-- 姓名 -->
-            <div class="flex items-center space-x-2">
-              <p class="font-bold text-sm w-20 mr-2 text-right">姓名</p>
+            <div class="flex items-center space-x-2 <md:(flex-col space-x-0 space-y-1 mt-2)">
+              <p class="font-bold text-sm w-20 mr-2 text-right <md:(w-max m-0)">姓名</p>
               <p class="">{{ state?.name }}</p>
             </div>
             <!-- 头像 -->
-            <div class="flex items-center space-x-2">
-              <p class="font-bold text-sm w-20 mr-2 text-right">头像</p>
+            <div class="flex items-center space-x-2 <md:(flex-col space-x-0 space-y-1)">
+              <p class="font-bold text-sm w-20 mr-2 text-right <md:(w-max m-0)">头像</p>
               <div class="flex justify-center items-center z-1">
                 <div
                   class="
                     absolute flex justify-start items-start
                     flex-wrap w-147 bg-surfaceContainerHighest p-1 border-2
-                    border-outlineVariant rounded transition opacity-0 pointer-events-none"
+                    border-outlineVariant rounded transition opacity-0 pointer-events-none
+                    <md:(w-[calc(100vw-4rem)] justify-center h-100 overflow-y-auto)
+                  "
                   :class="formState.showAvatar && '!opacity-100 !pointer-events-auto'"
                 >
                   <img
@@ -152,24 +153,24 @@ watch(() => formState.chooseNick, () => {
               </div>
             </div>
             <!-- 性别 -->
-            <div class="flex items-center space-x-2">
-              <p class="font-bold text-sm w-20 mr-2 text-right">性别</p>
-              <div class="py-1">
+            <div class="flex items-center space-x-2 <md:(flex-col space-x-0 space-y-1)">
+              <p class="font-bold text-sm w-20 mr-2 text-right <md:(w-max m-0)">性别</p>
+              <div class="py-1 space-x-2">
                 <span
-                  class="bg-surfaceContainerHighest px-2.5 py-1.5 text-sm rounded-sm mr-2 cursor-pointer transition ring-outline"
+                  class="bg-surfaceContainerHighest px-2.5 py-1.5 text-sm rounded-sm cursor-pointer transition ring-outline"
                   :class="formState.gender == 'm' && 'ring-2'"
                   @click="formState.gender = 'm'"
                 >男生</span>
                 <span
-                  class="bg-surfaceContainerHighest px-2.5 py-1.5 text-sm rounded-sm mr-2 cursor-pointer transition ring-outline"
+                  class="bg-surfaceContainerHighest px-2.5 py-1.5 text-sm rounded-sm cursor-pointer transition ring-outline"
                   :class="formState.gender == 'f' && 'ring-2'"
                   @click="formState.gender = 'f'"
                 >女生</span>
               </div>
             </div>
             <!-- 头衔 -->
-            <div class="flex items-center space-x-2">
-              <p class="font-bold text-sm w-20 mr-2 text-right">头衔</p>
+            <div class="flex items-center space-x-2 <md:(flex-col space-x-0 space-y-1)">
+              <p class="font-bold text-sm w-20 mr-2 text-right <md:(w-max m-0)">头衔</p>
               <div>
                 <p ref="nickBtn" class="bg-surfaceContainerHighest px-2.5 py-1 text-sm rounded-sm w-30 m-auto cursor-pointer transition">
                   <p class="" ref="nickRef">{{ formState.chooseNick.title }}</p>
@@ -181,10 +182,15 @@ watch(() => formState.chooseNick, () => {
                 </div>
               </div>
               <p class="opacity-80 text-sm">选择一个有趣的头衔，部分头衔存在特殊的入场效果</p>
+              <div
+                v-if="isMobile && formState.chooseNick.desc"
+                class="text-sm bg-surfaceContainer rounded p-2 ws-pre-line"
+                v-html="formState.chooseNick.desc"
+              ></div>
             </div>
             <!-- 称号 -->
-            <div class="flex items-center space-x-2">
-              <p class="font-bold text-sm w-20 mr-2 text-right">内定称号</p>
+            <div class="flex items-center space-x-2 <md:(flex-col space-x-0 space-y-1)">
+              <p class="font-bold text-sm w-20 mr-2 text-right <md:(w-max m-0)">内定称号</p>
               <div>
                 <p ref="giftBtn" class="bg-surfaceContainerHighest px-2.5 py-1 text-sm rounded-sm w-30 m-auto cursor-pointer transition">
                   {{ formState.chooseGift.title }}
@@ -203,26 +209,26 @@ watch(() => formState.chooseNick, () => {
               <p class="opacity-80 text-sm">选择“无”时，可在游戏内使用称号卡变更称号</p>
             </div>
             <!-- 口头禅 -->
-            <div class="flex items-center space-x-2">
-              <p class="font-bold text-sm w-20 mr-2 text-right">口头禅</p>
-              <input v-model="formState.motto" placeholder="写下彰显个性的台词，30个字以内" maxlength="30" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm" type="text">
+            <div class="flex items-center space-x-2 <md:(flex-col space-x-0 space-y-1)">
+              <p class="font-bold text-sm w-20 mr-2 text-right <md:(w-max m-0)">口头禅</p>
+              <input v-model="formState.motto" placeholder="写下彰显个性的台词，30个字以内" maxlength="30" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <md:w-[calc(100vw-4rem)]" type="text">
             </div>
             <!-- 杀人宣言 -->
-            <div class="flex items-center space-x-2">
-              <p class="font-bold text-sm w-20 mr-2 text-right">杀人宣言</p>
-              <input v-model="formState.killMessage" placeholder="写下你杀死对手的留言，30个字以内" maxlength="30" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm" type="text">
+            <div class="flex items-center space-x-2 <md:(flex-col space-x-0 space-y-1)">
+              <p class="font-bold text-sm w-20 mr-2 text-right <md:(w-max m-0)">杀人宣言</p>
+              <input v-model="formState.killMessage" placeholder="写下你杀死对手的留言，30个字以内" maxlength="30" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <md:w-[calc(100vw-4rem)]" type="text">
             </div>
             <!-- 遗言 -->
-            <div class="flex items-center space-x-2">
-              <p class="font-bold text-sm w-20 mr-2 text-right">遗言</p>
-              <input v-model="formState.lastWord" placeholder="写下你不幸被害时的台词，30个字以内" maxlength="30" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm" type="text">
+            <div class="flex items-center space-x-2 <md:(flex-col space-x-0 space-y-1)">
+              <p class="font-bold text-sm w-20 mr-2 text-right <md:(w-max m-0)">遗言</p>
+              <input v-model="formState.lastWord" placeholder="写下你不幸被害时的台词，30个字以内" maxlength="30" class="p-2 w-100 bg-surfaceContainerHighest rounded-sm text-sm <md:w-[calc(100vw-4rem)]" type="text">
             </div>
           </div>
         </template>
         <!-- 进入会场 -->
         <template v-else>
           <div class="flex flex-col items-center space-y-2">
-            <div class="flex items-center bg-surfaceContainerHighest/30 p-1 rounded w-max">
+            <div class="flex items-center bg-surfaceContainerHighest/30 p-1 rounded w-max <md:w-full">
               <img class="w-26 h-26 rounded" src="/img/story/story_0.gif" alt="">
               <div class="text-left pl-2 text-sm">
                 <p>{{ enterState.name }}，对吧？正在为您创建虚拟身份……</p>
@@ -231,56 +237,52 @@ watch(() => formState.chooseNick, () => {
                 <p>动漫祭的开幕仪式就要开始了，请您尽快入场。</p>
               </div>
             </div>
-            <div class="flex flex-col">
-              <div class="flex">
-                <!-- 头像 -->
-                <Card :title="enterState.nick" :length="4">
-                  <div class="flex w-full h-full">
-                    <img class="absolute object-cover h-full avatar" :src="`/old/img/${enterState.avatar}`" alt="">
-                    <div class="m-auto px-4 relative w-full flex flex-col items-end">
-                      <p class="font-bold truncate tracking-wide bg-surfaceContainerHighest/80 w-max px-1 rounded">{{ enterState.name }}</p>
-                      <p class="text-xs mt-1 px-1">{{ enterState.sub }}</p>
-                    </div>
+            <div class="flex flex-wrap w-128 <md:w-full">
+              <!-- 头像 -->
+              <Card :title="enterState.nick" :length="isMobile ? 2 : 4">
+                <div class="flex w-full h-full">
+                  <img class="absolute object-cover h-full rounded" :src="`/old/img/${enterState.avatar}`" alt="">
+                  <div class="m-auto px-1 relative w-full flex flex-col items-end">
+                    <p class="truncate tracking-wide bg-primaryContainer/80 text-onPrimaryContainer w-max px-1 rounded">{{ enterState.name }}</p>
+                    <p class="text-xs mt-1 px-1 opacity-80">{{ enterState.sub }}</p>
                   </div>
-                </Card>
-                <!-- 生命 -->
-                <Card title="生命">
-                  <p class="m-auto">{{ enterState.nowHp }}</p>
-                </Card>
-                <!-- 体力 -->
-                <Card title="体力">
-                  <p class="m-auto">{{ enterState.nowMp }}</p>
-                </Card>
-                <!-- 攻击 -->
-                <Card title="攻击">
-                  <p class="m-auto">{{ enterState.attack }}</p>
-                </Card>
-                <!-- 防御 -->
-                <Card title="防御">
-                  <p class="m-auto">{{ enterState.defense }}</p>
-                </Card>
-              </div>
-              <div class="flex">
-                <!-- 内定称号 -->
-                <Card title="内定称号" :length="2">
-                  <div class="m-auto text-center">
-                    <p>{{ enterState.gift }}</p>
-                  </div>
-                </Card>
-                <!-- 武器 -->
-                <Card title="武器" :length="2">
-                  <div class="m-auto text-center">
-                    <p>{{ enterState.weapon }}</p>
-                  </div>
-                </Card>
-                <!-- 随机道具1 -->
-                <Card title="随机道具" :length="4">
-                  <div class="m-auto text-center">
-                    <p>{{ enterState.randomItem1 }}</p>
-                    <p>{{ enterState.randomItem2 }}</p>
-                  </div>
-                </Card>
-              </div>
+                </div>
+              </Card>
+              <!-- 生命 -->
+              <Card title="生命">
+                <p class="m-auto">{{ enterState.nowHp }}</p>
+              </Card>
+              <!-- 体力 -->
+              <Card title="体力">
+                <p class="m-auto">{{ enterState.nowMp }}</p>
+              </Card>
+              <!-- 攻击 -->
+              <Card title="攻击">
+                <p class="m-auto">{{ enterState.attack }}</p>
+              </Card>
+              <!-- 防御 -->
+              <Card title="防御">
+                <p class="m-auto">{{ enterState.defense }}</p>
+              </Card>
+              <!-- 内定称号 -->
+              <Card title="内定称号" :length="2">
+                <div class="m-auto text-center">
+                  <p>{{ enterState.gift }}</p>
+                </div>
+              </Card>
+              <!-- 武器 -->
+              <Card title="武器" :length="2">
+                <div class="m-auto text-center">
+                  <p>{{ enterState.weapon }}</p>
+                </div>
+              </Card>
+              <!-- 随机道具1 -->
+              <Card title="随机道具" :length="isMobile ? 2 : 4">
+                <div class="m-auto text-center">
+                  <p>{{ enterState.randomItem1 }}</p>
+                  <p>{{ enterState.randomItem2 }}</p>
+                </div>
+              </Card>
             </div>
           </div>
         </template>

@@ -30,7 +30,7 @@ const back = async () => {
 <template>
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">雷达</h1>
   <div v-if="gameState.actionLog" class="mb-1" v-html="gameState.actionLog"></div>
-  <div class="radar rounded bg-surfaceContainer max-h-100 overflow-y-scroll overscroll-contain mb-1" v-html="radar"></div>
+  <div class="radar rounded bg-surfaceContainer max-h-100 overflow-scroll w-full no-scroll-bar overscroll-contain mb-1" v-html="radar"></div>
 </template>
 <style lang="postcss">
 .radar td {

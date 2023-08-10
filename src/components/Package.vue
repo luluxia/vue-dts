@@ -1,21 +1,26 @@
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject, onMounted, onUnmounted, ref, Ref } from 'vue'
 import Card from './Card.vue'
 import Item from './cards/Item.vue'
+import Health from './cards/Health.vue'
 import { command } from '../utils/api'
 import type { GameState } from '../types/interface'
 const state = inject<GameState>('state') as GameState
 // 使用物品
 const useItem = async (item: any, key: any) => {
-  if (item.name === '毒药') {
+  if (isMobile.value && selectItem.value !== key) {
+    selectItem.value = key
+    return
+  }
+  if (item.rawName === '毒药') {
     state.drawerType = 'use-poison'
     state.useItemKey = key
     return
-  } else if (item.name === '残响兵器') {
+  } else if (item.rawName === '残响兵器') {
     state.drawerType = 'name-tag'
     state.useItemKey = key
     return
-  } else if (['『灵魂宝石』', '『祝福宝石』'].includes(item.name)) {
+  } else if (['『灵魂宝石』', '『祝福宝石』'].includes(item.rawName)) {
     state.drawerType = 'strengthen'
     state.useItemKey = key
     return
@@ -38,6 +43,10 @@ const useItem = async (item: any, key: any) => {
 }
 // 丢弃物品
 const dropItem = async (key: any) => {
+  if (isMobile.value && selectItem.value !== key) {
+    selectItem.value = key
+    return
+  }
   let waitTimer = setTimeout(() => {
     state.loading = true
   }, 200)
@@ -51,6 +60,10 @@ const dropItem = async (key: any) => {
 }
 // 存入背包
 const encaseItem = async (key: any) => {
+  if (isMobile.value && selectItem.value !== key) {
+    selectItem.value = key
+    return
+  }
   const index = key.replace('item', '')
   let waitTimer = setTimeout(() => {
     state.loading = true
@@ -65,6 +78,10 @@ const encaseItem = async (key: any) => {
 }
 // 提炼物品
 const splitItem = async (key: any) => {
+  if (isMobile.value && selectItem.value !== key) {
+    selectItem.value = key
+    return
+  }
   let waitTimer = setTimeout(() => {
     state.loading = true
   }, 200)
@@ -80,6 +97,10 @@ const splitItem = async (key: any) => {
 }
 // 码语行人
 const trait = (key: any) => {
+  if (isMobile.value && selectItem.value !== key) {
+    selectItem.value = key
+    return
+  }
   state.drawerType = 'trait'
   state.useItemKey = key
 }
@@ -88,12 +109,36 @@ document.addEventListener('keydown', (e) => {
     state?.playerState?.bag[`item${e.key}`] && useItem(state?.playerState?.bag[`item${e.key}`], `item${e.key}`)
   }
 })
+/** 移动端 */
+const isMobile = inject('isMobile') as Ref<boolean>
+const selectItem = ref('')
+const clearSelectItem = () => {
+  selectItem.value = ''
+}
+onMounted(() => {
+  if (isMobile) {
+    document.addEventListener('click', clearSelectItem)
+  }
+})
+onUnmounted(() => {
+  if (isMobile) {
+    document.removeEventListener('click', clearSelectItem)
+  }
+})
 </script>
 <template>
+  <template v-if="isMobile">
+    <Card title="体征" :length="3">
+      <Health/>
+    </Card>
+    <Card title="金钱" :length="1">
+      <p class="m-auto">{{ state.playerState?.money }}</p>
+    </Card>
+  </template>
   <Card
     v-for="(item, key) of state.playerState?.bag"
-    @click="useItem(item, key)"
-    :title="item?.name && `[${(key as string).replace('item', '')}]${item.type}`" :length="4"
+    @click.stop="useItem(item, key)"
+    :title="item?.name && `[${(key as string).replace('item', '')}]${item.type}`" :length="isMobile ? 2 : 4"
     :class="`${item?.name ? 'cursor-pointer' : 'pointer-events-none opacity-40'}`"
   >
     <Item v-if="item" :item='item'/>
@@ -104,7 +149,7 @@ document.addEventListener('keydown', (e) => {
         class="
           text-xs px-2 py-1 rounded-sm transition
           bg-primary text-onPrimary
-          hover:bg-primary/60
+          hover:(bg-primary/60 <md:bg-primary)
         "
       >存入背包</p>
       <div class="flex space-x-0.5">
@@ -114,7 +159,7 @@ document.addEventListener('keydown', (e) => {
           class="
             text-xs px-2 py-1 rounded-sm flex-1 transition
             bg-secondary text-onSecondary
-            hover:bg-secondary/60
+            hover:(bg-primary/60 <md:bg-primary)
           "
         >提炼</p>
         <p
@@ -123,7 +168,7 @@ document.addEventListener('keydown', (e) => {
           class="
             text-xs px-2 py-1 rounded-sm flex-1 transition
             bg-secondary text-onSecondary
-            hover:bg-secondary/60
+            hover:(bg-primary/60 <md:bg-primary)
           "
         >提取</p>
         <p
@@ -132,7 +177,7 @@ document.addEventListener('keydown', (e) => {
           class="
             text-xs px-2 py-1 rounded-sm flex-1 transition
             bg-secondary text-onSecondary
-            hover:bg-secondary/60
+            hover:(bg-primary/60 <md:bg-primary)
           "
         >插入</p>
         <p
@@ -140,7 +185,7 @@ document.addEventListener('keydown', (e) => {
           class="
             text-xs px-2 py-1 rounded-sm flex-1 transition
             bg-tertiary text-onTertiary
-            hover:bg-tertiary/60
+            hover:(bg-primary/60 <md:bg-primary)
           "
         >丢弃</p>
       </div>

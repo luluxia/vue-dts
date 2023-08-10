@@ -176,11 +176,12 @@ const swapItem = async (index: string) => {
     gameState.drawerType = ''
   })
 }
+const isMobile = inject('isMobile')
 </script>
 <template>
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">发现物品</h1>
   <div v-if="gameState?.actionLog" v-html="gameState?.actionLog" class="mb-2"></div>
-  <Card :length="4" :title="state?.findItem?.type">
+  <Card :length="isMobile ? 3 : 4" :title="state?.findItem?.type">
     <Item v-if="state?.findItem" :item="state.findItem"/>
   </Card>
   <template v-if="state?.isBagFull">
@@ -190,7 +191,7 @@ const swapItem = async (index: string) => {
         v-for="(item, key) in state?.bag"
         @click="selectDropItem(key)"
         :class="dropKey == key && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
         <span v-html="item?.name"></span>
       </p>
@@ -203,7 +204,7 @@ const swapItem = async (index: string) => {
         v-for="(item, key) in state?.sameItems"
         @click="selectMergeItem(key)"
         :class="mergeKey == key && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
         <span v-html="item?.name"></span>
       </p>

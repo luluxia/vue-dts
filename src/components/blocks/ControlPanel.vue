@@ -98,6 +98,7 @@ const pushButton = async () => {
     gameState.drawerType = ''
   })
 }
+const isMobile = inject('isMobile')
 </script>
 <template>
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">控制面板</h1>
@@ -105,7 +106,7 @@ const pushButton = async () => {
     可用信道 
     <span class="green">{{ gameState.playerState?.controlPanel.channel }} / {{ gameState.playerState?.controlPanel.channelAll }}</span>
   </p>
-  <div class="flex">
+  <div class="flex flex-wrap w-full">
     <Card :length="2" title="天气控制">
       <div class="m-auto w-full text-center font-bold">
         <p ref="weatherBtn" class="w-full transition cursor-pointer hover:(bg-primary text-onPrimary)">
@@ -130,7 +131,7 @@ const pushButton = async () => {
         <p @click="removeForbiddenArea()" class="w-full transition cursor-pointer hover:(bg-primary text-onPrimary)">解除禁区</p>
       </div>
     </Card>
-    <Card v-if="!gameState.playerState?.controlPanel.noButton" @click="pushButton()" :length="3">
+    <Card v-if="!gameState.playerState?.controlPanel.noButton" @click="pushButton()" :length="isMobile ? 2 : 3">
       <div class="w-full h-full bg-rose-600/80 p-0.5 pattern-diagonal-lines-sm text-surface/5 cursor-pointer">
         <div class="w-full h-full border-2 border-surface rounded-sm flex">
           <div class="m-auto font-bold text-white/80 text-xl tracking-widest">

@@ -137,7 +137,7 @@ const add = async () => {
       <p
         @click="selectTrait('itm')"
         :class="traitState.selectTrait === 'itm' && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
         <span class="text-onSurfaceVariant">[名称] </span>
         <span class="inline-block" v-html="item?.name"></span>
@@ -145,7 +145,7 @@ const add = async () => {
       <p
         @click="selectTrait('itme')"
         :class="traitState.selectTrait === 'itme' && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
         <span class="text-onSurfaceVariant">[品质] </span>
         <span class="inline-block" v-html="item?.quality"></span>
@@ -153,7 +153,7 @@ const add = async () => {
       <p
         @click="selectTrait('itms')"
         :class="traitState.selectTrait === 'itms' && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
         <span class="text-onSurfaceVariant">[耐久] </span>
         <span class="inline-block" v-html="item?.durability"></span>
@@ -161,7 +161,7 @@ const add = async () => {
       <p
         @click="selectTrait('itmsk')"
         :class="traitState.selectTrait === 'itmsk' && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
         v-if="item?.props"
       >
         <span class="text-onSurfaceVariant">[属性] </span>
@@ -192,12 +192,12 @@ const add = async () => {
         v-for="item in list"
         @click="selectItem(item)"
         :class="traitState.selectItemKey === item.key && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
         <span v-html="item.item.name"></span>
       </p>
       <p
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 opacity-50"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 opacity-50"
         v-if="!list?.length"
       >
         包裹中没有可插入代码片段的物品

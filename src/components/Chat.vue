@@ -131,7 +131,7 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-    <div class="message overflow-auto mt-1 max-h-140 space-y-1 text-onSurface text-sm font-bold">
+    <div class="message overflow-auto mt-1 max-h-140 space-y-1 text-onSurface text-sm font-bold <md:max-h-[calc(100vh-12rem)]">
       <p v-for="item in message" class="break-all break-words" v-html="item"></p>
     </div>
   </div>

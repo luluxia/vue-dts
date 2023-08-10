@@ -106,18 +106,24 @@ const itemIndex = ref('');
       v-for="(item, key) in state?.bag"
       @click="itemClick(key as string)"
       :class="craftingState.list.has(key) && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span v-html="item?.name"></span>
     </p>
   </div>
   <Teleport to="body">
     <div
-      class="fixed w-screen h-screen top-0 bg-black/40 z-1 shadow flex transition opacity-0 pointer-events-none"
+      class="fixed w-screen h-screen top-0 bg-black/40 z-2 shadow flex transition opacity-0 pointer-events-none"
       :class="craftingState.showDialog && '!opacity-100 !pointer-events-auto'"
       @click="craftingState.showDialog = false"
     >
-      <div class="crafting craft-dialog bg-surfaceContainerHigh text-onSurface border-2 border-outline h-max max-w-300 m-auto p-4 rounded overflow-y-auto" v-html="state?.craftDialog">
+      <div
+        class="
+          crafting craft-dialog bg-surfaceContainerHigh text-onSurface border-2 border-outline h-max max-w-300 m-auto p-4 rounded overflow-y-auto
+          <md:(h-[calc(100vh-8rem)])
+        "
+        v-html="state?.craftDialog"
+      >
 
       </div>
     </div>

@@ -24,7 +24,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="news max-h-160 overflow-y-auto text-sm text-onSurface font-bold" v-html="news"></div>
+  <div class="news max-h-160 overflow-y-auto text-sm text-onSurface font-bold <md:max-h-[calc(100vh-8rem)]" v-html="news"></div>
 </template>
 
 <style lang="postcss">

@@ -37,6 +37,8 @@ export interface Item {
   type: string,
   /** 名称 */
   name: string,
+  /** 原始名称 */
+  rawName?: string,
   /** 属性ID */
   propsID?: string,
   /** 属性 */

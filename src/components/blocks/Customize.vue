@@ -115,11 +115,11 @@ const changeTrap = async () => {
       v-if="state?.weapon.name && state.weapon.quality != 0"
       @click="selectWeapon(state?.weapon)"
       :class="electricState.selectWeapon && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span v-html="state?.weapon.name"></span>
     </p>
-    <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 opacity-50" v-else>
+    <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 opacity-50" v-else>
       当前未装备武器
     </p>
   </div>
@@ -130,11 +130,11 @@ const changeTrap = async () => {
       v-for="item in state?.traps"
       @click="selectTrap(item)"
       :class="electricState.selectTrapKey === item.key && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span v-html="item.item.name"></span>
     </p>
-    <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 opacity-50" v-if="!state?.traps.length">
+    <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 opacity-50" v-if="!state?.traps.length">
       包裹中没有陷阱
     </p>
   </div>

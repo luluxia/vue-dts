@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { inject, onMounted, reactive, ref } from 'vue'
+import { inject, onMounted, reactive, ref, Ref } from 'vue'
 import axios from 'axios'
 import tippy, { hideAll } from 'tippy.js'
 const state = reactive({
@@ -51,7 +51,7 @@ onMounted(() => {
     interactive: true,
     allowHTML: true,
     arrow: false,
-    placement: 'bottom-end',
+    placement: isMobile?.value ? 'bottom-end' : 'bottom',
   })
   tippy(settingBtn.value, {
     content: settingContent.value,
@@ -59,7 +59,7 @@ onMounted(() => {
     interactive: true,
     allowHTML: true,
     arrow: false,
-    placement: 'bottom-end',
+    placement: isMobile?.value ? 'bottom-end' : 'bottom',
   })
   const cookies = document.cookie.split(';')
   for (let i = 0; i < cookies.length; i++) {
@@ -98,35 +98,54 @@ onMounted(() => {
     setTheme(key, setting[key])
   })
 })
-const isMobile = inject('isMobile')
+const isMobile = inject('isMobile') as Ref<Boolean>
+const showMobileMenu = ref(false)
 </script>
 <template>
   <div
     class="
-      no-view-trans fixed z-1 top-0 h-8 w-screen border-b-2 border-outlineVariant
+      no-view-trans fixed z-3 top-0 h-8 w-screen border-b-2 border-outlineVariant
       bg-surfaceContainer text-onSurface transition
       hover:(opacity-100 bg-surfaceDim) <md:(h-12 border-none)
     "
     :class="!state.showHeader && 'opacity-0'"
   >
-    <div v-if="!isMobile" class="mx-5 h-8 flex items-center justify-between">
-      <div class="flex">
-        <router-link to="/" class="mr-5">
-          <!-- <img class="h-6 mr-5" src="/img/logo.png" alt=""> -->
-          <span class="font-bold text-primary">Battle Royale</span>
-        </router-link>
-        <div>
+    <div class="mx-5 h-8 flex items-center justify-between <md:(mx-0 h-12)">
+      <div class="flex flex-1">
+        <div v-if="!isMobile">
+          <router-link to="/" class="mr-5">
+            <!-- <img class="h-6 mr-5" src="/img/logo.png" alt=""> -->
+            <span class="font-bold text-primary">Battle Royale</span>
+          </router-link>
           <router-link to="/game">游戏</router-link>
         </div>
+        <div v-else class="flex w-screen h-full items-center justify-between">
+          <div class="flex-1 text-center">
+            <router-link to="/">
+              <span class="font-bold text-primary">Battle Royale</span>
+            </router-link>
+          </div>
+          <div @click="showMobileMenu = !showMobileMenu" class="absolute right-2">
+            <svg class="stroke-onSurface" width="30" height="30" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M36 18L24 30L12 18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
       </div>
-      <div class="flex space-x-2">
+      <div
+        class="
+          flex space-x-2
+          <md:(absolute w-full space-x-0 bg-surfaceContainer top-12 px-4 py-2 space-y-4 border-b-2 border-outlineVariant)
+        "
+        :class="isMobile ? (showMobileMenu ? '!block' : '!hidden') : 'flex'"
+      >
         <div v-if="state.user" class="flex">
           <p>欢迎你，{{ state.user }}！</p>
           <p @click="logout()" class="ml-2 cursor-pointer text-onSurfaceVariant">退出</p>
         </div>
         <div v-else class="relative">
           <p ref="loginBtnDom" class="cursor-pointer">登录</p>
-          <div ref="loginDom" class="p-4 w-80 bg-surfaceContainerHigh text-onSurface">
+          <div ref="loginDom" class="p-4 w-80 bg-surfaceContainerHigh text-onSurface <md:w-[calc(100vw-2rem)]">
             <p class="mb-2 text-base">登录以继续</p>
             <input v-model="state.username" placeholder="用户名" class="p-2 text-onSurfaceVariant bg-surfaceContainerHighest rounded text-sm w-full my-1" type="text" required>
             <input v-model="state.password" placeholder="密码" class="p-2 text-onSurfaceVariant bg-surfaceContainerHighest rounded text-sm w-full my-1" type="password" required>
@@ -141,9 +160,12 @@ const isMobile = inject('isMobile')
             </div>
           </div>
         </div>
+        <div class="hidden <sm:block">
+          <router-link to="/game">游戏</router-link>
+        </div>
         <div>
           <p ref="settingBtn" class="cursor-pointer text-onSurfaceVariant">设置</p>
-          <div ref="settingContent" class="p-4 w-max bg-surfaceContainerHigh text-onSurface text-base">
+          <div ref="settingContent" class="p-4 w-max bg-surfaceContainerHigh text-onSurface text-base <md:w-[calc(100vw-2rem)]">
             <div class="space-x-2">
               <span class="font-bold">字体</span>
               <span class="cursor-pointer" @click="saveSetting('font', '')">默认</span>
@@ -172,12 +194,6 @@ const isMobile = inject('isMobile')
           </div>
         </div>
       </div>
-    </div>
-    <div v-else class="mx-2 h-12 flex items-center">
-      <router-link to="/" class="mr-5">
-        <!-- <img class="h-6 mr-5" src="/img/logo.png" alt=""> -->
-        <span class="font-bold text-primary">Battle Royale</span>
-      </router-link>
     </div>
   </div>
 </template>

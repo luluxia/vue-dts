@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, inject, onMounted, reactive, ref } from 'vue'
+import { computed, inject, onMounted, ref } from 'vue'
 import { command } from '../../utils/api'
 import tippy, { hideAll } from 'tippy.js'
 import Card from '../Card.vue'
@@ -8,10 +8,6 @@ import type { GameState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const mercenaryList = computed(() => gameState.playerState?.mercenary.mercList)
 const moveList = computed(() => gameState.playerState?.mercenary.moveList)
-const mercenaryState = reactive({
-  showMoveList: false,
-  showMoveListID: '',
-})
 const moveRefs = ref([])
 const moveListRefs = ref()
 onMounted(() => {
@@ -63,6 +59,7 @@ const fire = async (id: string) => {
     gameState.actionLog = data.actionLog
   })
 }
+const isMobile = inject('isMobile')
 </script>
 <template>
   <h1 class="text-primary text-xl font-bold tracking-wide mb-1">佣兵管理</h1>
@@ -74,18 +71,18 @@ const fire = async (id: string) => {
     你还没有雇佣任何佣兵。
   </template>
   <div v-if="mercenaryList?.length" class="mt-1">
-    <div v-for="item in mercenaryList" class="flex">
-      <Card :title="`佣兵${item.id}号`" :length="3">
+    <div v-for="item in mercenaryList" class="flex flex-wrap">
+      <Card :title="`佣兵${item.id}号`" :length="isMobile ? 2 : 3">
         <img class="absolute object-cover h-full rounded" :src="`/old/${item.avatar}`" alt="">
         <div class="m-auto px-1 relative w-full flex flex-col items-end">
           <p class="truncate tracking-wide bg-primaryContainer/80 text-onPrimaryContainer w-max px-1 rounded">{{ item.name }}</p>
           <p class="text-xs mt-1 px-1 opacity-80" v-html="item.friendShip"></p>
         </div>
       </Card>
-      <Card title="状况">
+      <Card title="状况" :length="isMobile ? 2 : 1">
         <p class="m-auto" v-html="item.status"></p>
       </Card>
-      <Card title="工资">
+      <Card title="工资" :length="isMobile ? 2 : 1">
         <span class="m-auto" :tooltip="`支付工资：${item.nextPay} 次行动后`">{{ item.salary }} 元</span>
       </Card>
       <Card title="位置" :length="2">

@@ -38,7 +38,7 @@ const change = async (type: 'tac' | 'pose' | 'clubsel' | 'hor', id: string) => {
       v-for="id in state?.pose.idList"
       @click="change('pose', id)"
       :class="state?.pose.nowPoseId == id && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span :tooltip="state?.pose.tips[Number(id)]">{{ state?.pose.type[Number(id)] }}</span>
     </p>
@@ -52,7 +52,7 @@ const change = async (type: 'tac' | 'pose' | 'clubsel' | 'hor', id: string) => {
       v-for="id in state?.tactic.idList"
       @click="change('tac', id)"
       :class="state?.tactic.nowTacticId == id && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span :tooltip="state?.tactic.tips[Number(id)]">{{ state?.tactic.type[Number(id)] }}</span>
     </p>
@@ -66,7 +66,7 @@ const change = async (type: 'tac' | 'pose' | 'clubsel' | 'hor', id: string) => {
       v-for="(horizon, index) in state?.horizon.type"
       @click="change('hor', String(index))"
       :class="Number(state?.horizon.nowHorizonId) == index && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span>{{ horizon }}</span>
     </p>
@@ -81,7 +81,7 @@ const change = async (type: 'tac' | 'pose' | 'clubsel' | 'hor', id: string) => {
         v-for="id in state?.gift.giftList"
         @click="change('clubsel', id)"
         :class="state?.gift.nowGiftId == id && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
         <span>{{ state?.gift.type[Number(id)] }}</span>
       </p>

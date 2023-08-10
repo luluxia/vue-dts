@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { nextTick, onMounted, provide, reactive, ref, watch } from 'vue'
+import { inject, nextTick, onMounted, onUnmounted, provide, reactive, ref, Ref, watch } from 'vue'
 import Card from '../components/Card.vue'
 import Action from '../components/Action.vue'
 import Drawer from '../components/Drawer.vue'
@@ -45,6 +45,7 @@ import Valid from '../components/blocks/Valid.vue'
 import End from '../components/blocks/End.vue'
 import axios from 'axios'
 import tippy from 'tippy.js'
+import interact from 'interactjs'
 import type { GameState, ActionState } from '../types/interface'
 // 游戏状态
 const state = reactive<GameState>({ drawerType: '' })
@@ -79,6 +80,39 @@ onMounted(async () => {
       error.value = data.error
     }
   })
+  /** 移动端 */
+  if (isMobile.value && state.playerState?.playerInfo.name) {
+    const elem = document.documentElement
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen()
+    }
+    const y = ref(0)
+    interact(document.body)
+    .draggable({
+      modifiers: [
+        interact.modifiers.snapSize({
+          targets: [
+            interact.snappers.grid({ width: 98, height: 98 })
+          ],
+          range: Infinity,
+        })
+      ],
+    })
+    .on('dragmove', e => {
+      const target = y.value + e.dy
+      if (target <= 0 && target >= -(mobileCardPage.value.clientHeight - 98)) {
+        y.value += e.dy
+        mobileCardPage.value.style.transform = `translateY(${y.value}px)`
+      }
+    })
+  }
+})
+
+onUnmounted(() => {
+  /** 移动端 */
+  if (isMobile.value) {
+    interact(document.body).unset()
+  }
 })
 
 watch(() => state.playerState?.isGameOver, async (isGameOver) => {
@@ -131,6 +165,46 @@ watch(() => {
     })
   })
 })
+/** 移动端 */
+const isMobile = inject('isMobile') as Ref<boolean>
+const mobileCardPage = ref()
+const mobileMenu = [
+  { title: '状态', key: 'status' },
+  { title: '地点', key: 'area' },
+  { title: '包裹', key: 'package' },
+  { title: '装备', key: 'equipment' },
+  { title: '进行状况', key: 'news' },
+  { title: '聊天讯息', key: 'chat' },
+]
+const nowMobileMenu = ref('status')
+const mobileHide = ref(false)
+watch(() => state.page, (page) => {
+  if (isMobile.value && page === 'game') {
+    const elem = document.documentElement
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen()
+    }
+    const y = ref(0)
+    interact(document.body)
+    .draggable({
+      modifiers: [
+        interact.modifiers.snapSize({
+          targets: [
+            interact.snappers.grid({ width: 98, height: 98 })
+          ],
+          range: Infinity,
+        })
+      ],
+    })
+    .on('dragmove', e => {
+      const target = y.value + e.dy
+      if (target <= 0 && target >= -(mobileCardPage.value.clientHeight - 98)) {
+        y.value += e.dy
+        mobileCardPage.value.style.transform = `translateY(${y.value}px)`
+      }
+    })
+  }
+})
 </script>
 
 <template>
@@ -150,7 +224,7 @@ watch(() => {
     <Transition>
     <div v-if="state.playerState?.playerInfo.name">
       <!-- 游戏卡片 -->
-      <div class="w-screen mx-auto pt-8" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
+      <div v-if="!isMobile" class="w-screen mx-auto pt-8" :style="{'margin-bottom': (state.drawerHeight || 100) + 20 + 'px'}">
         <div class="flex justify-center mx-5 space-x-2">
           <!-- 左 -->
           <div class="max-w-128 min-w-0 flex-1">
@@ -314,16 +388,129 @@ watch(() => {
           </div>
         </div>
       </div>
+      <!-- 移动端页面 -->
+      <div v-else class="pt-12 flex flex-col">
+        <ul
+          class="
+            no-scroll-bar flex whitespace-nowrap overflow-x-auto px-3 py-2 space-x-4 z-2
+            bg-surfaceContainerHighest text-onSurface
+          "
+        >
+          <li
+            v-for="item in mobileMenu"
+            @click="nowMobileMenu = item.key"
+            :class="nowMobileMenu === item.key && 'font-bold text-primary'"
+          >{{ item.title }}</li>
+        </ul>
+        <div v-if="!['news', 'chat'].includes(nowMobileMenu)" ref="mobileCardPage" class="flex flex-wrap m-1">
+          <template v-if="nowMobileMenu === 'status'">
+            <!-- 头像 -->
+            <Card :title="state.playerState?.playerInfo.nick" :length="2">
+              <Player/>
+            </Card>
+            <!-- 等级 -->
+            <Card class="overflow-hidden" title="等级">
+              <Level/>
+            </Card>
+            <!-- 怒气 -->
+            <Card title="怒气">
+              <Rage/>
+            </Card>
+            <!-- 体征 -->
+            <Card class="overflow-hidden" :length="2" title="体征">
+              <Health/>
+            </Card>
+            <!-- 攻击力 -->
+            <Card title="攻击力">
+              <Attack/>
+            </Card>
+            <!-- 防御力 -->
+            <Card title="防御力">
+              <Defense/>
+            </Card>
+            <!-- 基础姿态 -->
+            <Card title="基础姿态">
+              <Pose/>
+            </Card>
+            <!-- 应战策略 -->
+            <Card title="应战策略">
+              <Tactic/>
+            </Card>
+            <!-- 内定称号 -->
+            <Card title="内定称号">
+              <Gift/>
+            </Card>
+            <!-- 战术界面 -->
+            <Card title="战术界面">
+              <Horizon/>
+            </Card>
+            <!-- 熟练度 -->
+            <Card title="熟练度" :length="2" class="overflow-hidden">
+              <Proficiency type="melee"/>
+            </Card>
+            <!-- 队伍 -->
+            <Card title="队伍">
+              <Team/>
+            </Card>
+            <!-- 歌魂 -->
+            <Card title="歌魂">
+              <SongSoul/>
+            </Card>
+          </template>
+          <template v-else-if="nowMobileMenu === 'area'">
+            <!-- 当前地点 -->
+            <Card title="当前地点" :length="2">
+              <NowArea/>
+            </Card>
+            <!-- 通行状态 -->
+            <Card title="通行状态" :length="2">
+              <Passage/>
+            </Card>
+            <!-- 剩余人数 -->
+            <Card title="剩余人数" :length="2">
+              <Remain/>
+            </Card>
+            <!-- 天气 -->
+            <Card title="天气" :length="2">
+              <Weather/>
+            </Card>
+          </template>
+          <template v-else-if="nowMobileMenu === 'package'">
+            <!-- 包裹 -->
+            <Package/>
+          </template>
+          <template v-else-if="nowMobileMenu === 'equipment'">
+            <!-- 装备 -->
+            <Equipment/>
+          </template>
+        </div>
+        <div v-if="['news', 'chat'].includes(nowMobileMenu)" class="m-1">
+          <News v-if="nowMobileMenu === 'news'" />
+          <Chat v-if="nowMobileMenu === 'chat'" />
+        </div>
+      </div>
       <!-- 侧边栏 -->
       <!-- <Sidebar/> -->
       <!-- 游戏行动 -->
-      <Drawer/>
-      <Action/>
+      <div
+        class="fixed flex flex-col w-screen bottom-0 z-1 transition-opacity"
+        :class="state.hideDrawer && 'opacity-20', mobileHide && 'translate-y-full'"
+      >
+        <div
+          v-if="isMobile"
+          @click="mobileHide = !mobileHide"
+          class="absolute w-full bg-surface pointer-events-auto h-6 p-1 flex -top-6 border-t-2 border-outlineVariant"
+        >
+          <div class="w-20 bg-onSurface/40 rounded-xl m-auto h-0.5"></div>
+        </div>
+        <Drawer/>
+        <Action/>
+      </div>
       <Death/>
       <Dialog/>
     </div>
     </Transition>
-    <div v-if="!state.playerState?.playerInfo.name" class="min-h-screen flex pt-10 pb-4 relative">
+    <div v-if="!state.playerState?.playerInfo.name" class="min-h-screen flex pt-10 pb-4 relative <md:(pt-16 max-h-screen overflow-y-auto)">
       <!-- 入场手续 -->
       <Transition>
         <Valid :state="validState" v-if="state.page == 'valid'"/>

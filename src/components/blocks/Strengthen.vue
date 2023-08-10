@@ -90,7 +90,7 @@ const strengthen = async () => {
         v-for="item in state?.items"
         @click="selectItem(item)"
         :class="strengthenState.selectItemKey === item.key && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
         <span v-html="item.item.name"></span>
       </p>

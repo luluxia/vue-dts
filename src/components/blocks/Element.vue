@@ -146,14 +146,14 @@ const quickAdd = (e: any) => {
       <p
         @click="unPush(element.index)"
         v-for="element in state.pushedList"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer"
       >
         {{ element.num }} 份<span v-html="element.title"></span>
       </p>
     </div>
   </template>
   <p class="mb-1">口袋</p>
-  <div class="flex flex-wrap w-234">
+  <div class="flex flex-wrap w-234 <md:(w-full h-max)">
     <card v-for="(element, index) in elements" :length="4" :width="18.5" :title="`${element.title}<span class='pl-2'>${element.num} 份</span>`">
       <div class="flex flex-col justify-between p-2 w-full">
         <div class="text-sm">
@@ -175,7 +175,7 @@ const quickAdd = (e: any) => {
     </card>
   </div>
   <p class="my-1">调整</p>
-  <div class="flex mb-1">
+  <div class="flex mb-1 <md:(w-full flex-col flex-warp)">
     <Card :length="4" title="【数术】" :width="18.5" class="h-32">
       <div class="p-2 text-sm flex flex-col justify-between">
         <div>

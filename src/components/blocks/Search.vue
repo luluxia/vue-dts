@@ -86,21 +86,21 @@ const search = async () => {
     <p
       @click="changeType('player')"
       :class="searchState.type === 'player' && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span>查找角色/NPC位置</span>
     </p>
     <p
       @click="changeType('item')"
       :class="searchState.type === 'item' && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span>查找物品数量及位置</span>
     </p>
     <p
       @click="changeType('trap')"
       :class="searchState.type === 'trap' && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span>查找陷阱数量及位置</span>
     </p>

@@ -127,14 +127,14 @@ const back = () => {
       <p
         @click="changeType('create')"
         :class="teamState.type === 'create' && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
         <span tooltip="消耗200点体力，组建一只队伍">组建队伍</span>
       </p>
       <p
         @click="changeType('join')"
         :class="teamState.type === 'join' && 'ring-2 ring-outline'"
-        class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+        class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
       >
         <span tooltip="消耗100点体力，加入一只队伍">加入队伍</span>
       </p>

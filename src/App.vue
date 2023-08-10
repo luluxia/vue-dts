@@ -65,4 +65,7 @@ input::placeholder {
   top: 0;
   width: 100%;
 }
+.no-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
 </style>

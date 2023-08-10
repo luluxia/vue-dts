@@ -124,11 +124,11 @@ const loadItem = async () => {
       v-for="item in state?.bag"
       @click="bagItemClick(item)"
       :class="depotState.selectBagItem === item.key && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span v-html="item.item?.name"></span>
     </p>
-    <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 opacity-50" v-if="!state?.bag.length">
+    <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 opacity-50" v-if="!state?.bag.length">
       包裹中没有道具
     </p>
   </div>
@@ -143,11 +143,11 @@ const loadItem = async () => {
       v-for="(item, key) in state?.depot"
       @click="depotItemClick(item, key)"
       :class="depotState.selectDepotItem === item.iid && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span v-html="item.itm"></span>
     </p>
-    <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 opacity-50" v-if="!state?.depot.length">
+    <p class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 opacity-50" v-if="!state?.depot.length">
       安全箱中没有道具
     </p>
   </div>

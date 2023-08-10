@@ -51,7 +51,7 @@ const nowStoryType = computed(() => {
     <p class="text-4xl font-bold text-primary tracking-widest">- 游戏结束 -</p>
     <div class="m-auto w-full border-outlineVariant bg-surface border-t-2 border-b-2 my-4 flex flex-col items-center">
       <p class="text-xl border-t-2 bg-primary text-onPrimary pl-3.5 pr-3 py-1 -mt-0.5 tracking-widest">{{ props.state?.title }}</p>
-      <div class="text-onSurface flex flex-1 my-4">
+      <div class="text-onSurface flex flex-1 m-4">
         <!-- 死亡 -->
         <div v-if="props.state?.deadInfo" class="m-auto">
           <img :src="`/old/img/${props.state?.deadInfo.avatar}`" alt="">

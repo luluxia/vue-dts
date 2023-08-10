@@ -255,18 +255,18 @@ const nowMobileMenu = ref('status')
       </div>
       <!-- 移动端页面 -->
       <div v-else-if="homeState.num && isMobile" class="w-full">
-        <ul class="flex bg-surfaceContainerHighest text-onSurface p-2 space-x-4">
+        <ul class="flex bg-surfaceContainerHighest text-onSurface px-4 py-2 space-x-4">
           <li
             v-for="item in mobileMenu"
             @click="nowMobileMenu = item.key"
             :class="nowMobileMenu === item.key && 'font-bold text-primary'"
           >{{ item.title }}</li>
         </ul>
-        <div class="flex flex-wrap p-1">
+        <div class="flex flex-wrap p-2">
           <!-- 移动端游戏情报 -->
           <template v-if="nowMobileMenu === 'status'">
             <!-- 当前回合 -->
-            <Card title="当前回合" :length="4" :width="18.5">
+            <Card title="当前回合" :length="4" class="h-30">
               <div class="m-auto text-center">
                 <p>
                   第 <span class="font-bold">{{ homeState.num }}</span> 回游戏 <span v-html="homeState.state"></span>
@@ -279,7 +279,7 @@ const nowMobileMenu = ref('status')
               </div>
             </Card>
             <!-- 禁区动态 -->
-            <Card title="禁区动态" :length="4" :width="18.5">
+            <Card title="禁区动态" :length="4" class="h-30">
               <div class="m-auto">
                 <p>
                   禁区间隔时间
@@ -304,7 +304,7 @@ const nowMobileMenu = ref('status')
               </div>
             </Card>
             <!-- 上局结果 -->
-            <Card title="上局结果" :length="2" :width="18.5">
+            <Card title="上局结果" :length="2" class="h-30">
               <div class="m-auto text-center">
                 <p>{{ homeState.lastResult }}</p>
                 <div v-if="homeState.lastWinner">
@@ -314,14 +314,14 @@ const nowMobileMenu = ref('status')
               </div>
             </Card>
             <!-- 当前/上局最高伤害 -->
-            <Card :title="`${homeState.showNowTime ? '当前' : '上局'}最高伤害`" :length="2" :width="18.5">
+            <Card :title="`${homeState.showNowTime ? '当前' : '上局'}最高伤害`" :length="2" class="h-30">
               <div class="m-auto text-center">
                 <p>{{ homeState.maxDamagePlayer || '无' }}</p>
                 <p v-if="homeState.maxDamage != 0" class="text-sm">{{ homeState.maxDamage }}</p>
               </div>
             </Card>
             <!-- 当前人数 -->
-            <Card title="当前人数" :length="2" :width="18.5">
+            <Card title="当前人数" :length="2" class="h-30">
               <div class="m-auto">
                 <p>激活人数 <span class="font-bold">{{ homeState.validNum }}</span></p>
                 <p>生存人数 <span class="font-bold">{{ homeState.aliveNum }}</span></p>
@@ -329,7 +329,7 @@ const nowMobileMenu = ref('status')
               </div>
             </Card>
             <!-- 进入游戏 -->
-            <Card :length="2" :width="18.5">
+            <Card :length="2" class="h-30">
               <router-link to="/game" class="w-full h-full bg-primary p-0.5 rounded-sm pattern-diagonal-lines-sm text-onPrimary/5 hover:bg-primary/90">
                 <div class="w-full h-full border-2 border-outlineVariant flex rounded-sm">
                   <p class="m-auto font-bold text-xl tracking-widest text-onPrimary">进入游戏</p>
@@ -338,7 +338,7 @@ const nowMobileMenu = ref('status')
             </Card>
           </template>
           <!-- 移动端房间 -->
-          <template v-else-if="nowMobileMenu === 'room'">
+          <div v-else-if="nowMobileMenu === 'room'" class="p-0.25 w-full">
             <!-- 创建房间 -->
             <div
               @click="roomAction('create')"
@@ -387,7 +387,7 @@ const nowMobileMenu = ref('status')
                 </p>
               </div>
             </div>
-          </template>
+          </div>
           <!-- 移动端新闻 -->
           <template v-else-if="nowMobileMenu === 'news'">
             <div class="text-onSurface p-2">
@@ -413,9 +413,6 @@ const nowMobileMenu = ref('status')
               <div v-html="homeState.news"></div>
             </div>
           </template>
-        </div>
-        <div class="absolute w-full bottom-0 bg-tertiary p-2 text-center">
-          <p>移动端页面正在锐意开发中，并非可玩状态，当前请使用PC设备游玩！</p>
         </div>
       </div>
     </Transition>

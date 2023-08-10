@@ -155,7 +155,7 @@ const back = async () => {
       v-for="(item, key) in state?.bag"
       @click="chooseItem(item?.name || '', key)"
       :class="chooseItemKey == key && 'ring-2 ring-outline'"
-      class="bg-surfaceContainer px-2.5 py-1 rounded-sm mx-1 cursor-pointer transition"
+      class="bg-surfaceContainer px-2.5 py-1 rounded-sm m-1 cursor-pointer transition"
     >
       <span v-html="item?.name"></span>
     </p>

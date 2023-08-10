@@ -71,7 +71,9 @@ document.addEventListener('keydown', (e) => {
     search()
   }
 })
+const isMobile = inject('isMobile')
 </script>
+
 <template>
   <!-- <div class="hide fixed w-screen h-20 bottom-0 z-2 pointer-events-none">
     <div
@@ -84,10 +86,9 @@ document.addEventListener('keydown', (e) => {
   </div> -->
   <div
     class="
-      drawer fixed w-screen bottom-18 flex pointer-events-none z-1 transition
-      <sm:left-0 <sm:pb-12
+      drawer w-screen mb-2 flex flex-col pointer-events-none z-1
+      <md:(m-0)
     "
-    :class="state.hideDrawer && 'opacity-0'"
     ref="drawerDom"
   >
     <div
@@ -95,9 +96,17 @@ document.addEventListener('keydown', (e) => {
         relative m-auto flex flex-col items-center p-2 rounded text-sm
         max-h-[calc(100vh-9rem)] overflow-y-auto overscroll-contain pointer-events-auto
         border-2 border-outlineVariant bg-surface/95 text-onSurface
-        <sm:pr-0
+        <md:(px-2 pt-0 m-0 rounded-none w-screen border-none max-h-[calc(100vh-12rem)])
       "
     >
+      <div
+        v-if="!isMobile"
+        @mouseenter="state.hideDrawer = true"
+        @mouseleave="state.hideDrawer = false"
+        class="w-20 mx-auto mb-1 p-1 flex"
+      >
+        <div class="w-full bg-onSurface/40 rounded-xl m-auto h-0.5"></div>
+      </div>
       <!-- 发现物品 -->
       <FindItem v-if="state.drawerType == 'find-item'" />
       <!-- 敌人相关 -->
@@ -146,8 +155,8 @@ document.addEventListener('keydown', (e) => {
       <Trait v-else-if="state.drawerType == 'trait'"/>
       <!-- 默认 -->
       <template v-else>
-        <div>
-          <p class="w-max mx-auto" v-html="state.actionLog"></p>
+        <div class="<md:w-full">
+          <p class="w-max mx-auto max-w-full" v-html="state.actionLog"></p>
           <p class="text-center mb-1">现在想要做什么？</p>
           <Semo/>
           <p
@@ -157,7 +166,7 @@ document.addEventListener('keydown', (e) => {
               bg-primary text-onPrimary ring-primary/40
               transition hover:ring-2
             "
-          >[Z] 探索</p>
+          ><span class="<md:hidden">[Z] </span>探索</p>
         </div>
       </template>
     </div>

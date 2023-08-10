@@ -89,10 +89,16 @@ const close = async () => {
   <Transition>
     <div
       v-if="showDialog"
-      class="fixed w-screen h-screen top-0 bg-black/40 shadow flex z-1"
+      class="fixed w-screen h-screen top-0 bg-black/40 shadow flex z-2"
       @click="close()"
     >
-      <div @click.stop="" class="m-auto min-w-120 text-onSurface bg-surfaceContainer border-2 border-outline p-4 rounded flex flex-col justify-between relative">
+      <div
+        @click.stop=""
+        class="
+          m-auto min-w-120 text-onSurface bg-surfaceContainer border-2 border-outline p-4 rounded flex flex-col justify-between relative
+          <md:(min-w-[calc(100vw-4rem)] mx-2)
+        "
+      >
         <!-- 普通剧情 -->
         <template v-if="Object.keys(story).includes(dialogID)">
           <div>

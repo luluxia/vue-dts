@@ -46,10 +46,10 @@ const heal = async (i: string) => {
 </script>
 
 <template>
-  <div class="flex space-x-1 pb-1 justify-center">
+  <div class="flex flex-wrap justify-center">
     <div
       @click="memory(key)"
-      class="p-1 transition cursor-pointer bg-surfaceContainer ring-outlineVariant rounded hover:(ring-2)"
+      class="p-1 m-0.5 transition cursor-pointer bg-surfaceContainer ring-outlineVariant rounded hover:(ring-2)"
       v-for="(item, key) of state?.semo"
     >
       <span v-if="item[1] === 'itm'">获取 <span class="text-yellow-600 font-bold">{{ item[2] }}</span></span>
@@ -58,7 +58,7 @@ const heal = async (i: string) => {
     </div>
     <div
       @click="heal(item)"
-      class="p-1 transition cursor-pointer bg-surfaceContainer ring-outlineVariant rounded hover:(ring-2)"
+      class="p-1 m-0.5 transition cursor-pointer bg-surfaceContainer ring-outlineVariant rounded hover:(ring-2)"
       v-for="item in state?.debuff"
     >
       <span>治疗 <span class="text-red-600 font-bold">{{ infInfo[item] }}</span></span>
