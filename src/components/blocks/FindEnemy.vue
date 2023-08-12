@@ -369,7 +369,7 @@ const isMobile = inject('isMobile')
       </div>
     </div>
     <!-- 掉落物品信息 -->
-    <div v-if="state?.battleState === '发现尸体'" class="ml-1">
+    <div v-if="state?.battleState === '发现尸体'" class="ml-1 <md:(ml-0 mt-1)">
       <p class="mb-1 <md:text-center">想要从尸体上拾取什么？</p>
       <div class="rounded overflow-hidden">
         <p

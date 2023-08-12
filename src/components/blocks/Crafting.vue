@@ -120,7 +120,7 @@ const itemIndex = ref('');
       <div
         class="
           crafting craft-dialog bg-surfaceContainerHigh text-onSurface border-2 border-outline h-max max-w-300 m-auto p-4 rounded overflow-y-auto
-          <md:(h-[calc(100vh-8rem)])
+          <md:(max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain)
         "
         v-html="state?.craftDialog"
       >

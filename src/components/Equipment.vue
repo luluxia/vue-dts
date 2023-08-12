@@ -97,6 +97,7 @@ onUnmounted(() => {
           class="
             text-xs px-2 py-1 rounded-sm transition
             bg-primary text-onPrimary
+            <md:opacity-0 group-hover:(<md:opacity-100)
             hover:(bg-primary/60 <md:bg-primary)
           "
         >切换武器</p>
@@ -105,6 +106,7 @@ onUnmounted(() => {
           class="
             text-xs px-2 py-1 rounded-sm transition
             bg-primary text-onPrimary
+            <md:opacity-0 group-hover:(<md:opacity-100)
             hover:(bg-primary/60 <md:bg-primary)
           "
         >武器模式</p>
@@ -114,6 +116,7 @@ onUnmounted(() => {
         class="
           text-xs px-2 py-1 rounded-sm transition
           bg-secondary text-onSecondary
+          <md:hidden
         "
       >装备中</p>
     </div>

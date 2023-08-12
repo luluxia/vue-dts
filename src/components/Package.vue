@@ -159,7 +159,7 @@ onUnmounted(() => {
           class="
             text-xs px-2 py-1 rounded-sm flex-1 transition
             bg-secondary text-onSecondary
-            hover:(bg-primary/60 <md:bg-primary)
+            hover:(bg-secondary/60 <md:bg-secondary)
           "
         >提炼</p>
         <p
@@ -168,7 +168,7 @@ onUnmounted(() => {
           class="
             text-xs px-2 py-1 rounded-sm flex-1 transition
             bg-secondary text-onSecondary
-            hover:(bg-primary/60 <md:bg-primary)
+            hover:(bg-secondary/60 <md:bg-secondary)
           "
         >提取</p>
         <p
@@ -177,7 +177,7 @@ onUnmounted(() => {
           class="
             text-xs px-2 py-1 rounded-sm flex-1 transition
             bg-secondary text-onSecondary
-            hover:(bg-primary/60 <md:bg-primary)
+            hover:(bg-secondary/60 <md:bg-secondary)
           "
         >插入</p>
         <p
@@ -185,7 +185,7 @@ onUnmounted(() => {
           class="
             text-xs px-2 py-1 rounded-sm flex-1 transition
             bg-tertiary text-onTertiary
-            hover:(bg-primary/60 <md:bg-primary)
+            hover:(bg-tertiary/60 <md:bg-tertiary)
           "
         >丢弃</p>
       </div>

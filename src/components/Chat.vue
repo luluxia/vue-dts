@@ -91,6 +91,7 @@ onMounted(() => {
     interactive: true,
     allowHTML: true,
     arrow: false,
+    appendTo: () => document.body,
   })
 })
 onUnmounted(() => {
@@ -111,8 +112,8 @@ onUnmounted(() => {
         </div>
         <!-- 目标选项 -->
         <div ref="targetListRef" class="">
-          <p @click="messageState.sendData.chattype = '0'; messageState.showType = false" class="px-2.5 py-1 transition cursor-pointer hover:(bg-primary text-onPrimary)">全员</p>
-          <p @click="messageState.sendData.chattype = '1'; messageState.showType = false" v-if="gameState.playerState?.team != ''" class="px-2.5 py-1 transition cursor-pointer hover:(bg-primary text-onPrimary)">队伍</p>
+          <p @click="messageState.sendData.chattype = '0'; messageState.showType = false; hideAll()" class="px-2.5 py-1 transition cursor-pointer hover:(bg-primary text-onPrimary)">全员</p>
+          <p @click="messageState.sendData.chattype = '1'; messageState.showType = false; hideAll()" v-if="gameState.playerState?.team != ''" class="px-2.5 py-1 transition cursor-pointer hover:(bg-primary text-onPrimary)">队伍</p>
         </div>
         <!-- 表情与发送 -->
         <div class="flex space-x-1.5 items-center">
@@ -121,7 +122,7 @@ onUnmounted(() => {
           <p @click="sendMessage()" class="px-3 py-0.5 bg-primary text-onPrimary rounded-sm cursor-pointer transition hover:bg-primary/80">发送</p>
         </div>
         <!-- 表情列表 -->
-        <div ref="emojiListRef" class="flex justify-start items-start flex-wrap w-171 p-1">
+        <div ref="emojiListRef" class="flex justify-start items-start flex-wrap w-171 p-1 <md:(w-[calc(100vw-1rem)] justify-center h-100 overflow-y-auto)">
           <img
             v-for="id in emojis"
             class="h-20 m-0.5 cursor-pointer transition ring-outlineVariant rounded hover:ring-2"

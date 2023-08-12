@@ -112,6 +112,7 @@ const showMobileMenu = ref(false)
   >
     <div class="mx-5 h-8 flex items-center justify-between <md:(mx-0 h-12)">
       <div class="flex flex-1">
+        <!-- PC端顶栏 -->
         <div v-if="!isMobile">
           <router-link to="/" class="mr-5">
             <!-- <img class="h-6 mr-5" src="/img/logo.png" alt=""> -->
@@ -119,6 +120,7 @@ const showMobileMenu = ref(false)
           </router-link>
           <router-link to="/game">游戏</router-link>
         </div>
+        <!-- 移动端顶栏 -->
         <div v-else class="flex w-screen h-full items-center justify-between">
           <div class="flex-1 text-center">
             <router-link to="/">
@@ -148,7 +150,7 @@ const showMobileMenu = ref(false)
           <div ref="loginDom" class="p-4 w-80 bg-surfaceContainerHigh text-onSurface <md:w-[calc(100vw-2rem)]">
             <p class="mb-2 text-base">登录以继续</p>
             <input v-model="state.username" placeholder="用户名" class="p-2 text-onSurfaceVariant bg-surfaceContainerHighest rounded text-sm w-full my-1" type="text" required>
-            <input v-model="state.password" placeholder="密码" class="p-2 text-onSurfaceVariant bg-surfaceContainerHighest rounded text-sm w-full my-1" type="password" required>
+            <input @keypress.enter="login()" v-model="state.password" placeholder="密码" class="p-2 text-onSurfaceVariant bg-surfaceContainerHighest rounded text-sm w-full my-1" type="password" required>
             <p v-if="state.error" class="text-sm mt-1 text-error">{{ state.error }}</p>
             <div class="flex items-center justify-between mt-2">
               <router-link to="/register" @click="hideAll" class="text-sm text-onSurfaceVariant opacity-80">还没有账号？前往注册！</router-link>
@@ -160,8 +162,9 @@ const showMobileMenu = ref(false)
             </div>
           </div>
         </div>
+        <!-- 移动端菜单页 -->
         <div class="hidden <sm:block">
-          <router-link to="/game">游戏</router-link>
+          <router-link to="/game" class="block">游戏</router-link>
         </div>
         <div>
           <p ref="settingBtn" class="cursor-pointer text-onSurfaceVariant">设置</p>

@@ -257,7 +257,7 @@ document.addEventListener('keydown', (e) => {
         tag="div"
         class="
           relative flex flex-wrap justify-center rounded mx-2 px-2 border-2 border-primary/20 bg-primaryContainer/95 text-onPrimaryContainer
-          <md:(px-0 m-0 border-b-0 border-l-0 border-r-0 rounded-none w-screen)
+          <md:(px-0 m-0 border-b-0 border-l-0 border-r-0 rounded-none w-screen py-1)
         "
       >
         <!-- 背包 -->
@@ -272,7 +272,7 @@ document.addEventListener('keydown', (e) => {
           <!-- 禁用项 -->
           <div v-if="item.active === false" class="relative flex justify-center cursor-default">
             <!-- 悬浮 -->
-            <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
+            <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100) <md:hidden">
               <div class="bg-surfaceContainerHigh text-onSurface border-2 border-outline rounded w-max p-2 text-sm">
                 <template v-if="item.id === 'song'">
                   {{ `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` }}
@@ -294,12 +294,12 @@ document.addEventListener('keydown', (e) => {
           <!-- 非禁用项 -->
           <div
             v-else
-            class="relative flex justify-center cursor-pointer top-0 select-none transform transition-all group-hover:(-top-1)"
+            class="relative flex justify-center cursor-pointer top-0 select-none transform transition-all group-hover:(-top-1 <md:top-0)"
             :class="state.loading && 'opacity-50 pointer-events-none'"
             @click="() => {item.action()}"
           >
             <!-- 悬浮 -->
-            <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100)">
+            <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100) <md:hidden">
               <div class="bg-surfaceContainerHigh text-onSurface border-2 border-outline rounded w-max p-2 text-sm">
                 <template v-if="item.id === 'song'">
                   {{ `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` }}

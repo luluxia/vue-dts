@@ -68,4 +68,8 @@ input::placeholder {
 .no-scroll-bar::-webkit-scrollbar {
   display: none;
 }
+/* 去除移动端点击高亮 */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
 </style>

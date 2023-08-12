@@ -84,6 +84,21 @@ const close = async () => {
     gameState.actionLog = data.actionLog
   })
 }
+const dialogRef = ref()
+const prevPage = () => {
+  nowPage.value--
+  if (dialogRef.value) {
+    const dialog = dialogRef.value as HTMLElement
+    dialog.scrollTop = 0
+  }
+}
+const nextPage = () => {
+  nowPage.value++
+  if (dialogRef.value) {
+    const dialog = dialogRef.value as HTMLElement
+    dialog.scrollTop = 0
+  }
+}
 </script>
 <template>
   <Transition>
@@ -93,10 +108,11 @@ const close = async () => {
       @click="close()"
     >
       <div
+        ref="dialogRef"
         @click.stop=""
         class="
           m-auto min-w-120 text-onSurface bg-surfaceContainer border-2 border-outline p-4 rounded flex flex-col justify-between relative
-          <md:(min-w-[calc(100vw-4rem)] mx-2)
+          <md:(min-w-[calc(100vw-4rem)] max-h-[calc(100vh-6rem)] mx-2 overflow-y-auto overscroll-contain)
         "
       >
         <!-- 普通剧情 -->
@@ -105,7 +121,7 @@ const close = async () => {
             <p v-html="story[dialogID].content[nowPage]"></p>
           </div>
           <div class="flex justify-end space-x-4 mt-4">
-            <div v-if="nowPage" @click="nowPage--" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+            <div v-if="nowPage" @click="prevPage()" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
               <p
                 class="
                   text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
@@ -113,7 +129,7 @@ const close = async () => {
                 "
               >上一页</p>
             </div>
-            <div v-if="nowPage != story[dialogID].content.length - 1" @click="nowPage++" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+            <div v-if="nowPage != story[dialogID].content.length - 1" @click="nextPage()" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
               <p
                 class="
                   text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
@@ -267,7 +283,7 @@ const close = async () => {
             </p>
           </div>
           <div class="flex justify-end space-x-4 mt-4">
-            <div v-if="nowPage" @click="nowPage--" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+            <div v-if="nowPage" @click="prevPage()" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
               <p
                 class="
                   text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors
@@ -275,7 +291,7 @@ const close = async () => {
                 "
               >上一页</p>
             </div>
-            <div v-if="nowPage != 7" @click="nowPage++" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
+            <div v-if="nowPage != 7" @click="nextPage()" class="ring-1.5 ring-primary p-0.5 cursor-pointer">
               <p
                 class="
                   text-sm bg-primary pl-2.5 pr-2 py-1 text-onPrimary font-bold tracking-widest transition-colors

@@ -139,32 +139,6 @@ watch(() => state.playerState, (playerState) => {
   }
 })
 
-// 刷新tooltip
-watch(() => {
-  return {
-    playerState: state.playerState,
-    drawerType: state.drawerType,
-  }
- }, () => {
-  nextTick(() => {
-    const tooltips = document.querySelectorAll('span[tooltip], span[tooltip2]')
-    tooltips.forEach((el: any) => {
-      if (el._tippy) {
-        el._tippy.setContent(el.getAttribute('tooltip') || el.getAttribute('tooltip2') || '')
-      } else {
-        tippy(el, {
-          arrow: false,
-          content: (el) => {
-            const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || ''
-            return content as string
-          },
-          theme: 'tooltip',
-          appendTo: () => document.body,
-        })
-      }
-    })
-  })
-})
 /** 移动端 */
 const isMobile = inject('isMobile') as Ref<boolean>
 const mobileCardPage = ref()
@@ -204,6 +178,34 @@ watch(() => state.page, (page) => {
       }
     })
   }
+})
+
+// 刷新tooltip
+watch(() => {
+  return {
+    playerState: state.playerState,
+    drawerType: state.drawerType,
+    nowMobileMenu: nowMobileMenu.value,
+  }
+ }, () => {
+  nextTick(() => {
+    const tooltips = document.querySelectorAll('span[tooltip], span[tooltip2]')
+    tooltips.forEach((el: any) => {
+      if (el._tippy) {
+        el._tippy.setContent(el.getAttribute('tooltip') || el.getAttribute('tooltip2') || '')
+      } else {
+        tippy(el, {
+          arrow: false,
+          content: (el) => {
+            const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || ''
+            return content as string
+          },
+          theme: 'tooltip',
+          appendTo: () => document.body,
+        })
+      }
+    })
+  })
 })
 </script>
 
@@ -499,7 +501,7 @@ watch(() => state.page, (page) => {
         <div
           v-if="isMobile"
           @click="mobileHide = !mobileHide"
-          class="absolute w-full bg-surface pointer-events-auto h-6 p-1 flex -top-6 border-t-2 border-outlineVariant"
+          class="absolute w-full bg-surface/95 pointer-events-auto h-6 p-1 flex -top-6 border-t-2 border-outlineVariant"
         >
           <div class="w-20 bg-onSurface/40 rounded-xl m-auto h-0.5"></div>
         </div>
