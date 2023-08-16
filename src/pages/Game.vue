@@ -192,16 +192,17 @@ watch(() => {
     const tooltips = document.querySelectorAll('span[tooltip], span[tooltip2]')
     tooltips.forEach((el: any) => {
       if (el._tippy) {
-        el._tippy.setContent(el.getAttribute('tooltip') || el.getAttribute('tooltip2') || '')
+        el._tippy.setContent(el.getAttribute('tooltip') || el.getAttribute('tooltip2') || '暂无描述')
       } else {
         tippy(el, {
           arrow: false,
           content: (el) => {
-            const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || ''
+            const content = el.getAttribute('tooltip') || el.getAttribute('tooltip2') || '暂无描述'
             return content as string
           },
           theme: 'tooltip',
           appendTo: () => document.body,
+          touch: ['hold', 200],
         })
       }
     })
@@ -496,7 +497,7 @@ watch(() => {
       <!-- 游戏行动 -->
       <div
         class="fixed flex flex-col w-screen bottom-0 z-1 transition-opacity"
-        :class="state.hideDrawer && 'opacity-20', mobileHide && 'translate-y-full'"
+        :class="state.hideDrawer && 'opacity-10', mobileHide && 'translate-y-full'"
       >
         <div
           v-if="isMobile"

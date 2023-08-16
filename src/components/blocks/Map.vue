@@ -12,6 +12,7 @@ const state = computed(() => {
       return {
         nowAreaList: [],
         nextAreaList: [],
+        nowArea: mapData.find((item, index) => index == areaInfo.nowArea) || { x: 0, y: 0 },
       }
     } else {
       const areaNum = areaInfo.areaNum
@@ -19,7 +20,7 @@ const state = computed(() => {
       const nowAreaList = areaInfo.areaList.slice().splice(0, +areaNum + 1).map(item => Number(item))
       const nextAreaList = areaInfo.areaList.slice().splice(0, +areaNum + areaAdd + 1).map(item => Number(item))
       return {
-        nowAreaList, nextAreaList
+        nowAreaList, nextAreaList, nowArea: mapData.find((item, index) => index == areaInfo.nowArea) || { x: 0, y: 0 },
       }
     }
   }
@@ -48,6 +49,9 @@ const moveTo = async (index: number) => {
     <div v-if="state" class="relative top-0 w-180 h-120 text-sm grid grid-cols-10 grid-rows-10 text-center">
       <img class="absolute w-full h-full object-cover rounded" src="/img/map_new.jpg" alt="">
       <div class="absolute w-full h-full bg-onPrimaryFixedVariant/50 rounded"></div>
+      <div class="absolute w-full border-t-1 border-dashed border-primaryContainer pointer-events-none opacity-80" :style="{ top: `${+state.nowArea.x * 3 - 1.5}rem` }"></div>
+      <div class="absolute h-full border-l-1 border-dashed border-primaryContainer pointer-events-none opacity-80" :style="{ left: `${+state.nowArea.y * 4.5 - 2.25}rem` }"></div>
+      <div class="absolute w-2 h-2 border-1 border-primaryContainer pointer-events-none opacity-80" :style="{ top: `${+state.nowArea.x * 3 - 1.75}rem`, left: `${+state.nowArea.y * 4.5 - 2.5}rem` }"></div>
       <p
         @click="moveTo(index)"
         class="relative flex justify-center items-center py-1 cursor-pointer font-bold" 

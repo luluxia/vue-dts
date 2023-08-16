@@ -113,7 +113,7 @@ const itemIndex = ref('');
   </div>
   <Teleport to="body">
     <div
-      class="fixed w-screen h-screen top-0 bg-black/40 z-2 shadow flex transition opacity-0 pointer-events-none"
+      class="fixed w-screen h-screen top-0 bg-black/40 z-2 shadow flex transition opacity-0 pointer-events-none <md:select-none"
       :class="craftingState.showDialog && '!opacity-100 !pointer-events-auto'"
       @click="craftingState.showDialog = false"
     >

@@ -35,6 +35,7 @@ onMounted(() => {
           interactive: true,
           allowHTML: true,
           arrow: false,
+          appendTo: () => document.body,
         })
       })
     }
@@ -51,6 +52,7 @@ onMounted(() => {
           interactive: true,
           allowHTML: true,
           arrow: false,
+          appendTo: () => document.body,
         })
       })
     }

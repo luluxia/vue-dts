@@ -245,6 +245,7 @@ const nowMobileMenu = ref('status')
               <a class="text-primary" target="_blank" href="https://dts.loli.camp/old/help.php"> 游戏帮助 </a>
               <a class="text-primary" target="_blank" href="https://bbs.brdts.online/"> 官方论坛 </a>
               <a class="text-primary" target="_blank" href="https://amarillonmc.github.io/Settings/"> 游戏设定 </a>
+              <a class="text-primary" target="_blank" href="https://docs.qq.com/doc/DUkZ4eGdNSGJFSEpD"> 虚拟战场简易导览 </a>
             </div>
             <div class="my-5">
               <p class="opacity-50">当前游戏版本仍在持续开发中，功能尚不完整，游戏数据将不定时更新。</p>
@@ -406,6 +407,7 @@ const nowMobileMenu = ref('status')
                 <a class="text-primary" target="_blank" href="https://dts.loli.camp/old/help.php"> 游戏帮助 </a>
                 <a class="text-primary" target="_blank" href="https://bbs.brdts.online/"> 官方论坛 </a>
                 <a class="text-primary" target="_blank" href="https://amarillonmc.github.io/Settings/"> 游戏设定 </a>
+                <a class="text-primary" target="_blank" href="https://docs.qq.com/doc/DUkZ4eGdNSGJFSEpD"> 虚拟战场简易导览 </a>
               </div>
               <div class="my-5">
                 <p class="opacity-50">当前游戏版本仍在持续开发中，功能尚不完整，游戏数据将不定时更新。</p>

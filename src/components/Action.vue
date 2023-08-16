@@ -272,7 +272,7 @@ document.addEventListener('keydown', (e) => {
           <!-- 禁用项 -->
           <div v-if="item.active === false" class="relative flex justify-center cursor-default">
             <!-- 悬浮 -->
-            <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100) <md:hidden">
+            <!-- <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100) <md:hidden">
               <div class="bg-surfaceContainerHigh text-onSurface border-2 border-outline rounded w-max p-2 text-sm">
                 <template v-if="item.id === 'song'">
                   {{ `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` }}
@@ -280,14 +280,20 @@ document.addEventListener('keydown', (e) => {
                 <div v-html="item.desc" v-else>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div
               class="opacity-50 px-3 py-2"
               :class="item.id && !state.playerState?.canAction?.[item.id as any] ? 'hidden' : ''"
             >
               <p class="m-auto">
                 <span v-if="item.shortcut" class="uppercase <md:hidden">[{{ item.shortcut }}] </span>
-                <span class="inline-flex" v-html="item.name"></span>
+                <span
+                  class="inline-flex"
+                  v-html="item.name"
+                  :tooltip="
+                    item.id === 'song' ? `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` : item.desc
+                  "
+                ></span>
               </p>
             </div>
           </div>
@@ -299,7 +305,7 @@ document.addEventListener('keydown', (e) => {
             @click="() => {item.action()}"
           >
             <!-- 悬浮 -->
-            <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100) <md:hidden">
+            <!-- <div v-if="item.desc" class="absolute bottom-12 transition-opacity opacity-0 pointer-events-none group-hover:(opacity-100) <md:hidden">
               <div class="bg-surfaceContainerHigh text-onSurface border-2 border-outline rounded w-max p-2 text-sm">
                 <template v-if="item.id === 'song'">
                   {{ `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` }}
@@ -307,14 +313,20 @@ document.addEventListener('keydown', (e) => {
                 <div v-html="item.desc" v-else>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div
               class="px-3 py-2"
               :class="item.id && !state.playerState?.canAction?.[item.id as any] ? 'hidden' : ''"
             >
               <p class="m-auto">
                 <span v-if="item.shortcut" class="uppercase <md:hidden">[{{ item.shortcut }}] </span>
-                <span class="inline-flex" v-html="item.name"></span>
+                <span
+                  class="inline-flex"
+                  v-html="item.name"
+                  :tooltip="
+                    item.id === 'song' ? `消耗${state.playerState?.equipment.accessory.quality}点歌魂歌唱，可能会暴露自己的位置` : item.desc
+                  "
+                ></span>
                 <span
                   v-if="item.name === '技能'"
                   class="text-sm"
