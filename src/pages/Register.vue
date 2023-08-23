@@ -25,7 +25,7 @@ const submit = async () => {
   sendData.append('motto', formState.motto)
   sendData.append('killmsg', formState.killMessage)
   sendData.append('lastword', formState.lastWord)
-  await axios.post('/old/register.php?is_new=1', sendData).then(res => {
+  await axios.post('register.php?is_new=1', sendData).then(res => {
     Message({ message: res.data.info || res.data.error })
   })
 }
@@ -85,13 +85,13 @@ const submit = async () => {
                   @click="formState.showAvatar = false; formState.chooseAvatar = i - 1"
                   v-for="i in 21"
                   class="h-20 rounded m-0.5 cursor-pointer transition ring-zinc-400 hover:ring-2"
-                  :src="`/old/img/${formState.gender}_${i - 1}.gif`"
+                  :src="`https://llx.life/works/dts/img/avatar/${formState.gender}_${i - 1}.gif`"
                 >
               </div>
               <img
                 @click="formState.showAvatar = true"
                 class="h-20 border-2 rounded m-auto cursor-pointer border-outlineVariant transition hover:border-outline"
-                :src="`/old/img/${formState.gender}_${formState.chooseAvatar}.gif`" alt=""
+                :src="`https://llx.life/works/dts/img/avatar/${formState.gender}_${formState.chooseAvatar}.gif`" alt=""
               >
             </div>
           </div>

@@ -40,7 +40,7 @@ const getMessage = () => {
   sendData.append('sendmode', 'ref')
   sendData.append('chattype', messageState.sendData.chattype)
   sendData.append('chatmsg', messageState.sendData.chatmsg)
-  axios.post('/old/chat.php', sendData).then(res => {
+  axios.post('chat.php', sendData).then(res => {
     if (res.data) {
       messageState.sendData.lastcid = res.data.lastcid
       const message = res.data.msg
@@ -57,7 +57,7 @@ const sendMessage = () => {
   sendData.append('sendmode', 'send')
   sendData.append('chattype', messageState.sendData.chattype)
   sendData.append('chatmsg', messageState.message)
-  axios.post('/old/chat.php', sendData).then(res => {
+  axios.post('chat.php', sendData).then(res => {
     messageState.message = ''
     if (res.data) {
       messageState.sendData.lastcid = res.data.lastcid
@@ -126,7 +126,7 @@ onUnmounted(() => {
           <img
             v-for="id in emojis"
             class="h-20 m-0.5 cursor-pointer transition ring-outlineVariant rounded hover:ring-2"
-            :src="`/old/img/emoticons/${id}.png`"
+            :src="`https://llx.life/works/dts/img/emoticons/${id}.png`"
             @click="messageState.message += `[${id}]`"
           >
         </div>

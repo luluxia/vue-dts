@@ -18,6 +18,6 @@ const state = computed(() => {
   <p class="text-sm opacity-50">{{state?.maxHp}}</p>
 </div>
 <!-- <div class="absolute w-full h-full flex p-2">
-  <img class="opacity-10 m-auto" src="/img/heart.png" alt=""/>
+  <img class="opacity-10 m-auto" src="https://llx.life/works/dts/img/heart.png" alt=""/>
 </div> -->
 </template>

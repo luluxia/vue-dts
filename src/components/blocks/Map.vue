@@ -47,7 +47,7 @@ const moveTo = async (index: number) => {
 <template>
   <div class="no-scroll-bar relative w-full overflow-x-auto overscroll-contain rounded">
     <div v-if="state" class="relative top-0 w-180 h-120 text-sm grid grid-cols-10 grid-rows-10 text-center">
-      <img class="absolute w-full h-full object-cover rounded" src="/img/map_new.jpg" alt="">
+      <img class="absolute w-full h-full object-cover rounded" src="https://llx.life/works/dts/img/map_new.jpg" alt="">
       <div class="absolute w-full h-full bg-onPrimaryFixedVariant/50 rounded"></div>
       <div class="absolute w-full border-t-1 border-dashed border-primaryContainer pointer-events-none opacity-80" :style="{ top: `${+state.nowArea.x * 3 - 1.5}rem` }"></div>
       <div class="absolute h-full border-l-1 border-dashed border-primaryContainer pointer-events-none opacity-80" :style="{ left: `${+state.nowArea.y * 4.5 - 2.25}rem` }"></div>

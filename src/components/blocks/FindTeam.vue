@@ -75,7 +75,7 @@ const back = async () => {
     <div class="flex">
       <Card :title="state.team.type" :length="2">
         <div class="flex w-full">
-          <img class="absolute w-full h-full object-cover -z-1 opacity-30" :src="`/old/img/${state.team.avatar}`">
+          <img class="absolute w-full h-full object-cover -z-1 opacity-30" :src="`https://llx.life/works/dts/img/avatar/${state.team.avatar}`">
           <div class="flex-1 flex">
             <div class="m-auto">
               <p class="font-bold">{{ state.team.name }}</p>

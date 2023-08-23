@@ -61,7 +61,7 @@ const submit = async () => {
   sendData.append('motto', formState.motto)
   sendData.append('killmsg', formState.killMessage)
   sendData.append('lastword', formState.lastWord)
-  await axios.post('/old/valid.php?is_new=1', sendData).then(res => {
+  await axios.post('valid.php?is_new=1', sendData).then(res => {
     window.clearTimeout(waitTimer)
     gameState.loading = false
     if (res.data.page == 'validOver') {
@@ -73,7 +73,7 @@ const enter = async () => {
   let waitTimer = setTimeout(() => {
     gameState.loading = true
   }, 200)
-  await axios.get('/old/game.php?is_new=1').then(res => {
+  await axios.get('game.php?is_new=1').then(res => {
     window.clearTimeout(waitTimer)
     gameState.loading = false
     const data = res.data as any
@@ -110,7 +110,7 @@ const isMobile = inject('isMobile') as Ref<boolean>
         <template v-if="!enterState?.name">
           <!-- 入场手续 -->
           <div class="flex items-center bg-surfaceContainer p-1 rounded">
-            <img class="w-26 h-26 rounded" :src="'/img/story/story_0.gif'" alt="">
+            <img class="w-26 h-26 rounded" src="https://llx.life/works/dts/img/story/story_0.gif" alt="">
             <div class="text-left pl-2 text-sm">
               <p>欢迎参加本次ACFUN动漫祭。</p>
               <p>我是本次ACFUN动漫祭的工作人员，你可以叫我「亮亮」。</p>
@@ -142,13 +142,13 @@ const isMobile = inject('isMobile') as Ref<boolean>
                     @click="formState.showAvatar = false; formState.chooseAvatar = i - 1"
                     v-for="i in 21"
                     class="h-20 rounded-sm m-0.5 cursor-pointer transition ring-outline hover:ring-2"
-                    :src="`/old/img/${formState.gender}_${i - 1}.gif`"
+                    :src="`https://llx.life/works/dts/img/avatar/${formState.gender}_${i - 1}.gif`"
                   >
                 </div>
                 <img
                   @click="formState.showAvatar = true"
                   class="h-20 border-2 rounded m-auto cursor-pointer border-outlineVariant transition hover:border-outline"
-                  :src="`/old/img/${formState.gender}_${formState.chooseAvatar}.gif`" alt=""
+                  :src="`https://llx.life/works/dts/img/avatar/${formState.gender}_${formState.chooseAvatar}.gif`" alt=""
                 >
               </div>
             </div>
@@ -229,7 +229,7 @@ const isMobile = inject('isMobile') as Ref<boolean>
         <template v-else>
           <div class="flex flex-col items-center space-y-2">
             <div class="flex items-center bg-surfaceContainerHighest/30 p-1 rounded w-max <md:w-full">
-              <img class="w-26 h-26 rounded" src="/img/story/story_0.gif" alt="">
+              <img class="w-26 h-26 rounded" src="https://llx.life/works/dts/img/story/story_0.gif" alt="">
               <div class="text-left pl-2 text-sm">
                 <p>{{ enterState.name }}，对吧？正在为您创建虚拟身份……</p>
                 <p>创建完成！您可以凭这个身份参加我们的特别活动了。</p>
@@ -241,7 +241,7 @@ const isMobile = inject('isMobile') as Ref<boolean>
               <!-- 头像 -->
               <Card :title="enterState.nick" :length="isMobile ? 2 : 4">
                 <div class="flex w-full h-full">
-                  <img class="absolute object-cover h-full rounded" :src="`/old/img/${enterState.avatar}`" alt="">
+                  <img class="absolute object-cover h-full rounded" :src="`https://llx.life/works/dts/img/avatar/${enterState.avatar}`" alt="">
                   <div class="m-auto px-1 relative w-full flex flex-col items-end">
                     <p class="truncate tracking-wide bg-primaryContainer/80 text-onPrimaryContainer w-max px-1 rounded">{{ enterState.name }}</p>
                     <p class="text-xs mt-1 px-1 opacity-80">{{ enterState.sub }}</p>

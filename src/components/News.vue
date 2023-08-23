@@ -5,7 +5,7 @@ const news = ref('')
 const getNews = () => {
   const sendData = new FormData()
   sendData.append('sendmode', 'news')
-  axios.post('/old/news.php', sendData).then(res => {
+  axios.post('news.php', sendData).then(res => {
     if (res.data) {
       news.value = res.data
     }

@@ -157,7 +157,7 @@ const nextPage = () => {
               毕竟，他们都是奔着同一个目标而来——即将开始的生存挑战——“大逃杀”。<br>
             </p>
             <p v-if="nowPage == 1">
-              <img src="/img/story/story_n1.jpg" class="m-auto"><br>
+              <img src="https://llx.life/works/dts/img/story/story_n1.jpg" class="m-auto"><br>
               你悄无声息地穿行在人群中，等待着信号。<br>
               可以说，这里的体验犹如身临其境，甚至比现实更加引人入胜。<br>
               真是多亏了 “林氏软件集团”的黑科技啊。 <br>
@@ -175,7 +175,7 @@ const nextPage = () => {
               确实技高一筹啊，林无月。这大概也是她放心退居幕后的原因了吧。<br>
             </p>
             <p v-if="nowPage == 2">
-              <img src="/img/story/story_n2.jpg" class="m-auto"><br>
+              <img src="https://llx.life/works/dts/img/story/story_n2.jpg" class="m-auto"><br>
               <span class="ltcrimson">“让各位挑战者久等了。”</span><br>
               一个沉稳而自信的女声直接传入了你的脑海。<br>
               声音的主人，一名全身红装的女性，此刻两手撑着“大舞台”上的讲台，表情十分轻松。<br>
@@ -204,7 +204,7 @@ const nextPage = () => {
               <br>
               时空特使的不记名者，编号GA-00，人称“熊孩子”的林苍月。<br>
               <br>
-              <img src="/img/story/story_n3.jpg" class="m-auto">
+              <img src="https://llx.life/works/dts/img/story/story_n3.jpg" class="m-auto">
             </p>
             <p v-if="nowPage == 4">
               “没让你自己冲锋，笨蛋！”你一面暗暗叫苦，一面努力在逃散的人群中挤开一条路。<br>
@@ -216,7 +216,7 @@ const nextPage = () => {
               <span class="lime !font-normal">“四季花之主 风见 幽香。”</span><br>
               <span class="yellow !font-normal"> “金龙通讯社执行官三人组，特此前来维护会场秩序！”</span><br>
               <br>
-              <img src="/img/story/story_n4.jpg" class="m-auto">
+              <img src="https://llx.life/works/dts/img/story/story_n4.jpg" class="m-auto">
               <br>
               三人自报了姓名之后，摆开架势将林苍月围在中间。<br>
               <span class="seagreen">“你们金龙通讯社的兴趣还挺重口味的。”</span>林苍月皱着眉头。
@@ -252,7 +252,7 @@ const nextPage = () => {
               <span class="ltcrimson">“我想要截住的……”</span>红暮扭头望向这里，对上了你的目光。<br>
               你感到一丝惶恐。难道，潜伏的我们也已经被发现了？<br>
               <br>
-              <img src="/img/story/story_n7.jpg" class="m-auto">
+              <img src="https://llx.life/works/dts/img/story/story_n7.jpg" class="m-auto">
               <br>
               <span class="ltcrimson">“是你们。”</span>红暮伸手一握，你的视野被传送光圈吞没了。
             </p>

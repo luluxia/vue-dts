@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function get(url: string) {
-  let res = await axios.get(`/old/${url}?is_new=1`)
+  let res = await axios.get(`${url}?is_new=1`)
   res = res.data
   return new Promise((resolve, reject) => {
     resolve(res)
@@ -10,7 +10,7 @@ export async function get(url: string) {
 
 export async function post(url: string, cmd: {}) {
   let data = cmd
-  let res = await axios.post(`/old/${url}?is_new=1`, transRequest(data), {
+  let res = await axios.post(`${url}?is_new=1`, transRequest(data), {
     headers: {
       'content-type': 'application/x-www-form-urlencoded'
     },
@@ -22,7 +22,7 @@ export async function post(url: string, cmd: {}) {
 }
 
 export async function command(cmd: {}) {
-  const res = await axios.post('/old/command.php?is_new=1', transRequest(cmd), {
+  const res = await axios.post('command.php?is_new=1', transRequest(cmd), {
     headers: {
       'content-type': 'application/x-www-form-urlencoded'
     },

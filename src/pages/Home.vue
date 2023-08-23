@@ -37,7 +37,8 @@ onMounted(async () => {
     appendTo: () => document.body,
   })
 })
-const updateTime = (timing: number, mode: boolean): void => {
+let timer = 0
+const updateTime = async (timing: number, mode: boolean): Promise<void> => {
   if (timing) {
     let t = timing
     let tm = mode
@@ -48,18 +49,34 @@ const updateTime = (timing: number, mode: boolean): void => {
     const checkTime = (i: number): string => (i < 10 ? `0${i}` : `${i}`)
     time.value = `${checkTime(h)}:${checkTime(m)}:${checkTime(s)}`
     tm ? t++ : t--
-    setTimeout(() => updateTime(t, tm), 1000)
+    timer = setTimeout(() => updateTime(t, tm), 1000)
   } else {
-    window.location.reload()
+    clearTimeout(timer)
+    await get('index.php').then(res => {
+      homeState.value = res
+      if (homeState.value.showNowTime) {
+        updateTime(homeState.value.timing, true)
+      } else if (homeState.value.showNextTime) {
+        updateTime(homeState.value.timing, false)
+      }
+    })
   }
 }
 const roomAction = async (action: string) => {
-  await post('index.php', { roomact: action }).then(res => {
+  await post('index.php', { roomact: action }).then(async res => {
     const data = res as any
     if (data?.innerHTML?.roomerror) {
       Message({ message: data.innerHTML.roomerror })
     } else {
-      window.location.reload()
+      clearTimeout(timer)
+      await get('index.php').then(res => {
+        homeState.value = res
+        if (homeState.value.showNowTime) {
+          updateTime(homeState.value.timing, true)
+        } else if (homeState.value.showNextTime) {
+          updateTime(homeState.value.timing, false)
+        }
+      })
     }
   })
 }
@@ -76,7 +93,7 @@ const nowMobileMenu = ref('status')
   <div class="min-h-screen flex pt-10 pb-4 <md:(pt-12 min-h-max)">
     <!-- 背景 -->
     <div class="fixed w-screen h-screen top-0 pointer-events-none">
-      <img class="w-full h-full object-cover" src="/img/bg.png"/>
+      <img class="w-full h-full object-cover" src="https://llx.life/works/dts/img/bg.png"/>
     </div>
     <Transition>
       <!-- PC端页面 -->

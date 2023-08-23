@@ -2,11 +2,14 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="常磐大逃杀是一款多人在线文字游戏，玩家需要制定战术并在危机四伏的世界中生存。在常磐大逃杀迎接你的终极冒险吧！" />
+    <link rel="stylesheet" id="css-color" href="/css/red.css">
     <link rel="stylesheet" id="css-color" href="/css/purple.css">
+    <link rel="stylesheet" id="css-color" href="/css/green.css">
+    <link rel="stylesheet" id="css-color" href="/css/blue.css">
     <link rel="stylesheet" id="css-theme" href="/css/light.css">
+    <link rel="stylesheet" id="css-theme" href="/css/dark.css">
     <title>常磐大逃杀</title>
   </head>
   <body class="bg-surface">
@@ -19,18 +22,37 @@
           document.documentElement.style.fontSize = `${value}px`
         }
         if (type === 'theme') {
-          const cssFile = document.querySelector('link[id="css-theme"]')
-          cssFile?.setAttribute('href', `/css/${value}.css`)
+          document.documentElement.setAttribute('data-theme', value)
         }
         if (type === 'color') {
-          const cssFile = document.querySelector('link[id="css-color"]')
-          cssFile?.setAttribute('href', `/css/${value}.css`)
+          document.documentElement.setAttribute('data-color', value)
         }
       }
       const setting = JSON.parse(localStorage.getItem('setting') || '{}')
-      Object.keys(setting).forEach(key => {
-        setTheme(key, setting[key])
-      })
+      if (setting.length) {
+        Object.keys(setting).forEach(key => {
+          setTheme(key, setting[key])
+        })
+      } else {
+        setTheme('theme', 'light')
+        setTheme('color', 'purple')
+      }
+      if (window.plus) {
+        plusReady()
+      } else {
+        document.addEventListener('plusready', plusReady, false)
+      }
+      function plusReady() {
+        const color = getComputedStyle(document.documentElement).getPropertyValue('--md-sys-color-surface-container')
+        const arr = color.split(',').map(s => parseInt(s.trim()))
+        const hex = arr.reduce((acc, val) => acc + val.toString(16).padStart(2, '0'), '#');
+        plus.navigator.setStatusBarBackground(hex)
+        if (setting.theme) {
+          plus.navigator.setStatusBarStyle(setting.theme === 'light' ? 'dark' : 'light')
+        } else {
+          plus.navigator.setStatusBarStyle('dark')
+        }
+      }
     </script>
     <div id="app" class="overflow-x-hidden <md:(select-none touch-none h-screen)"></div>
     <script type="module" src="/src/main.ts"></script>

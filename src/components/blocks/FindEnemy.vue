@@ -285,7 +285,7 @@ const isMobile = inject('isMobile')
           v-if="state.enemy.hasBigAvatar && !isMobile"
           class="h-49 rounded mr-0.25"
           :class="state.battleState === '发现尸体' && ' filter grayscale-80'"
-          :src="`/old/img/${state.enemy.avatar}`"
+          :src="`https://llx.life/works/dts/img/avatar/${state.enemy.avatar}`"
         />
         <div class="<md:w-[calc(100vw-1.5rem)]">
           <div class="flex flex-wrap <md:(justify-end relative)">
@@ -293,7 +293,7 @@ const isMobile = inject('isMobile')
               v-if="state.enemy.hasBigAvatar && isMobile"
               class="rounded m-0.25 absolute left-0 w-[calc(25%-0.125rem)] h-[calc(100%-0.125rem)] object-cover"
               :class="state.battleState === '发现尸体' && ' filter grayscale-80'"
-              :src="`/old/img/${state.enemy.avatar}`"
+              :src="`https://llx.life/works/dts/img/avatar/${state.enemy.avatar}`"
             />
             <Card :title="state.enemy.type" :length="state.enemy.hasBigAvatar && isMobile ? 2 : 3">
                 <div class="flex w-full">
@@ -303,7 +303,7 @@ const isMobile = inject('isMobile')
                     :class="
                       state.battleState === '发现尸体' && ' filter grayscale-80'
                     "
-                    :src="`/old/img/${state.enemy.avatar}`"
+                    :src="`https://llx.life/works/dts/img/avatar/${state.enemy.avatar}`"
                   />
                   <div class="m-auto px-1 relative w-full flex flex-col" :class="state.enemy.hasBigAvatar ? 'items-center' : 'items-end'">
                     <p class="truncate tracking-wide bg-primaryContainer/80 text-onPrimaryContainer w-max px-1 rounded">{{ state.enemy.name }}</p>

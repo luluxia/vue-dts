@@ -73,7 +73,7 @@ const isMobile = inject('isMobile')
   <div v-if="mercenaryList?.length" class="mt-1">
     <div v-for="item in mercenaryList" class="flex flex-wrap">
       <Card :title="`佣兵${item.id}号`" :length="isMobile ? 2 : 3">
-        <img class="absolute object-cover h-full rounded" :src="`/old/${item.avatar}`" alt="">
+        <img class="absolute object-cover h-full rounded" :src="`https://llx.life/works/dts/img/avatar/${item.avatar}`" alt="">
         <div class="m-auto px-1 relative w-full flex flex-col items-end">
           <p class="truncate tracking-wide bg-primaryContainer/80 text-onPrimaryContainer w-max px-1 rounded">{{ item.name }}</p>
           <p class="text-xs mt-1 px-1 opacity-80" v-html="item.friendShip"></p>

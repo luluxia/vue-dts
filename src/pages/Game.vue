@@ -64,7 +64,7 @@ const validState = ref({})
 const switchType = ref('news')
 
 onMounted(async () => {
-  await axios.get('/old/game.php?is_new=1').then(res => {
+  await axios.get('game.php?is_new=1').then(res => {
     const data = res.data as any
     state.page = data.page
     if (state.page == 'game') {
@@ -82,10 +82,10 @@ onMounted(async () => {
   })
   /** 移动端 */
   if (isMobile.value && state.playerState?.playerInfo.name) {
-    const elem = document.documentElement
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen()
-    }
+    // const elem = document.documentElement
+    // if (elem.requestFullscreen) {
+    //   elem.requestFullscreen()
+    // }
     const y = ref(0)
     interact(document.body)
     .draggable({
@@ -121,7 +121,7 @@ watch(() => state.playerState?.isGameOver, async (isGameOver) => {
       state.loading = true
     }, 200)
     state.playerState = undefined
-    await axios.get('/old/game.php?is_new=1').then(res => {
+    await axios.get('game.php?is_new=1').then(res => {
       window.clearTimeout(waitTimer)
       state.loading = false
       const data = res.data as any
@@ -135,7 +135,7 @@ watch(() => state.playerState?.isGameOver, async (isGameOver) => {
 
 watch(() => state.playerState, (playerState) => {
   if (playerState == null) {
-    location.reload()
+    (window as any).plus.runtime.restart();
   }
 })
 
@@ -154,10 +154,10 @@ const nowMobileMenu = ref('status')
 const mobileHide = ref(false)
 watch(() => state.page, (page) => {
   if (isMobile.value && page === 'game') {
-    const elem = document.documentElement
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen()
-    }
+    // const elem = document.documentElement
+    // if (elem.requestFullscreen) {
+    //   elem.requestFullscreen()
+    // }
     const y = ref(0)
     interact(document.body)
     .draggable({
@@ -218,10 +218,10 @@ watch(() => {
     <div class="fixed w-screen h-screen top-0 pointer-events-none">
       <img
         v-if="state.playerState?.area.nowArea"
-        class="background w-full h-full object-cover grayscale"
-        :src="`/old/img/location/${state.playerState?.area.nowArea}.jpg`" alt=""
+        class="background w-full h-full object-cover"
+        :src="`https://llx.life/works/dts/img/location/${state.playerState?.area.nowArea}.jpg`" alt=""
       >
-      <img v-else class="w-full h-full object-cover" src="/img/bg.png"/>
+      <img v-else class="w-full h-full object-cover" src="https://llx.life/works/dts/img/bg.png"/>
     </div>
     <!-- 游戏主界面 -->
     <Transition>

@@ -54,7 +54,7 @@ const nowStoryType = computed(() => {
       <div class="text-onSurface flex flex-1 m-4">
         <!-- 死亡 -->
         <div v-if="props.state?.deadInfo" class="m-auto">
-          <img :src="`/old/img/${props.state?.deadInfo.avatar}`" alt="">
+          <img :src="`https://llx.life/works/dts/img/avatar/${props.state?.deadInfo.avatar}`" alt="">
           <p class="yellow">“{{ props.state?.deadInfo.motto }}”</p>
           <p v-html="props.state?.deadInfo.info"></p>
           <p>死亡时间：{{ props.state?.deadInfo.time }}</p>
@@ -86,7 +86,7 @@ const nowStoryType = computed(() => {
             <span class="ltcrimson"> “祝贺你，最后的幸存者。”</span><br>
             红暮果然现身了，凭空出现在你的面前，<span class="ltcrimson">“身手还挺不错的。”</span><br>
             <br>
-            <img src="/img/story/story_ne2.png" class="m-auto">
+            <img src="https://llx.life/works/dts/img/story/story_ne2.png" class="m-auto">
             <br>
             她微笑着向你伸出右手，不过你把她的“好意”瞪了回去。<br>
             <span class="ltcrimson">“别这么拘谨嘛，既然你通过了考验，那你就是我们的座上宾了。”</span><br>
@@ -136,7 +136,7 @@ const nowStoryType = computed(() => {
             <span class="ltcrimson">“总之，接下来的道路，由你自己来决定。”</span><br>
             红暮打了一个响指，指尖变出了两支「钥匙」。<br>
             <br>
-            <img src="/img/story/story_ne3.png" class="m-auto"><br>
+            <img src="https://llx.life/works/dts/img/story/story_ne3.png" class="m-auto"><br>
             <br>
             她亮出<span class="red !font-normal">红钥匙</span>：<span class="red !font-normal">“是 <span><ruby>加入我们<rt>Betrayal of the duty</rt></ruby></span>，拥抱自己崭新的人生？”</span><br>
             <br>
@@ -306,7 +306,7 @@ const nowStoryType = computed(() => {
               “流星”在远方落地消失了。还没等你有所反应，耀眼的光芒便吞没了那个方向的天空。<br>
               随后，炸雷一般的巨响传来，狂风般的气流把你掀翻在地。<br>
               再抬头望去，那个方向已经出现了一朵冉冉升起的蘑菇云……<br><br>
-              <img src="/img/story/story_ne4.gif" class="m-auto">
+              <img src="https://llx.life/works/dts/img/story/story_ne4.gif" class="m-auto">
             </div>
             <div v-if="nowPage == 1">
               开玩笑吧，这难道是核弹吗？虚拟世界有这样的玩意？<br>
@@ -523,7 +523,7 @@ const nowStoryType = computed(() => {
               <br>
               <span class="yellow b">“Unlimited Code Works: Miracle Campfire, Activate.”</span><br>
               <br>
-              <img src="/img/story/story_ne1.jpg" class="m-auto"><br>
+              <img src="https://llx.life/works/dts/img/story/story_ne1.jpg" class="m-auto"><br>
             </div>
             <div v-if="nowPage == 7">
               少女左手将武器递出，示意着你接过它。<br>

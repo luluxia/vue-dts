@@ -21,12 +21,12 @@ provide('haveNewNews', haveNewNews)
   </div>
   <div class="w-15 fixed left-0 top-0 bottom-0 bg-zinc-800 z-1 flex flex-col items-center justify-end py-5">
     <div @mouseover.stop="showSidebar = true; haveNewNews = false; sidebarType = 'news'" class="w-15 h-15 flex group transition hover:bg-zinc-700/50">
-      <img :class="haveNewNews ? 'opacity-30' : '!opacity-0'" class="p-3 transition absolute group-hover:opacity-100" src="/img/log_notice.svg" alt="">
-      <img :class="haveNewNews ? '!opacity-0' : 'opacity-30'" class="p-3 transition absolute group-hover:opacity-100" src="/img/log.svg" alt="">
+      <img :class="haveNewNews ? 'opacity-30' : '!opacity-0'" class="p-3 transition absolute group-hover:opacity-100" src="https://llx.life/works/dts/img/log_notice.svg" alt="">
+      <img :class="haveNewNews ? '!opacity-0' : 'opacity-30'" class="p-3 transition absolute group-hover:opacity-100" src="https://llx.life/works/dts/img/log.svg" alt="">
     </div>
     <div @mouseover.stop="showSidebar = true; haveNewMessage = false; sidebarType = 'log'" class="w-15 h-15 flex group transition hover:bg-zinc-700/50">
-      <img :class="haveNewMessage ? 'opacity-30' : '!opacity-0'" class="p-3 transition absolute group-hover:opacity-100" src="/img/chat_notice.svg" alt="">
-      <img :class="haveNewMessage ? '!opacity-0' : 'opacity-30'" class="p-3 transition absolute group-hover:opacity-100" src="/img/chat.svg" alt="">
+      <img :class="haveNewMessage ? 'opacity-30' : '!opacity-0'" class="p-3 transition absolute group-hover:opacity-100" src="https://llx.life/works/dts/img/chat_notice.svg" alt="">
+      <img :class="haveNewMessage ? '!opacity-0' : 'opacity-30'" class="p-3 transition absolute group-hover:opacity-100" src="https://llx.life/works/dts/img/chat.svg" alt="">
     </div>
   </div>
 </div>

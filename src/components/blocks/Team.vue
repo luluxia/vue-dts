@@ -154,13 +154,13 @@ const back = () => {
               @click="teamState.chooseAvatar = i - 1; hideAll()"
               v-for="i in 13"
               class="h-22 rounded-sm m-0.5 cursor-pointer transition ring-outline hover:ring-2"
-              :src="`/old/img/t_${i - 1}.gif`"
+              :src="`https://llx.life/works/dts/img/avatar/t_${i - 1}.gif`"
             >
           </div>
           <img
             ref="avatar"
             class="h-22 border-2 rounded m-auto cursor-pointer border-outlineVariant transition hover:border-outline"
-            :src="`/old/img/t_${teamState.chooseAvatar}.gif`" alt=""
+            :src="`https://llx.life/works/dts/img/avatar/t_${teamState.chooseAvatar}.gif`" alt=""
           >
         </div>
       </template>

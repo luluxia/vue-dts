@@ -19,7 +19,7 @@ const actionState: ActionState = reactive({
 provide('actionState', actionState)
 
 onMounted(async () => {
-  await axios.get('/old/game.php')
+  await axios.get('game.php')
     .then(res => {
       const data = res.data as any
       if (data.playerState) {

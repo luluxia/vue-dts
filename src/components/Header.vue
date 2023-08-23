@@ -24,20 +24,37 @@ const login = async () => {
   sendData.append('mode', 'main')
   sendData.append('username', state.username)
   sendData.append('password', state.password)
-  await axios.post('/old/login.php?is_new=1', sendData).then(res => {
+  await axios.post('login.php?is_new=1', sendData).then(res => {
     state.loading = false
     if (res.data.error) {
       state.error = res.data.error
     } else {
-      window.location.reload()
+      hideAll()
+      const cookies = (window as any).plus.navigator.getCookie('https://dts.loli.camp/').split(';')
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim()
+        if (cookie.startsWith('acbra3_user=')) {
+          state.user = decodeURIComponent(cookie.substring('acbra3_user='.length, cookie.length))
+          break
+        }
+      }
     }
   })
 }
 const logout = async () => {
   const sendData = new FormData()
   sendData.append('mode', 'quit')
-  await axios.post('/old/login.php?is_new=1', sendData).then(res => {
-    window.location.reload()
+  await axios.post('login.php?is_new=1', sendData).then(res => {
+    (window as any).plus.navigator.removeAllCookie()
+    state.user = ''
+    tippy(loginBtnDom.value, {
+      content: loginDom.value,
+      trigger: 'click',
+      interactive: true,
+      allowHTML: true,
+      arrow: false,
+      placement: isMobile?.value ? 'bottom-end' : 'bottom',
+    })
   })
 }
 const loginBtnDom = ref()
@@ -61,14 +78,16 @@ onMounted(() => {
     arrow: false,
     placement: isMobile?.value ? 'bottom-end' : 'bottom',
   })
-  const cookies = document.cookie.split(';')
-  for (let i = 0; i < cookies.length; i++) {
-    const cookie = cookies[i].trim()
-    if (cookie.startsWith('acbra3_user=')) {
-      state.user = decodeURIComponent(cookie.substring('acbra3_user='.length, cookie.length))
-      break
+  document.addEventListener('plusready', () => {
+    const cookies = (window as any).plus.navigator.getCookie('https://dts.loli.camp/').split(';')
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim()
+      if (cookie.startsWith('acbra3_user=')) {
+        state.user = decodeURIComponent(cookie.substring('acbra3_user='.length, cookie.length))
+        break
+      }
     }
-  }
+  }, false)
 })
 const saveSetting = (type: string, value: string) => {
   const setting = JSON.parse(localStorage.getItem('setting') || '{}')
@@ -84,19 +103,28 @@ const setTheme = (type: string, value: string) => {
     document.documentElement.style.fontSize = `${value}px`
   }
   if (type === 'theme') {
-    const cssFile = document.querySelector('link[id="css-theme"]')
-    cssFile?.setAttribute('href', `/css/${value}.css`)
+    document.documentElement.setAttribute('data-theme', value)
+    const color = getComputedStyle(document.documentElement).getPropertyValue('--md-sys-color-surface-container')
+    const arr = color.split(',').map(s => parseInt(s.trim()))
+    const hex = arr.reduce((acc, val) => acc + val.toString(16).padStart(2, '0'), '#');
+    (window as any).plus.navigator.setStatusBarBackground(hex);
+    (window as any).plus.navigator.setStatusBarStyle(value === 'dark' ? 'light' : 'dark');
   }
   if (type === 'color') {
-    const cssFile = document.querySelector('link[id="css-color"]')
-    cssFile?.setAttribute('href', `/css/${value}.css`)
+    document.documentElement.setAttribute('data-color', value)
+    const color = getComputedStyle(document.documentElement).getPropertyValue('--md-sys-color-surface-container')
+    const arr = color.split(',').map(s => parseInt(s.trim()))
+    const hex = arr.reduce((acc, val) => acc + val.toString(16).padStart(2, '0'), '#');
+    (window as any).plus.navigator.setStatusBarBackground(hex);
   }
 }
 onMounted(() => {
-  const setting = JSON.parse(localStorage.getItem('setting') || '{}')
-  Object.keys(setting).forEach(key => {
-    setTheme(key, setting[key])
-  })
+  document.addEventListener('plusready', () => {
+    const setting = JSON.parse(localStorage.getItem('setting') || '{}')
+    Object.keys(setting).forEach(key => {
+      setTheme(key, setting[key])
+    })
+  }, false)
 })
 const isMobile = inject('isMobile') as Ref<Boolean>
 const showMobileMenu = ref(false)
@@ -106,7 +134,7 @@ const showMobileMenu = ref(false)
     class="
       no-view-trans fixed z-3 top-0 h-8 w-screen border-b-2 border-outlineVariant
       bg-surfaceContainer text-onSurface transition
-      hover:(opacity-100 bg-surfaceDim) <md:(h-12 border-none)
+      hover:(opacity-100) <md:(h-12 border-none)
     "
     :class="!state.showHeader && 'opacity-0'"
   >
@@ -115,7 +143,7 @@ const showMobileMenu = ref(false)
         <!-- PC端顶栏 -->
         <div v-if="!isMobile">
           <router-link to="/" class="mr-5">
-            <!-- <img class="h-6 mr-5" src="/img/logo.png" alt=""> -->
+            <!-- <img class="h-6 mr-5" src="https://llx.life/works/dts/img/logo.png" alt=""> -->
             <span class="font-bold text-primary">Battle Royale</span>
           </router-link>
           <router-link to="/game">游戏</router-link>

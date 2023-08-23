@@ -1,4 +1,4 @@
-:root {
+[data-color="blue"]:root {
   --md-source: 27, 69, 140;
   /* light */
   --md-sys-color-primary-light: 52, 92, 168;

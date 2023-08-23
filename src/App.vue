@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref, provide, onMounted } from 'vue'
 import HeaderVue from './components/Header.vue'
+import axios from 'axios'
+import router from './router'
 import './assets/pattern.min.css'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away-subtle.css'
 const isMobile = ref(false)
+axios.defaults.baseURL = 'https://dts.loli.camp/old/'
 onMounted(() => {
   isMobile.value = window.innerWidth <= 768
+  router.push({ path: '/' })
 })
 provide('isMobile', isMobile)
 </script>
