@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, provide, onMounted } from 'vue'
 import HeaderVue from './components/Header.vue'
+import TouchEffect from './components/TouchEffect.vue'
 import axios from 'axios'
 import router from './router'
 import './assets/pattern.min.css'
@@ -16,6 +17,7 @@ provide('isMobile', isMobile)
 </script>
 
 <template>
+  <TouchEffect/>
   <HeaderVue/>
   <router-view v-slot="{ Component }">
     <transition>

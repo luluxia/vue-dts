@@ -418,14 +418,14 @@ const nowMobileMenu = ref('status')
                 <p>常磐大逃杀是一个在线游戏，需要账号存储游戏数据，请注册或使用现有账号登录。</p>
                 <p>你可以直接进入已在进行中的游戏，或者创建一个新的游戏房间。</p>
               </div>
-              <div class="my-5">
+              <!-- <div class="my-5">
                 <p class="font-bold">相关链接：</p>
                 <a class="text-primary" target="_blank" href="https://dts.loli.camp/old/"> 旧版界面 </a>
                 <a class="text-primary" target="_blank" href="https://dts.loli.camp/old/help.php"> 游戏帮助 </a>
                 <a class="text-primary" target="_blank" href="https://bbs.brdts.online/"> 官方论坛 </a>
                 <a class="text-primary" target="_blank" href="https://amarillonmc.github.io/Settings/"> 游戏设定 </a>
                 <a class="text-primary" target="_blank" href="https://docs.qq.com/doc/DUkZ4eGdNSGJFSEpD"> 虚拟战场简易导览 </a>
-              </div>
+              </div> -->
               <div class="my-5">
                 <p class="opacity-50">当前游戏版本仍在持续开发中，功能尚不完整，游戏数据将不定时更新。</p>
               </div>

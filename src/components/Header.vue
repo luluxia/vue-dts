@@ -169,11 +169,11 @@ const showMobileMenu = ref(false)
         "
         :class="isMobile ? (showMobileMenu ? '!block' : '!hidden') : 'flex'"
       >
-        <div v-if="state.user" class="flex">
+        <div :class="state.user ? 'flex' : 'hidden'">
           <p>欢迎你，{{ state.user }}！</p>
           <p @click="logout()" class="ml-2 cursor-pointer text-onSurfaceVariant">退出</p>
         </div>
-        <div v-else class="relative">
+        <div class="relative" :class="state.user ? 'hidden' : 'block'">
           <p ref="loginBtnDom" class="cursor-pointer">登录</p>
           <div ref="loginDom" class="p-4 w-80 bg-surfaceContainerHigh text-onSurface <md:w-[calc(100vw-2rem)]">
             <p class="mb-2 text-base">登录以继续</p>
