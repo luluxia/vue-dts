@@ -2,7 +2,7 @@
   <div
     ref="dom"
     class="
-      w-max mx-auto mb-2 px-3 py-2 rounded bg-surfaceContainerHigh text-onSurface border-2 border-outline shadow-xl transition-all pointer-events-auto
+      w-max max-w-full mx-auto mb-2 px-3 py-2 rounded bg-surfaceContainerHigh text-onSurface border-2 border-outline shadow-xl transition-all pointer-events-auto
     "
   >
     {{ message }}
@@ -57,6 +57,6 @@ onMounted(() => {
 
 <style lang="postcss">
 .message-list {
-  @apply fixed top-5 w-full text-center z-1 pointer-events-none;
+  @apply fixed top-5 w-full text-center z-3 pointer-events-none;
 }
 </style>
