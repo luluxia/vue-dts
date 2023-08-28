@@ -102,27 +102,11 @@ const search = async () => {
 }
 // 地图
 const map = () => {
-  if (state.drawerType !== 'map') {
-    actionState.oldType = state.drawerType
-    actionState.action.map(action => {
-      action.name != '地图' && (action.active = false)
-    })
-    state.drawerType = 'map'
-  } else {
-    state.drawerType = actionState.oldType
-  }
+  state.drawerType = 'map'
 }
 // 战术
 const tactics = () => {
-  if (state.drawerType !== 'tactics') {
-    actionState.oldType = state.drawerType
-    actionState.action.map(action => {
-      action.name != '战术' && (action.active = false)
-    })
-    state.drawerType = 'tactics'
-  } else {
-    state.drawerType = actionState.oldType
-  }
+  state.drawerType = 'tactics'
 }
 // 合成
 const crafting = async () => {
@@ -164,15 +148,7 @@ const team = () => {
 }
 // 技能
 const skill = () => {
-  if (state.drawerType !== 'skill') {
-    actionState.oldType = state.drawerType
-    actionState.action.map(action => {
-      action.name != '技能' && (action.active = false)
-    })
-    state.drawerType = 'skill'
-  } else {
-    state.drawerType = actionState.oldType
-  }
+  state.drawerType = 'skill'
 }
 // 商店
 const shop = async () => {
@@ -225,15 +201,7 @@ const checkPoison = () => {
 }
 // 佣兵
 const mercenary = () => {
-  if (state.drawerType !== 'mercenary') {
-    actionState.oldType = state.drawerType
-    actionState.action.map(action => {
-      action.name != '佣兵' && (action.active = false)
-    })
-    state.drawerType = 'mercenary'
-  } else {
-    state.drawerType = actionState.oldType
-  }
+  state.drawerType = 'mercenary'
 }
 // 元素口袋
 const element = () => {

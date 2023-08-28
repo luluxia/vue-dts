@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { inject, computed } from 'vue'
+import { inject, computed, onMounted } from 'vue'
 import { mapData } from '../../utils/data'
 import { command } from '../../utils/api'
 import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
 const actionState = inject<ActionState>('actionState') as ActionState
+onMounted(() => {
+  actionState.action = [
+    { name: '合上地图', action: () => gameState.drawerType = '' },
+  ]
+})
 const state = computed(() => {
   if (gameState.playerState) {
     const areaInfo = gameState.playerState.area

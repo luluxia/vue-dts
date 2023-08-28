@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed, inject, onMounted } from 'vue'
 import { command } from '../../utils/api'
 import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
+const actionState = inject<ActionState>('actionState') as ActionState
+onMounted(() => {
+  actionState.action = [
+    { name: '返回', action: () => gameState.drawerType = '' },
+  ]
+})
 const state = computed(() => {
   if (gameState.playerState) {
     return {
