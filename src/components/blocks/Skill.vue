@@ -2,8 +2,9 @@
 import { inject, nextTick, onMounted, reactive, ref } from 'vue'
 import { command } from '../../utils/api'
 import tippy, { hideAll } from 'tippy.js'
-import type { GameState } from '../../types/interface'
+import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
+  const actionState = inject<ActionState>('actionState') as ActionState
 const skillNums = reactive<{ [key: string]: number }>({})
 const skillSpecialData = reactive<{ [key: string]: any }>({})
 
@@ -17,6 +18,9 @@ const inspireRef = ref()
 const inspireListRef = ref()
 
 onMounted(() => {
+  actionState.action = [
+    { name: '返回', action: () => gameState.drawerType = '' },
+  ]
   // 初始化技能升级次数与特殊数据
   gameState.playerState?.skill.forEach(skill => {
     if (!skill.unlockFlag && skill.num) {

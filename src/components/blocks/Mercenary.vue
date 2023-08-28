@@ -4,13 +4,17 @@ import { command } from '../../utils/api'
 import tippy, { hideAll } from 'tippy.js'
 import Card from '../Card.vue'
 import { mapData } from '../../utils/data'
-import type { GameState } from '../../types/interface'
+import type { GameState, ActionState } from '../../types/interface'
 const gameState = inject<GameState>('state') as GameState
+const actionState = inject<ActionState>('actionState') as ActionState
 const mercenaryList = computed(() => gameState.playerState?.mercenary.mercList)
 const moveList = computed(() => gameState.playerState?.mercenary.moveList)
 const moveRefs = ref([])
 const moveListRefs = ref()
 onMounted(() => {
+  actionState.action = [
+    { name: '返回', action: () => gameState.drawerType = '' },
+  ]
   moveRefs.value.forEach((ref, index) => {
     tippy(ref, {
       content: moveListRefs.value[index],

@@ -32,7 +32,7 @@ const shopType = ref<number>(1)
 onMounted(() => {
   shopItems.value = gameState?.playerState?.shop || []
   actionState.action = [
-    { name: '返回', action: () => back() },
+    { name: '离开商店', action: () => back() },
   ]
 })
 const changeShopType = async (id: number) => {
